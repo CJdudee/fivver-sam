@@ -29,7 +29,8 @@ export default async function Page() {
         <div className='flex justify-center gap-8 mt-6'>
           <PricingPack 
           // packages={gotPackages}
-          packages={JSON.parse(JSON.stringify(gotPackages))} 
+          packages={JSON.parse(JSON.stringify(gotPackages))}
+          userId={user?.id}
           />
         </div>
     </div>

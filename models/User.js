@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String, 
-        select: false
+        // select: false
     },
     roles: {
         type: [String],
@@ -17,14 +17,19 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        
+        default: ''
     },
     emailVerified: {
         type: Date,
+        default: null
     },
-    hours: {
+    tokens: {
         type: Number,
         default: 0,
+    },
+    customerId: {
+        type: String,
+        default: null
     }
 })
 

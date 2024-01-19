@@ -1,5 +1,6 @@
 import { connectingMongoose } from '@/app/lib/connectMongo'
 import Packages from '@/models/Packages'
+import User from '@/models/User'
 import { NextRequest, NextResponse } from 'next/server'
 import _stripe from 'stripe'
 
@@ -12,14 +13,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     const data = await req.json()
 
-    const {packageId} = data
+    const {packageId, userId} = data
+
+    if(!userId) return NextResponse.json('You are missing key fields')
 
     console.log(packageId,'this is the packageId')
 
     await connectingMongoose()
 
     try {
-        const packages = await Packages.find({
+        const packages: [] = await Packages.find({
             _id: packageId
         }).exec()
 
@@ -34,15 +37,38 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         if(packages.length == 0) return NextResponse.json("Package not available ")
 
+
+        const foundUser = await User.findOne({_id: userId})
+
+        if(!foundUser) return NextResponse.json('No user was found with that id')
+
+        let tokensGained = 0
+
+
+        packages.map((p: any) => {
+            tokensGained += p.tokens
+        })
+
+        // const tokensGained = packages.reduce((adder: any, currentValue: any) => {
+        //     return adder.tokens + currentValue
+        // }, 0)
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-
             mode: 'payment',
+            customer: foundUser.customerId,
+            // metadata: {
+            //     items: ''
+            // },
+            metadata: {
+                tokens: `${tokensGained}`
+            },
             line_items: packages.map((product: any) => ({
                 price_data: {
                     currency: 'usd',
                     product_data: {
-                        name: product.name 
+                        name: product.name, 
+                        // random: '30430'
                     },
                     unit_amount: product.price * 100
                 },

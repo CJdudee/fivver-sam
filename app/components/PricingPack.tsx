@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-export default function PricingPack({packages}: any) {
+export default function PricingPack({packages, userId}: any) {
 
   const [stripeUrl, setStripeUrl ] = useState<{url: string} | null>()
   const [pickedPackage, setPickedPackage ] = useState({})
@@ -16,7 +16,7 @@ export default function PricingPack({packages}: any) {
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({packageId: packageId})
+      body: JSON.stringify({packageId: packageId, userId})
     })
 
     const stripeJson = await stripe.json()

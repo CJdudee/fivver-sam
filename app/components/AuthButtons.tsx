@@ -6,11 +6,11 @@ import React from 'react'
 
 export default function AuthButtons({session}: {session: Session | null | any}) {
 
-    console.log(session)
+    // console.log(session)
 
   return (
     <>
-        {!session?.user ? (
+        {!session ? (
         <>
         <button onClick={() => {
           // signIn('google')
@@ -21,7 +21,8 @@ export default function AuthButtons({session}: {session: Session | null | any}) 
         </>
       ) : (
         <>
-          <button className='bg-red-600 rounded-lg p-2 transition-colors hover:bg-red-500 duration-300  place-content-center align-middle text-white' onClick={() => signOut()}>
+          <button className='bg-red-600 rounded-lg p-2 transition-colors hover:bg-red-500 duration-300  place-content-center align-middle text-white' 
+          onClick={() => signOut()}>
             SignOut
           </button>
         </>

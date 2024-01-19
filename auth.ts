@@ -7,6 +7,13 @@ import email from "next-auth/providers/email";
 import User from "./models/User";
 import mongoose from "mongoose";
 import Credentials from "next-auth/providers/credentials";
+import _stripe from 'stripe'
+import { connectingMongoose } from "./app/lib/connectMongo";
+import bcrypt from 'bcrypt'
+
+const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2023-10-16'
+})
 
 export const {
     handlers: {GET, POST},
@@ -15,6 +22,11 @@ export const {
     signOut,
     update,
 } = NextAuth({
+
+    pages: {
+        signIn: '/api/auth/signin',
+        // newUser: ''  // New users will be directed here on first sign in (leave the property out if not of interest)
+    },
 
     providers: [
         GoogleProvider({
@@ -32,12 +44,58 @@ export const {
                     username: profile.name,
                     email: profile.email,
                     roles: ["user"],
-                    emailVerified: null
+                    emailVerified: null,
+                    tokens: 0,
+                    customerId: null,
                 }
             }
         }),
         Credentials({
+            name: 'credentials',
+            credentials: {
+                username: { label: "Username"},
+                password: { label: 'Password', type: 'password'}
+            },
+            async authorize(credentials) {
 
+                // console.log(credentials)
+                const { username, password } = credentials
+
+                if(!username || !password) return null
+
+                await connectingMongoose()
+
+                const foundUser = await User.findOne({ username })
+                console.log(foundUser, 'yoyo')
+
+                if(!foundUser) throw new Error("User was not found")
+
+                const rightPwd = await bcrypt.compare(password as string, foundUser.password)
+                
+                console.log(rightPwd, 'hit')
+
+                if(rightPwd) {
+                    const user = {
+                        id: foundUser._id,
+                        roles: foundUser.roles,
+                        username: foundUser.username,
+                        tokens: foundUser.tokens,
+                        customerId: foundUser.customerId
+                    }
+
+                    return user
+
+                    // return {
+                    //     id: foundUser._id,
+                    //     roles: foundUser.roles,
+                    //     username: foundUser.username,
+                    //     tokens: foundUser.tokens,
+                    //     customerId: foundUser.customerId
+                    // }
+                }
+                // console.log(username, password)
+                return null
+            }
         })
     ],
     
@@ -63,9 +121,34 @@ export const {
 
             const foundUser = await User.findOne({_id: user.id})
 
+            // const createdCustomer = await stripe.customers.create({
+
+            // })
+
             foundUser.emailVerified = new Date()
             await foundUser.save()
             // console.log(foundUser,' this is the found user')
+        },
+        async signIn({user, account, profile}) {
+            await connectingMongoose()
+
+            const foundUser = await User.findOne({_id: user.id})
+
+            if(foundUser.customerId == null) {
+
+                const createdCustomer = await stripe.customers.create({
+                    // email: 'whatthe@yahoo.com',
+                    metadata: {
+                        customerId: `${foundUser._id}`
+                    }
+                })
+
+                // console.log(createdCustomer,' this is the customerId ')
+                foundUser.customerId = `${createdCustomer.id}`
+
+                await foundUser.save()
+            }
+
         }
     },
 
@@ -77,6 +160,8 @@ export const {
             // console.log(user, 'this is the what we are looking ata')
             // console.log(account, 'this is the what we are looking ata')
             // console.log(profile, 'this is the what we are looking ata 22')
+
+            console.log(account)
 
             if(account?.provider === 'google') {
 
@@ -97,6 +182,10 @@ export const {
                 // if(!profile) return false 
                 // return profile.email_verified && profile.email.endsWith("@example.com")
             }
+
+            if(account?.provider === 'credentials') {
+                return true
+            }
             
             return false
         },
@@ -110,9 +199,12 @@ export const {
             // console.log(profile)
             if (user) {
     
-                token.role = user.roles
+                token.roles = user.roles
                 token.id = user.id
                 token.username = user.username
+                token.tokens = user.tokens
+                token.customerId = user.customerId
+
             }
             
            
@@ -127,9 +219,11 @@ export const {
             // console.log(user)
             // console.log(token)
             if (session?.user) {
-                session.user.role = token.role
+                session.user.roles = token.roles
                 session.user.name = token.username as string ?? 'no name'
                 session.user.id = token.id as string
+                session.user.tokens = token.tokens
+                session.user.customerId = token.customerId
 
             }
             

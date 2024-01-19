@@ -8,28 +8,44 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import AuthButtons from "./AuthButtons";
+import { serverUser } from "../lib/serverAuth";
+import User from "@/models/User";
 
 export default async function Navbar() {
 
-  const session = await auth()
+  // const session = await auth()
 
-  // console.log(session?.user)
+  const session = await serverUser()
 
+  console.log(session, 'where is thsi')
+
+  let user = null
+
+  if(session) {
+    user = await User.findOne({_id: session.id})
+  }
+
+  // const allUser = await User.find({roles: ['user']})
+
+  // console.log(allUser)
+  // console.log(user)
   // const {data: session, status, update} = useSession()
 
   // console.log(session, status)
 
   return (
-    <nav className=" border-b-2  border-black min-h-[6vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-slate-600 to-slate-500  z-50">
-      <div className="flex gap-2 items-center">
+    <nav className=" border-b-2  border-black min-h-[6vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-slate-600 to-slate-500  z-40 gap-4">
+      <div className="flex gap-2 items-center w-1/3 bg-slate-400">
         <div className="w-7 h-7 bg-white rounded-full" />
         <h4 className="text-xl text-white">Lango</h4>
       </div>
-      <div>
+      <div className="text-center flex items-center justify-center gap-4 w-full bg-slate-50">
         <Link href={"/pricing"} className="text-[1.1rem]">Pricing</Link>
+        <Link href={"/teach"} className="text-[1.1rem]">Teachers</Link>
       </div>
 
-      <div className="gap-4 flex">
+      <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800">
+        {user && <p className="text-white text-xl">Hours: {user?.tokens}</p>}
         <AuthButtons session={session} />
       </div>
     </nav>

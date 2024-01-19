@@ -20,7 +20,10 @@ const PackageSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-    
+    tokens: {
+        type: Number,
+        required: true
+    },
 })
 
 //have to make users posts a subdoc so i dont go over the 16 mb limit or a populate
