@@ -1,6 +1,6 @@
 import React from 'react'
 import './testhome.css'
-import Navbar from '../components/Navbar'
+import Navbar from '../../components/Navbar'
 
 export default function layout( { children } : { children: React.ReactNode}) {
     return (

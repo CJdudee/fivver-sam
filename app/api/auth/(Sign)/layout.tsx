@@ -11,6 +11,16 @@ export default function layout({ children }: {
         {children}
         {/* <p>What the fuk</p> */}
     </div>
+
+   
+      // <html lang="en">
+      //   <body className={''} style={{}}>
+         
+      //       {children}
+          
+      //   </body>
+      // </html>
+    
     // <SignInForm />
   )
 }

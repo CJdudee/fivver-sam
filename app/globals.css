@@ -6,6 +6,9 @@
   .greatGrad {
     @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
   }
+  .grad {
+    @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops)),radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))]
+  }
 }
 
 

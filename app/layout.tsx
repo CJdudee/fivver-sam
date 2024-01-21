@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import Script from "next/script";
 import AuthProvider from "./context/AuthProvider";
 import { headers } from "next/dist/client/components/headers";
+import { connectingMongoose } from "./lib/connectMongo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,19 +18,20 @@ export const metadata: Metadata = {
     "Learn a new language at a very reasonalbe price. Start your journy now",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
 
+  await connectingMongoose()
   // const pathname = headers()
   // console.log(pathname)
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-blue-400 `} style={{}}>
+      <body className={`${inter.className} greatGrad from-purple-500  to-purple-700 `} style={{}}>
         <AuthProvider>
-          <Navbar />
+         
           {children}
         </AuthProvider>
       </body>

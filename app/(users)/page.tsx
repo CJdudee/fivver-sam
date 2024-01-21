@@ -1,18 +1,29 @@
-
-import { auth } from '@/auth'
-import Image from 'next/image'
-import { redirect } from 'next/navigation'
+import { auth } from "@/auth";
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import HomePageComp from "../components/HomePageComp";
 
 export default async function Home() {
-
-  const session = await auth()
+  const session = await auth();
 
   // console.log(session)
-  if(!session) redirect('/api/auth/signin')
+  // if (!session) redirect("/api/auth/signin");
+
+  // if(session?.user!.roles.includes('admin')) {
+  //   return <p>Admin</p>
+  // }
+
+  
 
   return (
-    <main className="flex min-h-dvh flex-col items-center justify-center ">
-      <div className='greatGrad from-slate-400 to-gray-700 w-full text-center h-40 p-8 '>
+    <main className="flex min-h-[92dvh] flex-col items-center justify-start grad from-purple-500  to-purple-800 w-full ">
+      <HomePageComp />
+    </main>
+  );
+}
+
+{
+  /* <div className='greatGrad from-slate-400 to-gray-700 w-full text-center h-40 p-8 '>
         <h2>Why Us?</h2>
         <p>We believe</p>
       </div>
@@ -32,7 +43,5 @@ export default async function Home() {
       </div>
       <div className='horizontal '>
         <button >Sign in</button>
-      </div>
-    </main>
-  )
+      </div> */
 }
