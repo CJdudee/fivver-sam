@@ -36,18 +36,18 @@ export default async function Navbar() {
   // console.log(session, status)
 
   return (
-    <nav className=" border-b-2  border-black min-h-[7vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-slate-600 to-slate-500  z-40 gap-4 drop-shadow-xl shadow-lg">
-      <div className="flex gap-2 items-center w-1/3 bg-slate-400">
-        <div className="w-7 h-7 bg-white rounded-full" />
-        <h4 className="text-3xl font-mono font-bold bg-slate-800 text-transparent bg-clip-text bg-gradient-to-tr from-yellow-400 via-amber-200 to-yellow-600">Lang-go</h4>
+    <nav className=" border-b-2  border-black min-h-[7vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-gray-400 to-gray-800  z-40 gap-4 drop-shadow-xl shadow-lg">
+      <div className="md:flex gap-2 items-center w-1/3 hidden  ">
+        <div className="w-10 h-7 bg-red-400 rounded-full " />
+        <h4 className="text-3xl font-mono font-bold bg-slate-800 text-transparent bg-clip-text bg-gradient-to-tr from-purple-500 via-amber-200 to-violet-500">Lang-go</h4>
       </div>
-      <div className="text-center flex items-center justify-center gap-4 w-full bg-slate-50">
-        <Link href={"/pricing"} className="text-[1.1rem]">Pricing</Link>
-        <Link href={"/teach"} className="text-[1.1rem]">Teachers</Link>
+      <div className="text-center flex items-center justify-center gap-4 w-full drop-shadow-lg ">
+        <Link href={"/pricing"} className="text-[1.1rem] text-white hover:text-slate-400">Pricing</Link>
+        <Link href={"/teach"} className="text-[1.1rem] text-white hover:text-slate-400">Teachers</Link>
       </div>
 
       {/* <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800"> */}
-      <div className="w-1/3 bg-violet-300 ">
+      <div className="w-1/3  ">
 
         
         {session && <Profile user={session} />}

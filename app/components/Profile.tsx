@@ -39,10 +39,10 @@ export default function Profile({ user }: any) {
   return (
     <div
       ref={profileDrop}
-      className="flex justify-end relative bg-purple-600 w-full "
+      className="flex justify-end relative  w-full "
     >
       <button
-        className="bg-blue-400 w-7 h-7 rounded-full"
+        className="bg-blue-800 w-7 h-7 rounded-full hover:rounded-tr-none hover:rounded-tl-none hover:shadow-2xl  hover:shadow-white transition-all duration-500"
         onClick={() => setOpenProfile(!openProfile)}
       />
       { 

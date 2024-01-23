@@ -31,7 +31,26 @@ body{
   }
 }
 
+.scroll {
+  background-color: aqua;
+  box-sizing: border-box;
+  overflow: hidden;
+  
+}
 
+.scroll-slide {
+  
+}
+
+.swiper {
+  width: 350px;
+  height: 1/4vh;
+}
+
+.scroll-slide li {
+  height: 400px; 
+  width: 500px;
+}
 
 /* body {
   color: rgb(var(--foreground-rgb));
