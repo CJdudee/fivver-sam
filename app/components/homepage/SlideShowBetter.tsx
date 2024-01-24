@@ -145,7 +145,7 @@ export default function SlideShowBetter() {
             </li>
           </div>
         </ul>
-        <div className=" h-full w-full flex items-center justify-center px-20 text-center ml-4 ">
+        <div className=" h-full w-full flex  justify-center items-center px-20 text-center md:ml-10  ">
           {displayList.map((d, index) => {
             return (
               
@@ -153,9 +153,9 @@ export default function SlideShowBetter() {
                   key={index}
                   className={`h-2/3 relative  ${
                     nameIndex == index
-                      ? "w-2/3 delay-300 duration-500 opacity-100"
+                      ? "w-2/3 delay-300 duration-500 opacity-100 mx-auto"
                       : "  "
-                  } opacity-0 overflow-hidden  justify-center flex items-start text-black font-sans font-bold  text-lg md:text-3xl  transition-all  duration-500  `}
+                  } opacity-0 overflow-hidden  justify-center flex items-start text-black font-sans font-bold  text-lg md:text-3xl  transition-all  duration-500 text-center  `}
                 >
                   <p className=" absolute top-4  ">{d.text}</p>
                   {/* <div className="w-3 h-3 bg-purple-300 rounded-full absolute -left-4 top-2 bottom-0 animate-pulse" /> */}

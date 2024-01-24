@@ -36,31 +36,29 @@ export default function HomePageComp() {
 
   return (
     <div className=" justify-start  flex flex-col min-h-full items-center max-w-full ">
-      <div className="flex justify-between items-center flex-col h-[50dvh] md:h-[40dvh] md:py-4 ">
+      <div className="flex justify-between items-center flex-col h-[50dvh] md:h-[45dvh] md:py-4 ">
         <h3 className=" h-[40dvh] text-3xl md:text-6xl font-mono font-bold  text-center cursor-default drop-shadow-lg flex flex-col justify-around items-center   box-border w-full md:w-2/3  ">
-          <div className="flex justify-center items-center gap-4 md:gap-8 bg-slate-300 px-4 rounded-lg drop-shadow-2xl">
-          <span className="">Lang-go</span>
-          <div className=" w-7 h-7 md:w-10 md:h-10  relative">
-            <div className="h-1/3 absolute top-0 w-full bg-black" />
-            <div className="h-1/3 absolute top-0 bottom-0 my-auto w-full bg-red-500" />
-            <div className="h-1/3 absolute bottom-0 w-full bg-yellow-500" />
-          </div>
+          <div className="flex justify-center items-end font-bold font-sans gap-4 md:gap-8 border-b-2 border-r-2  px-4  pb-4 rounded-lg drop-shadow-2xl md:h-[20dvh]">
+            <span className="">Lang-go</span>
+            <div className=" w-7 h-7 md:w-10 md:h-10  relative">
+              <div className="h-1/3 absolute top-0 w-full bg-black" />
+              <div className="h-1/3 absolute top-0 bottom-0 my-auto w-full bg-red-500" />
+              <div className="h-1/3 absolute bottom-0 w-full bg-yellow-500" />
+            </div>
           </div>
           {/* <p className=" font-sans">Where you can learn german with ease</p> */}
           <p className=" font-sans">Spend some time with us and become</p>
-        <div className="w-full md:w-2/3 ">
-
-          <TextType />
-        </div>
+          <div className=" h-full w-full md:w-2/3 md:h-full flex justify-center ">
+            <TextType />
+          </div>
         </h3>
 
         {/* <div className=" w-1/8 md:w-1/4  h-[25dvh]  flex justify-center ">
           <SwiperWord />
         </div> */}
       </div>
-      
 
-      <div className="w-[99dvh] md:w-[155dvh]  bg-white bg-clip-text   h-[43dvh] md:h-[53dvh] overflow-x-hidden flex flex-col items-start justify-start py-8">
+      <div className="w-[99dvh] md:w-[155dvh]  bg-white bg-clip-text   h-[43dvh] md:h-[48dvh] overflow-x-hidden flex flex-col items-start justify-start py-8">
         {/* <SlideShowTest /> */}
         <SlideShowBetter />
       </div>
@@ -109,8 +107,8 @@ export default function HomePageComp() {
   );
 }
 
-
-{/* <div className="bg-blue-400 w-full rounded-full h-full flex justify-center">
+{
+  /* <div className="bg-blue-400 w-full rounded-full h-full flex justify-center">
   <div className=" w-2/3">
     <ul className="text-center py-8 font-sans text-3xl flex justify-center gap-10 overflow-x-scroll w-full ">
       {displayList.map((d) => {
@@ -125,4 +123,5 @@ export default function HomePageComp() {
       })}
     </ul>
   </div>
-</div> */}
+</div> */
+}

@@ -16,9 +16,10 @@ export default async function Home() {
   
 
   return (
-    <main className="flex min-h-full flex-col items-center justify-start grad from-amber-300 to-yellow-500 w-full overflow-hidden ">
+    <main className="flex min-h-full flex-col items-center justify-start bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 w-full overflow-hidden ">
       <HomePageComp />
     </main>
+    
   );
 }
 
