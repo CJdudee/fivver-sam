@@ -10,7 +10,7 @@ import AuthProvider from "./context/AuthProvider";
 import { headers } from "next/dist/client/components/headers";
 import { connectingMongoose } from "./lib/connectMongo";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["greek"] });
 
 export const metadata: Metadata = {
   title: "Lango",
@@ -29,7 +29,7 @@ export default async function RootLayout({
   // console.log(pathname)
   return (
     <html lang="en">
-      <body className={`${inter.className} greatGrad from-purple-500  to-purple-700 `} style={{}}>
+      <body className={`${inter.className} bg-red-800`} style={{}}>
         <AuthProvider>
          
           {children}

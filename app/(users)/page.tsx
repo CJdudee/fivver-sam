@@ -16,7 +16,7 @@ export default async function Home() {
   
 
   return (
-    <main className="flex min-h-full flex-col items-center justify-start grad from-gray-300 via-slate-300 to-gray-300 w-full overflow-hidden ">
+    <main className="flex min-h-full flex-col items-center justify-start grad from-amber-300 to-yellow-500 w-full overflow-hidden ">
       <HomePageComp />
     </main>
   );

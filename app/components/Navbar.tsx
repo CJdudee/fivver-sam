@@ -36,10 +36,14 @@ export default async function Navbar() {
   // console.log(session, status)
 
   return (
-    <nav className=" border-b-2  border-black min-h-[7vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-gray-400 to-gray-800  z-40 gap-4 drop-shadow-xl shadow-lg">
+    <nav className=" border-b-1  border-black min-h-[7vh] flex items-center justify-between px-8 sticky top-0 pb-1 bg-gradient-to-bl from-gray-500 to-slate-500  z-40 gap-4 drop-shadow-xl shadow-lg">
       <div className="md:flex gap-2 items-center w-1/3 hidden  ">
-        <div className="w-10 h-7 bg-red-400 rounded-full " />
-        <h4 className="text-3xl font-mono font-bold bg-slate-800 text-transparent bg-clip-text bg-gradient-to-tr from-purple-500 via-amber-200 to-violet-500">Lang-go</h4>
+        <div className="w-10 h-7 bg-red-400 rounded-full relative ">
+          <div className="h-1/3 w-full bg-black rounded-t-full absolute top-0"/>
+          <div className="h-1/3 w-full bg-red-500 absolute top-0 bottom-0 my-auto"/>
+          <div className="h-1/3 w-full bg-yellow-500  rounded-b-full absolute bottom-0"/>
+        </div>
+        <h4 className="text-3xl font-mono font-bold bg-slate-800 text-transparent bg-clip-text bg-gradient-to-tr from-purple-500 via-black to-violet-500">Lang-go</h4>
       </div>
       <div className="text-center flex items-center justify-center gap-4 w-full drop-shadow-lg ">
         <Link href={"/pricing"} className="text-[1.1rem] text-white hover:text-slate-400">Pricing</Link>

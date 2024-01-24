@@ -7,7 +7,7 @@ export default function TeacherSchedule() {
   const [enabled, setEnabled] = useState(false);
 
   return (
-    <div>
+    <div className="h-full">
       <p className="text-center">Schedule</p>
       <div className="flex justify-center">
         <Switch
@@ -24,6 +24,10 @@ export default function TeacherSchedule() {
                     pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`}
           />
         </Switch>
+      </div>
+
+      <div>
+        
       </div>
     </div>
   );

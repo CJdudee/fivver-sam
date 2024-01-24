@@ -101,9 +101,7 @@ export default function SlideShowTest() {
             return (
               <div
                 key={index}
-                className={` ${nameIndex == index && "bg-red-500"}  ${
-                  (index + 1) % 2 == 0 ? "bg-slate-900" : "bg-black"
-                } w-[33vh]   drop-shadow-lg text-center text-white py-2 `}
+                className={` ${nameIndex == index && "bg-red-600"} bg-black w-[33vh]   drop-shadow-lg text-center text-white py-2 `}
               >
                 <li className=" w-[33vh]">
                   <button type="button" onClick={() => setNameIndex(index)}>
@@ -121,11 +119,11 @@ export default function SlideShowTest() {
             </li>
           </div>
         </ul>
-        <div className="bg-slate-700 h-full flex items-start justify-center px-20 text-center ">
+        <div className="bg-red-600 h-full flex items-start justify-center px-20 text-center ">
           {displayList.map((d, index) => {
             return (
               <>
-                <p key={index} className={`h-2/3 relative  ${nameIndex == index ? 'w-2/3' : 'w-0 h-0' } overflow-hidden  justify-center flex items-start text-white font-mono text-lg md:text-2xl my-auto transition-all delay-300 opacity-100 duration-500  `}>
+                <p key={index} className={`h-2/3 relative  ${nameIndex == index ? 'w-2/3 delay-500 duration-200' : 'w-0 h-0' } overflow-hidden  justify-center flex items-start text-white font-bold  text-lg md:text-2xl my-auto transition-all  opacity-100 duration-500  `}>
                   {d.text}
                   {/* <div className="w-3 h-3 bg-purple-300 rounded-full absolute -left-4 top-2 bottom-0 animate-pulse" /> */}
                 </p>

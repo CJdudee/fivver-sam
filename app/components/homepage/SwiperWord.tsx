@@ -74,7 +74,7 @@ export default function SwiperWord() {
   const swiperJsx = (
     <>
     {wordList.map((w, index) => (
-      <SwiperSlide key={index} className={` ${index % 2 == 1 ? 'bg-purple-700' : 'bg-violet-600'} duration-700  w-full rounded-t-xl`}>
+      <SwiperSlide key={index} className={` ${index % 2 == 1 ? 'bg-yellow-600' : 'bg-yellow-600'} duration-700  w-full rounded-t-xl`}>
         <div  className="w-full h-full flex items-center justify-evenly flex-row text-3xl py-6 px-8 pb-8 text-white ">
             <p className="w-full -skew-x-12 font-bold text-4xl">{w.ger}</p>
             <button className=" -skew-x-12" onClick={() => {console.log(index)}}>:</button>

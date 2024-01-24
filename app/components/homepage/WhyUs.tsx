@@ -44,7 +44,7 @@ export default function WhyUs() {
             {whyUs.map((w, index) => {
 
                 return (
-                    <div key={index} className={` ${index % 2 == 0 ? 'justify-start' : ' justify-end ml-auto'} flex flex-col md:flex-row justify-center items-center md:gap-8 md:w-1/2 md:outline outline-1 md:px-8 md:py-4 md:rounded-full drop-shadow-2xl md:bg-slate-400 px-2 py-2 `}>
+                    <div key={index} className={` ${index % 2 == 0 ? 'justify-start  from-slate-100 to-slate-200 ' : ' justify-end ml-auto  from-slate-300 to-slate-100'} flex flex-col md:flex-row justify-center items-center md:gap-8 md:w-1/2 md:outline outline-1 md:px-8 md:py-4 md:rounded-full drop-shadow-2xl px-2 py-2 grad `}>
                         <h3 className='text-3xl font-bold font-mono'>{w.reason}:</h3>
                         <p className='text-2xl font-semibold text-slate-800 text-center'>{w.text}.</p>
                     </div>
