@@ -83,7 +83,7 @@ export default function SlideShowBetter() {
         >
           {beforeJsx}
           {
-            <div className="hidden md:block w-[33dvh] from-slate-400 via-transparent to-transparent bg bg-gradient-to-l  text-transparent bg-clip-text  text-center  py-2 ">
+            <div className="hidden md:block w-[33dvh] from-black via-transparent to-transparent bg bg-gradient-to-l  text-transparent bg-clip-text  text-center  py-2 ">
               <li className="w-[33dvh]">
                 <button
                   type="button"
@@ -97,7 +97,7 @@ export default function SlideShowBetter() {
             </div>
           }
           {
-            <div className={`${nameIndex == 0 && 'bg-slate-400'} w-[33dvh] from-slate-400  via-transparent to-transparent bg-gradient-to-l text-transparent bg-clip-text  text-center  py-2 `}>
+            <div className={`${nameIndex == 0 && 'bg-black'} w-[33dvh] from-black  via-transparent to-transparent bg-gradient-to-l text-transparent bg-clip-text  text-center  py-2 `}>
               <li className="w-[33dvh]">
                 <button
                   type="button"
@@ -116,11 +116,11 @@ export default function SlideShowBetter() {
                 key={index}
                 className={`  ${index == nameIndex && "bg-white"} ${
                   index == nameIndex - 1 &&
-                  "bg-slate-400"
+                  "bg-black"
                 } ${
                   index == nameIndex + 1 &&
-                  "bg-slate-400"
-                } ${index == nameIndex + 2 && 'from-slate-400 via-transparent to-transparent bg bg-gradient-to-r'}  ${index == nameIndex - 2 && 'from-slate-400 via-transparent to-transparent bg bg-gradient-to-l'}  drop-shadow-lg text-center text-transparent bg-clip-text py-2 `}
+                  "bg-black"
+                } ${index == nameIndex + 2 && 'from-black via-transparent to-transparent bg bg-gradient-to-r'}  ${index == nameIndex - 2 && 'from-black via-transparent to-transparent bg bg-gradient-to-l'}  drop-shadow-lg text-center text-transparent bg-clip-text py-2 `}
               >
                 <li className=" w-[33vh]">
                   <button type="button" onClick={() => setNameIndex(index)}>
@@ -130,14 +130,14 @@ export default function SlideShowBetter() {
               </div>
             );
           })}
-          <div className={`w-[33vh] text-center from-slate-400 via-transparent to-transparent bg-gradient-to-r text-transparent bg-clip-text py-2 ${nameIndex == displayList.length - 1 && 'bg-slate-400'} `}>
+          <div className={`w-[33vh] text-center from-black via-transparent to-transparent bg-gradient-to-r text-transparent bg-clip-text py-2 ${nameIndex == displayList.length - 1 && 'bg-black'} `}>
             <li className="w-[33vh]">
               <button type="button" onClick={() => setNameIndex(0)}>
                 <p className="text-4xl font-mono">{displayList[0].name}</p>
               </button>
             </li>
           </div>
-          <div className="w-[33vh] text-center from-slate-400 via-transparent to-transparent bg-gradient-to-r text-transparent bg-clip-text py-2 ">
+          <div className="w-[33vh] text-center from-black via-transparent to-transparent bg-gradient-to-r text-transparent bg-clip-text py-2 ">
             <li className="w-[33vh]  hidden md:block">
               <button type="button" onClick={() => setNameIndex(1)}>
                 <p className="text-4xl font-mono">{displayList[1].name}</p>

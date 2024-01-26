@@ -3,6 +3,7 @@
 import User from "@/models/User"
 import bcrypt from 'bcrypt'
 import Teacher from '@/models/Teacher'
+import TeacherWeek from '@/models/TeacherWeek'
 
 export const newTeacher = async(userData: any) => {
 
@@ -31,6 +32,10 @@ export const newTeacher = async(userData: any) => {
     const createdTeacher = await Teacher.create({
         user: createdUser._id
     })
+
+    const createdWeekDays = await TeacherWeek.create({
+        teacher: createdTeacher._id
+    }) 
 
     console.log(createdTeacher)
 
