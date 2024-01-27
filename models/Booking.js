@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Teacher = require('@/models/Teacher')
 
     //if i make a list of notes with the users that means that the whenever the user is called for even username or email the posts will be called to it might be smarter to put the user.id with posts
 

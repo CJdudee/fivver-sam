@@ -54,8 +54,14 @@ export default function Profile({ user }: any) {
           <p className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0  w-full rounded"> Hey</p>
 
           {/* <div className="w-full"> */}
+           {user.roles.includes('teacher') && <Link href={"/teachers/dashboard"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
+              Teacher
+            </Link>}
             <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
               Admin Panel
+            </Link>
+            <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
+              booking panel
             </Link>
           {/* </div> */}
           {user.roles.length == 1 && user.roles.includes("user") && (
