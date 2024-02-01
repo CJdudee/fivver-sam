@@ -1,53 +1,56 @@
 "use client";
 
-import { weedayIndexToName } from "@/utils/helpers";
+import { capitalize, weedayIndexToName } from "@/utils/helpers";
 import { Switch } from "@headlessui/react";
 import React, { useEffect, useState } from "react";
 import TimeSelector from "./TimeSelector";
-import { closeTheDay, openTheDay, updateWorkDays } from "@/actions/updateWorkDay";
+import {
+  closeTheDay,
+  openTheDay,
+  updateWorkDays,
+} from "@/actions/updateWorkDay";
 import TeacherCalendar from "./TeacherCalendar";
 
-export default function TeacherSchedule({ weekDays, id, teacherId, daysClosed }: any) {
+export default function TeacherSchedule({
+  weekDays,
+  id,
+  teacherId,
+  daysClosed,
+}: any) {
   const [enabled, setEnabled] = useState(false);
 
   const [dayWeek, setDayWeek] = useState(weekDays);
-  const [ closedDays, setClosedDays ]  = useState(daysClosed ?? [])
-  const [selectedDate, setSelectedDate ] = useState<Date | null>()
-  const [ dayIsClosed, setDayIsClosed] = useState(false)
+  const [closedDays, setClosedDays] = useState(daysClosed ?? []);
+  const [selectedDate, setSelectedDate] = useState<Date | null>();
+  const [dayIsClosed, setDayIsClosed] = useState(false);
 
-console.log(closedDays)
+  console.log(closedDays);
   useEffect(() => {
-    if(!selectedDate && !closedDays) return 
+    if (!selectedDate && !closedDays) return;
 
     //this is for the date that is returned and set from the calendar which doesn't match if the date isn't a string so the date has to be turned into a string //refactoring is very needed for this
-    let closedDaysArray: any[] = []
-    closedDays.map((c: any) => {if ( c.date == `${selectedDate?.toISOString()}`) closedDaysArray.push(c.date); else console.log(c.date == `${selectedDate?.toISOString()}`)})
+    let closedDaysArray: any[] = [];
+    closedDays.map((c: any) => {
+      if (c.date == `${selectedDate?.toISOString()}`)
+        closedDaysArray.push(c.date);
+      else console.log(c.date == `${selectedDate?.toISOString()}`);
+    });
 
     // console.log(( selectedDate ), closedDays, 'hellow')
     // async function workplz() {
     if (closedDaysArray.length) {
-
-    
-    
-      setDayIsClosed(true)
-      closedDaysArray = []
+      setDayIsClosed(true);
+      closedDaysArray = [];
     } else {
-      setDayIsClosed(false)
-      closedDaysArray = []
-      
-
+      setDayIsClosed(false);
+      closedDaysArray = [];
     }
-      
-      
-
-  }, [selectedDate])
+  }, [selectedDate]);
 
   // useEffect( () => {
-  //   if(!daysClosed) return 
+  //   if(!daysClosed) return
 
   //   let dayisClosedArray: any[] = []
-
-    
 
   //   async function filteringDate() {
   //     await daysClosed?.map((c: any) => {
@@ -72,24 +75,24 @@ console.log(closedDays)
   };
 
   const handleCloseDay = async (date: Date) => {
-    const closedDate = await closeTheDay(date, teacherId)
+    const closedDate = await closeTheDay(date, teacherId);
 
-    console.log(closedDate, 'yoyu yo')
-    const dateCopy = [...closedDays]
+    console.log(closedDate, "yoyu yo");
+    const dateCopy = [...closedDays];
 
-    dateCopy.push(closedDate)
-    setClosedDays(dateCopy)
-  }
+    dateCopy.push(closedDate);
+    setClosedDays(dateCopy);
+  };
   const handleOpenDay = async (date: Date) => {
-    const openDay = await openTheDay(date, teacherId)
+    const openDay = await openTheDay(date, teacherId);
 
-    let  dateCopy = [...closedDays]
+    let dateCopy = [...closedDays];
 
-    dateCopy = dateCopy.filter((d) => d._id != openDay._id)
+    dateCopy = dateCopy.filter((d) => d._id != openDay._id);
 
     // console.log(openDay)
-    setClosedDays(dateCopy)
-  }
+    setClosedDays(dateCopy);
+  };
 
   function _changeTime(day: any) {
     return function (time: string, type: "openTime" | "closeTime") {
@@ -112,22 +115,25 @@ console.log(closedDays)
 
   const setWeekDaysJsx = (
     <>
-      <ul className="text-center h-full flex flex-col justify-between items-center w-full text-black font-bold font-mono text-xl gap-8  px-24">
+      <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-8 px-2  lg:px-12">
         {dayWeek.map((w: any, mapindex: number) => {
           const changeTime = _changeTime(w);
 
           return (
-            <li className="h-full w-full bg-slate-400 rounded" key={w.name}>
-              <p>{w.name}</p>
+            <li
+              className="h-full w-full bg-[#c4c4c4] rounded py-4"
+              key={w.name}
+            >
+              <p>{capitalize(w.name)}</p>
               <div className="flex w-full justify-evenly">
-                <div className="w-1/2">
+                <div className="px-1 w-full md:px-0 md:w-1/3">
                   <TimeSelector
                     type="openTime"
                     changeTime={changeTime}
                     selected={dayWeek[mapindex]?.openTime}
                   />
                 </div>
-                <div className="w-1/2">
+                <div className="px-1 w-full md:px-0 md:w-1/3">
                   <TimeSelector
                     type="closeTime"
                     changeTime={changeTime}
@@ -140,7 +146,9 @@ console.log(closedDays)
                 onClick={() => {
                   openDay(mapindex);
                 }}
-                className="w-full bg-blue-400 "
+                className={`${
+                  w.isOpen ? "bg-[#D9643A]" : "bg-[#f5f5f5]"
+                } w-1/3  mt-4 rounded-full transition-all duration-300 `}
               >
                 {w.isOpen ? "Open" : "Closed"}
               </button>
@@ -148,27 +156,38 @@ console.log(closedDays)
           );
         })}
       </ul>
-      <button className="text-center text-white" onClick={handleSumbit}>
+      <button
+        className="text-center text-white mt-4 bg-black px-8 py-0.5 rounded-full w-1/3 font-semibold"
+        onClick={handleSumbit}
+      >
         Save
       </button>
     </>
   );
 
   const closedDaysJsx = (
-  <div className=" bg-indigo-950 px-8 py-6 text-white">
-  <TeacherCalendar setSelectedDate={setSelectedDate} closedDays={closedDays} />
-  <button className="text-white" onClick={() => {
-    if(!selectedDate) return 
-    if(dayIsClosed) handleOpenDay(selectedDate)
-    else if (selectedDate) handleCloseDay(selectedDate)
-  }}>{dayIsClosed ? 'Open shop this day' : 'Close shop this day'}</button>
-  </div>
+    <div className=" md:px-[15.5rem]  md:h-full max-h-full text-white pb-2">
+      <TeacherCalendar
+        setSelectedDate={setSelectedDate}
+        closedDays={closedDays}
+      />
+      <button
+        className="text-black font-extrabold bg-[#c5c5c5] px-6 py-0.5 rounded full"
+        onClick={() => {
+          if (!selectedDate) return;
+          if (dayIsClosed) handleOpenDay(selectedDate);
+          else if (selectedDate) handleCloseDay(selectedDate);
+        }}
+      >
+        {dayIsClosed ? "Open shop this day" : "Close shop this day"}
+      </button>
+    </div>
   );
 
   return (
-    <div className="h-full">
-      <div className="flex justify-center  items-center w-1/2 mx-auto mb-4 mt-4">
-        <p className="text-center text-3xl text-white w-1/2">
+    <div className="h-full pb-8">
+      <div className="flex justify-center  items-center w-1/2 mx-auto mb-4 pt-4 gap-2">
+        <p className="text-center text-3xl text-white w-full">
           {!enabled ? "Schedule" : "Closed Days"}
         </p>
         <div className="flex justify-center w-1/2">
@@ -188,7 +207,7 @@ console.log(closedDays)
           </Switch>
         </div>
       </div>
-      <div className="text-center">
+      <div className="text-center  ">
         {!enabled ? setWeekDaysJsx : closedDaysJsx}
       </div>
     </div>

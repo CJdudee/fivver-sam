@@ -9,8 +9,11 @@ import Script from "next/script";
 import AuthProvider from "./context/AuthProvider";
 import { headers } from "next/dist/client/components/headers";
 import { connectingMongoose } from "./lib/connectMongo";
+import { Inknut_Antiqua } from 'next/font/google'
 
 const inter = Inter({ subsets: ["greek"] });
+
+
 
 export const metadata: Metadata = {
   title: "Lango",

@@ -2,6 +2,7 @@
 
 import { assignTeacherToUser, disableUser } from '@/actions/adminAllUsers'
 import { getAllTeacher } from '@/actions/teacherQuery'
+import { capitalize } from '@/utils/helpers'
 import React, { useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import 'react-select'
@@ -14,13 +15,23 @@ export default function ViewAllUsers({foundUserJson} : any) {
     const [teacherId, setTeacherId] = useState<any>(null)
     const dialogRef = useRef< null | HTMLDialogElement>(null)
     const [asyncSearch, setAsyncSearch ] = useState('')
+    const [filter, setFilter] = useState<any>(null)
+
 
     useEffect(() => {
         if(!turnDialog) return dialogRef.current?.close() 
 
         dialogRef.current?.showModal();
     }, [turnDialog])
+    
+    const filterUser = foundUserJson.filter((u: any) => {
+      if(filter == null) return true
 
+      if(filter.includes(u.roles)) return true
+      // if(u.roles?.includes(filter)) return true
+
+      return false
+    })
    
 
     const loadOptions =   async(searchValue: string, callback: any) =>  {
@@ -120,17 +131,17 @@ export default function ViewAllUsers({foundUserJson} : any) {
   return (
     <>
         {asssignTeacherDialog}
-        {foundUserJson.map((f: any, i: number) => {
+        {filterUser.map((f: any, i: number) => {
         // console.log(f, "what the");
         if (!f.roles) return;
         return (
-          <div key={i} className={`bg-slate-400 w-1/2 p-4 `}>
+          <div key={i} className={` bg-[#c5c5c5] w-1/2 p-4 rounded-xl text-black font-semibold `}>
             <p className="mb-2.5">User: {f.username}</p>
-            <div className="outline outline-1 w-1/2 mx-auto"  >
+            <div className=" border-t-2 border-b-2 border-black w-2/3 mx-auto"  >
                 <p>User Roles:</p>
               <ul className="flex justify-center gap-4">
                 {f.roles.map((c: string, i: number) => (
-                  <li key={i}>{c}</li>
+                  <li key={i}>{capitalize(c)}</li>
                 ))}
               </ul>
             </div>

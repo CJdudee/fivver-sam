@@ -19,23 +19,15 @@ export default async function Page(req: NextRequest | any, res: NextResponse) {
     const teacherWeek = await TeacherWeek.findOne({ teacher: teacherId})
     const closedDate = await ClosedDay.find({teacher: teacherId})
 
-    const booked = await Booking.find({teacher: teacherId})
+    const booked = await Booking.find({teacher: teacherId, status: 'pending'})
 
     console.log(booked)
     const {username, email} = teacher.user
 
     // console.log(teacherWeek)
   return (
-    <div className={`bg-slate-400 px-24 text-white`}>
+    <div className={`bg-gradient-to-b  from-[#242424] via-[#3D3D3D] to-[#3D3D3D] h-[92vh] md:px-24 text-white`}>
         <UserBooking  teacher={simpleJson(teacher)} teacherWeek={simpleJson(teacherWeek)} closedDate={simpleJson(closedDate)} user={user} booked={simpleJson(booked)} />
-        {/* <p>
-        {JSON.stringify(teacher)}
-
-        </p>
-        <p>{JSON.stringify(teacherWeek)}</p>
-        <p>
-        {JSON.stringify(closedDate)}
-        </p> */}
     </div>
   )
 }

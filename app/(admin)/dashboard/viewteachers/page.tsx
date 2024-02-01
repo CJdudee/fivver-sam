@@ -9,8 +9,8 @@ export default async function Page() {
 
     const teacherJson = simpleJson(teachers)
   return (
-    <div className={`text-center text-white`}>
-        <p className={`text-2xl my-4`}>All Teachers:</p>
+    <div className={`text-center text-white h-screen`}>
+        <p className={`text-2xl `}>All Teachers:</p>
         {teacherJson.map((t: any, i: number) => {
             return (
                 <div key={t._id}>

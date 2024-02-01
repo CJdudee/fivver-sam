@@ -8,6 +8,18 @@ const TeacherSehema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    orders: {
+        type: Number, 
+        default: 0
+    },
+    currentOrders: {
+        type: Number,
+        default: 0
+    },
+    canceledOrders: {
+        type: Number,
+        default: 0
+    }
     // password: {
     //     type: String, 
     //     // select: false

@@ -1,59 +1,92 @@
 "use client";
 import { cancelBooking } from "@/actions/teacherBooking";
-import { toDate } from "date-fns";
+import { timeConvert } from "@/utils/helpers";
+import { format, toDate } from "date-fns";
 import React from "react";
 
 export default function BookedLessons({ booked }: any) {
+  const onCancelBook = async (bookingId: string) => {
+    await cancelBooking(bookingId);
+  };
 
-  const onCancelBook = async (bookingId : string) => {
-    await cancelBooking(bookingId)
-  }
+  const bookingLength = booked.length;
+
+  console.log(bookingLength);
 
   return (
-    <div className=" flex flex-col gap-8">
+    <div className=" flex flex-col gap-4">
+      <p className="text-center text-white text-3xl font-bold">
+        Total bookings: {bookingLength}
+      </p>
       {booked.map((b: any) => {
         const time = new Date(b.date);
         // const formatted = b.date.toISOString()
         const formatted = time.getMonth();
         const formattedDay = time.getDate();
         const formattedYear = time.getFullYear();
+        const formattedHour = time.getHours()
+        const formattedMin = time.getMinutes()
 
-        console.log(formatted, formattedDay, "yo yo what");
+        // const numb = timeConvert()
+
+        const split = b.time.split(":")
+
+        const sHour = split[0]
+        const sMin = split[1]
+
+        let numb = null
+
+        if(Number(sHour) > 12) {
+          numb = sHour % 12
+        }
+
+        console.log(split)
+
+        console.log(b.time)
+        // console.log(formatted, formattedDay, "yo yo what");
 
         return (
           <div
             key={b._id}
-            className="justify-center flex flex-col items-center text-white text-2xl bg-slate-600 rounded  my-4 p-4 w-2/3 mx-auto  "
+            className="justify-center flex flex-col items-center text-black font-semibold text-2xl bg-[#c5c5c5] rounded-xl drop-shadow-lg shadow-md shadow-white  my-4 p-4 w-full md:w-2/3 mx-auto  "
           >
             {/* <p>{b.date}</p> */}
             <div className="flex justify-evenly w-full">
               <p>
-                {formatted + 1}/{formattedDay}/{formattedYear}
+                Date: {formatted + 1}/{formattedDay}/{formattedYear}
               </p>
-              <p>Time: {b.time}</p>
+              <p>Time: {numb ?? b.time } : {sMin} {numb ? 'pm' : 'am'}</p>
             </div>
             <div className="text-center w-full">
-              <p>Student:</p>
-              <div className="flex flex-col items-center justify-evenly w-1/2 mx-auto outline outline-1 rounded-xl">
-                <div className="flex w-full">
-                  <p className="w-1/2 text-center bg-blue-400 rounded-tl-xl">Name</p>
-                  <p className="w-1/2 text-center bg-blue-400 rounded-tr-xl">{b.student.username}</p>
+              <div className="flex flex-col items-center justify-evenly w-1/2 mx-auto outline outline-1 rounded-xl p-4  gap-2 mt-4">
+                <p>Student:</p>
+                <div className="md:flex w-full text-center truncate">
+                  <p className="md:w-1/2 text-center  rounded-tl-xl">Name</p>
+                  <p className="md:w-1/2 text-center  rounded-tr-xl">
+                    {b.student.username}
+                  </p>
                 </div>
-                <div className="flex w-full">
-                  <p className="w-1/2 text-center bg-blue-400 ">Email</p>
-                  <p className="w-1/2 text-center bg-blue-400 ">{b.student.email != "" ? b.student.email : "No Email "}</p>
+                <div className="md:flex w-full truncate">
+                  <p className="md:w-1/2 text-center  ">Email</p>
+                  <p className="md:w-1/2 text-center  ">
+                    {b.student.email != "" ? b.student.email : "No Email "}
+                  </p>
                 </div>
-                
               </div>
-              <div>
-                {b.status && <p>{b.status}</p>}
-                </div>
+              <div className="flex gap-4 justify-center">
+                <p>Status:</p>
+                {b.status && <p className="text-gray-600 font-bold">{b.status}</p>}
+              </div>
             </div>
             <div className="flex w-full justify-evenly mt-4">
-              <button>Accept</button>
-              <button onClick={() => {
-                onCancelBook(b._id)
-              }}>Cancel</button>
+              <button className="bg-[#f5f5f5] px-2 md:px-8 py-0.5 rounded-full">Add To Calendar</button>
+              <button className="bg-[#f5f5f5] px-2 md:px-8 py-0.5 rounded-full"
+                onClick={() => {
+                  onCancelBook(b._id);
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         );

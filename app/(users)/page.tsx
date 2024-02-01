@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import HomePageComp from "../components/HomePageComp";
+import BookHomePage from "../components/BookHomePage";
 
 export default async function Home() {
   const session = await auth();
@@ -16,8 +17,10 @@ export default async function Home() {
   
 
   return (
-    <main className="flex min-h-full flex-col items-center justify-start bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 w-full overflow-hidden ">
-      <HomePageComp />
+    <main className="h-full">
+    {/* <main className="flex min-h-full flex-col items-center justify-start bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 w-full overflow-hidden "> */}
+      {/* <HomePageComp /> */}
+      <BookHomePage />
     </main>
     
   );

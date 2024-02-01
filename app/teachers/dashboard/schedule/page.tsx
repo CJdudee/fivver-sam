@@ -13,15 +13,19 @@ export default async function Page() {
 
   const teacher = await Teacher.findOne({ user: user.id})
 
-  if(!teacher) return (<div>
+  if(!teacher) return (
+  <div>
     <p> 404</p>
-  </div>)
+  </div>
+  )
 
   const weekDays = await TeacherWeek.findOne({ teacher: teacher._id})
 
-    if(!weekDays) return (<div>
+    if(!weekDays) return (
+    <div>
       <p> a very big problem</p>
-    </div>)
+    </div>
+    )
   // console.log(weekDays, 'hey whatsus')
 
   const daysClosed = await ClosedDay.find({teacher: teacher._id })

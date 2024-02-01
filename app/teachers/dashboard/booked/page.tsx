@@ -20,7 +20,7 @@ export default async function Page() {
     console.log(booked)
 
   return (
-    <div>
+    <div className='h-screen pt-4'>
         <BookedLessons booked={simpleJson(booked)} />
         {/* {booked.map((b) => <p>{b.teacher}</p>)} */}
         {/* {simpleJson(booked)} */}

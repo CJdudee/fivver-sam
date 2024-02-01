@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function page() {
   return (
-    <div>
+    <div className=' min-h-max h-screen'>
         <CreateTeacher/>
     </div>
   )

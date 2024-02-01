@@ -1,81 +1,109 @@
-import { add, addMinutes, getHours, getMinutes, isBefore, isEqual, parse } from "date-fns"
+import {
+  add,
+  addMinutes,
+  format,
+  getHours,
+  getMinutes,
+  isBefore,
+  isEqual,
+  parse,
+} from "date-fns";
 
 export const weedayIndexToName = (index: number) => {
-    const days = ['sunday', 'monday', 'tuesday', 'wednesday', "thursday", 'friday', 'saturday']
+  const days = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ];
 
-    return days[index]
-}
+  return days[index];
+};
 
 export function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
-export const simpleJson = (object: any ) => {
-
-    return JSON.parse(JSON.stringify(object))
-}
+export const simpleJson = (object: any) => {
+  return JSON.parse(JSON.stringify(object));
+};
 
 export const roundToNearestMinutes = (date: Date, interval: number) => {
-    const minutesLeftUntilNextInterval = interval - (getMinutes(date) % interval)
+  const minutesLeftUntilNextInterval = interval - (getMinutes(date) % interval);
 
-    return addMinutes(date, minutesLeftUntilNextInterval)
-}
-
+  return addMinutes(date, minutesLeftUntilNextInterval);
+};
 
 export const getOpeningTimes = (startDate: Date, dbDays: any) => {
+  const dayOfWeek = startDate.getDay();
+  const isToday = isEqual(startDate, new Date());
 
-    const dayOfWeek = startDate.getDay()
-    const isToday = isEqual(startDate, new Date())
+  //edge case
+  const today = dbDays.find((d: any) => d.index === dayOfWeek);
 
-    //edge case
-    const today = dbDays.find((d: any) => d.index === dayOfWeek)
+  if (!today) throw new Error("this day does not exist on the DB");
+  //
+  // console.log(today)
 
-    if(!today) throw new Error('this day does not exist on the DB')
-    //
-// console.log(today)
+  const todayString = today.openTime.replace(/\s+/g, "");
+  const todayEndString = today.closeTime.replace(/\s+/g, "");
 
-    const todayString = today.openTime.replace(/\s+/g, '')
-    const todayEndString = today.closeTime.replace(/\s+/g, '')
+  const opening = parse(todayString, "kk:mm", startDate);
+  // const opening = parse("10:00", 'kk:mm', startDate)
+  const closing = parse(todayEndString, "kk:mm", startDate);
 
-    const opening = parse(todayString, 'kk:mm', startDate)
-    // const opening = parse("10:00", 'kk:mm', startDate)
-    const closing = parse(todayEndString, 'kk:mm', startDate)
+  let hours: number;
+  let minutes: number;
 
-    let hours: number
-    let minutes: number
+  if (isToday) {
+    const rounded = roundToNearestMinutes(new Date(), 60);
 
-    if (isToday) {
+    const tooLate = !isBefore(rounded, closing);
 
-        const rounded = roundToNearestMinutes(new Date(), 60)
+    if (tooLate) throw new Error("no more bookings today");
 
-        const tooLate = !isBefore(rounded, closing)
+    console.log("round", rounded);
 
-        if(tooLate) throw new Error("no more bookings today")
+    const isBeforeOpening = isBefore(rounded, opening);
 
-        console.log('round', rounded)
+    hours = getHours(isBeforeOpening ? opening : rounded);
+    minutes = getMinutes(isBeforeOpening ? opening : rounded);
+  } else {
+    hours = getHours(opening);
+    minutes = getMinutes(opening);
+  }
 
-        const isBeforeOpening = isBefore(rounded, opening)
+  const beginning = add(startDate, { hours, minutes });
+  const end = add(startDate, {
+    hours: getHours(closing),
+    minutes: getMinutes(closing),
+  });
+  const interval = 60;
 
-        hours = getHours(isBeforeOpening ? opening : rounded)
-        minutes = getMinutes(isBeforeOpening ? opening : rounded)
+  const times = [];
 
+  for (let i = beginning; i <= end; i = add(i, { minutes: interval })) {
+    times.push(i);
+  }
 
+  return times;
+};
 
+export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-    } else {
-        hours = getHours(opening)
-        minutes = getMinutes(opening)
-    }
+export const timeConvert = (time: any) => {
+  const formatedKk = Number(format(time, "kk"));
 
-    const beginning = add(startDate, { hours, minutes})
-    const end = add(startDate, { hours: getHours(closing), minutes: getMinutes(closing)})
-    const interval = 60
+  console.log(formatedKk, typeof formatedKk);
 
-    const times = []
+  let numb = null;
 
-    for (let i = beginning; i <= end; i = add(i, { minutes: interval })) {
-        times.push(i)
-    }
+  if (formatedKk > 12) {
+    numb = formatedKk % 12;
+  }
 
-    return times
-}
+  return numb
+};

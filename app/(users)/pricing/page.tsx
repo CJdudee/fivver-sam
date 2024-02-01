@@ -19,20 +19,23 @@ export default async function Page() {
 
   // const {user} = session
 
-  // console.log(gotPackages)
+  console.log(gotPackages)
 
   
 
   return (
-    <div>
-        <p className='text-center text-3xl mt-4 font-semibold'>Pricing and Packages</p>
-        <div className='flex justify-center gap-8 mt-6'>
+    <div className=' bg-gradient-to-b from-[#242424] via-[#3D3D3D] to-[#3D3D3D] h-full min-h-[92dvh] '>
+      <div className=' flex flex-col justify-center items-center min-h-full h-[92vh]  pb-8 '>
+
+        <p className='text-center text-3xl pt-2 font-semibold text-white'>Pricing and Packages</p>
+        <div className='flex justify-center gap-8 mt-6 w-full h-1/2'>
           <PricingPack 
           // packages={gotPackages}
           packages={JSON.parse(JSON.stringify(gotPackages))}
           userId={user?.id}
           />
         </div>
+          </div>
     </div>
   )
 }

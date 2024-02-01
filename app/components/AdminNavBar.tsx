@@ -8,12 +8,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 // import { signIn } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
-import Profile from "../Profile";
-import AuthButtons from "../AuthButtons";
-import NavBarHam from "../NavBarHam";
+// import Profile from "../Profile";
+// import AuthButtons from "../AuthButtons";
+// import NavBarHam from "../NavBarHam";
 import { FaBookmark } from "react-icons/fa";
 import { K2D } from "next/font/google";
-import { redirect } from "next/navigation";
+import Profile from "./Profile";
+import AuthButtons from "./AuthButtons";
+import NavBarHam from "./NavBarHam";
 // import AuthButtons from "./AuthButtons";
 // import { serverUser } from "../lib/serverAuth";
 // import User from "@/models/User";
@@ -22,24 +24,20 @@ import { redirect } from "next/navigation";
 
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
-export default async function TeacherNavbar() {
+export default async function AdminNavBar() {
 
   // const session = await auth()
 
-  const session: any = await serverUser()
-
-  // console.log(session)
-
-  if(!session ||!session.roles || !session.roles.includes('teacher')) redirect('/')
+  const session = await serverUser()
 
   // console.log(session, 'where is thsi')
 
 
   return (
-    <nav className=" sticky top-0 z-40 h-full ">
-      <div className="hidden border-b-1  border-black min-h-[8vh] md:flex items-center justify-between md:px-8  w-full  pb-1   gap-4  bg-[#242424] h-full">
+    <nav className=" sticky top-0 z-40 ">
+      <div className="hidden border-b-1  border-black min-h-[8vh] md:flex items-center justify-between md:px-8  w-full  pb-1   gap-4  bg-[#242424]">
         <Link href={'/'} className=" md:px-[16%]">
-          <div className=" rounded-b-xl bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:bg-gradient-to-br transition-all duration-1000 absolute w-fit md:w-[6%] min-h-full  top-0 flex flex-col  ">
+          <div className=" rounded-b-xl bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:bg-gradient-to-br transition-all duration-1000 absolute w-fit md:w-[6%] min-h-fit  top-0 flex flex-col  ">
             <div className="w-full ">
               <FaBookmark className="text-white ml-auto mr-1" />
             </div>
@@ -52,18 +50,18 @@ export default async function TeacherNavbar() {
           </div>
         </Link>
 
-        <div className="text-center flex items-center justify-end gap-4 w-full drop-shadow-lg pl-4 h-full ">
+        <div className="text-center flex items-center justify-end gap-4 w-full drop-shadow-lg pl-4 ">
           <Link
-            href={"/teachers/dashboard/booked"}
+            href={"/pricing"}
             className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
           >
-            Booked
+            Pricing
           </Link>
           <Link
-            href={"/teachers/dashboard/schedule"}
+            href={"/teach"}
             className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
           >
-            Schedule
+            Teachers
           </Link>
         </div>
 

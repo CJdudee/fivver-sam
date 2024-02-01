@@ -42,32 +42,36 @@ export default function Profile({ user }: any) {
       className="flex justify-end relative  w-full "
     >
       <button
-        className="bg-blue-800 w-7 h-7 rounded-full hover:rounded-tr-none hover:rounded-tl-none hover:shadow-2xl  hover:shadow-white transition-all duration-500"
+        className="bg-[#D9643A] w-7 h-7 rounded-full hover:rounded-tr-none hover:rounded-tl-none hover:shadow-2xl  hover:shadow-white transition-all duration-500"
         onClick={() => setOpenProfile(!openProfile)}
       />
       { 
          <div
-          className={`  absolute top-8 right-3 w-1/2 bg-slate-800 text-white text-center py-2 rounded-xl rounded-tl-[15px] rounded-tr-none transition-all flex flex-col  ${
+          className={`  absolute top-8 right-3 w-full bg-[#D9643A] text-white text-center py-2 rounded-xl rounded-tl-[15px] rounded-tr-none transition-all flex flex-col  ${
             openProfile ? " z-0 opacity-100" : " -z-50 opacity-0 invisible"
           }`}
         >
-          <p className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0  w-full rounded"> Hey</p>
+          {/* <p className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0  w-full rounded"> Hey</p> */}
+
+          <Link href={"/profile"} onClick={() => {setOpenProfile(false)}} className="profile ">
+              Profile
+            </Link>
 
           {/* <div className="w-full"> */}
-           {user.roles.includes('teacher') && <Link href={"/teachers/dashboard"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
+           {user.roles.includes('teacher') && <Link href={"/teachers/dashboard"} onClick={() => {setOpenProfile(false)}} className=" profile">
               Teacher
             </Link>}
-            <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
+            <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
               Admin Panel
             </Link>
-            <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded">
-              booking panel
+            <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
+              Booking panel
             </Link>
           {/* </div> */}
           {user.roles.length == 1 && user.roles.includes("user") && (
             <p className="border-t mt-2 py-1">Hours: {user.tokens}</p>
           )}
-          <button className=" transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-ful rounded" onClick={handleSignOut}>
+          <button className="profile" onClick={handleSignOut}>
             SignOut
           </button>
         </div>

@@ -13,11 +13,9 @@ export default async function Page() {
 
     console.log(packagesJson)
   return (
-    <div className='flex justify-center py-4 flex-col items-center text-white gap-10'>
-        <div className='justify-end flex relative w-1/2'>
-            <button className=' absolute right-0 text-2xl'>+</button>
-        </div>
-        <CreatePackage packagesJson={packagesJson} />
+    <div className='flex justify-start py-4 flex-col items-center text-white gap-10 h-screen'>
+        
+        <CreatePackage packages={packagesJson} />
     </div>
   )
 }
