@@ -2,7 +2,7 @@ import { auth } from '@/auth'
 import React from 'react'
 import { serverUser } from '../../lib/serverAuth'
 import Package from '@/models/Packages'
-import PricingPack from '../../components/PricingPack'
+import PricingPack from '../../components/pricing/PricingPack'
 import { packages } from '@/actions/getPackages'
 
 export default async function Page() {

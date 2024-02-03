@@ -1,4 +1,4 @@
-import { Inknut_Antiqua } from "next/font/google";
+import { Inknut_Antiqua, Roboto_Serif } from "next/font/google";
 import React from "react";
 import { IoBookOutline } from "react-icons/io5";
 import { LuBookOpen } from "react-icons/lu";
@@ -15,31 +15,44 @@ import { K2D } from "next/font/google";
 
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
+
+
 export default function BookHomePage() {
   return (
     <main className="h-full">
       <div
-        className={` min-h-[90dvh] h-[95dvh] bg-gradient-to-b relative px-6 pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] `}
+        className={`h-[850px] bg-gradient-to-b relative px-6 pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
       >
-        
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}
+
+        {/* <div className=" absolute  bottom-0 h-full w-3/5 left-0 -right-24 top-52  border-[40px] ml-auto rounded-full rounded-b-full border-opacity-80 border-fuchsia-400 z-0 "></div> */}
+        <div className=" absolute  bottom-0 h-4/5  w-1/2 left-0 -right-[20%] -top-[55%]  border-[40px] ml-auto rounded-full  border-opacity-80  z-0 flex justify-center items-center ">
+          <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto flex justify-center items-center">
+            <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto"></div>
+          </div>
+        </div>
+        <div className=" absolute  bottom-0 h-4/5  w-1/2 right-0 -left-[20%] top-[55%]  border-[40px] mr-auto rounded-full  border-opacity-80  z-0 flex justify-center items-center ">
+          <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto flex justify-center items-center">
+            <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto"></div>
+          </div>
+        </div>
       </div>
 
-      <div className=" text-center bg-white h-full w-full pt-32">
+      <div className=" text-center bg-white h-full w-full pt-32 ">
         <p className="text-3xl font-bold">What makes Us different?</p>
-        <p className="mx-auto w-3/4 md:w-1/5 mt-1 text-sm">
+        <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
           {" "}
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
           cumque!
         </p>
 
-        <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full  md:h-[45dvh] mt-8">
-          <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full">
-            <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-6">
+        <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
+          <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
+            <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-4">
               <p className="font-bold text-2xl">Proficiency</p>
               <p className="text-5xl h-full "> 👨‍🏫 👨‍🏫 </p>
-              <p className="text-sm h-full w-4/5 mx-auto text-center ">
+              <p className="text-sm h-full w-4/5 mx-auto text-center font-bold ">
                 {" "}
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 asdlkfj. kesrka.
@@ -93,7 +106,7 @@ export default function BookHomePage() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
           cumque!
         </p>
-        <div className="flex flex-col md:flex-row  gap-4 w-4/5 mx-auto items-center md:h-[40dvh] mt-8 justify-center">
+        <div className="flex flex-col md:flex-row  gap-4 w-4/5 mx-auto items-center  mt-8 justify-center">
           <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-8 h-full w-full md:w-2/4">
             <p className="font-bold text-2xl h-1/5">Easy</p>
             <p className="text-sm  w-4/5 mx-auto text-center  h-1/5 font-bold">
@@ -123,7 +136,7 @@ export default function BookHomePage() {
                 <div className=" w-full md:w-1/4 h-full flex justify-center items-center">
                   <p className=" text-7xl">🤹‍♂️</p>
                 </div>
-                <div className="h-full w-full md:w-3/4 text-center font-semibold ">
+                <div className="h-full w-full md:w-3/4 text-center font-bold text-sm md:pl-1 ">
                   <p>
                     Time you purchase is yours to spend as fast or as slow as
                     you want within 1 year (but our “Flexible” policy applies
@@ -136,10 +149,12 @@ export default function BookHomePage() {
         </div>
       </div>
 
-      <div className=" md:h-[51.5vh] w-full pt-32 relative overflow-hidden ">
-        <div className="w-full h-3/4 absolute bg-white top-0 -z-50" />
-        <div className="w-full h-1/4 absolute bg-[#313131] bottom-0 -z-50" />
-        <PlanPackagesSlider />
+      <div className=" h-max w-full pt-32 relative overflow-hidden ">
+        <div className="w-full h-3/4 absolute bg-white top-0 -z-[0]" />
+        <div className="w-full h-1/4 absolute bg-[#313131] bottom-0 -z-0" />
+        <div className="z-40">
+          <PlanPackagesSlider />
+        </div>
       </div>
 
       <div className="flex gap-20 justify-center items-center pt-32 bg-[#313131] text-white">

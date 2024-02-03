@@ -1,24 +1,33 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { CgCheck } from "react-icons/cg";
 
-export default function SinglePlanPackage({
+export default function PricePlanPackage({
   price,
   hours,
+  onBuy,
+  packageId,
+  priceArray,
   dark,
   value,
 }: {
   price: number;
   hours: number;
+  onBuy: any
+  packageId: string
+  priceArray: any[]
   dark?: boolean;
   value?: boolean;
 }) {
+
+  const [size, setSize ] = useState(1)
+
   return (
     <div
       className={` ${value && "relative"} ${
         dark && "bg-gradient-to-b from-black  to-[#626262] text-white"
-      } bg-white w-4/5 md:w-1/5 h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-8 pb-4 z-20`}
+      } bg-white w-4/5 md:w-1/5 h-[415px] outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-8 pb-4 z-20`}
     >
       {value && (
         <div className="w-[58%]  h-[6%] absolute top-2 right-2 bg-[#D9643A] flex justify-center items-center rounded-full">
@@ -32,23 +41,31 @@ export default function SinglePlanPackage({
           <p className=" font-[800] ">Hours</p>
 
           </div>
-          <p className="w-min text-end font-[800] text-xl ">€{price}</p>
+          <p className="w-min text-end font-[800] text-xl ">€{priceArray[size - 1].price}</p>
         </div>
         <p className=" -mt-[0.275rem] font-bold text-gray-400">
           Private Lessons
         </p>
       </div>
       <div className="w-2/3 outline outline-1 outline-[#D1D1D1] rounded-full h-[10%] mx-4 my-5 flex items-center ">
-        <p className="w-1/4 text-center text-3xl flex justify-center items-center pb-1">
+        <button onClick={() => {
+          if(size == 1) return 
+          if(size < 1) return setSize(1)
+          setSize(size - 1)
+        }} className="w-1/4 text-center text-3xl flex justify-center items-center pb-1">
           -
-        </p>
+        </button>
         <p className="w-2/4 text-[#D9643A] text-center font-bold text-xl">
-          1 on 1
+          1 on {size}
         </p>
 
-        <p className="w-1/4 text-center text-3xl flex justify-center items-center pb-2">
+        <button onClick={() => {
+          if(size == 3) return 
+          if(size > 3) return setSize(3)
+          setSize(size + 1)
+        }} className="w-1/4 text-center text-3xl flex justify-center items-center pb-2">
           +
-        </p>
+        </button>
       </div>
       <p className="px-4 text-sm font-semibold w-[92%]">
         Lorem ipsum dolor sit amet consectetur.
@@ -79,6 +96,7 @@ export default function SinglePlanPackage({
 
       <div className="h-full  w-full flex justify-center items-center pt-5">
         <button
+            onClick={() => onBuy(packageId, size)}
           className={` ${
             dark && "text-gray-800 bg-white"
           } w-3/4 outline-[#C5C5C5] outline outline-1 text-gray-500 text-sm h-2/3 rounded-full font-[1000] bg-white`}

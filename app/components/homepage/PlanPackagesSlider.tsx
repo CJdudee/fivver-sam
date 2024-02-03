@@ -1,30 +1,78 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import SinglePlanPackage from "./SinglePlanPackage";
+import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
 
 export default function PlanPackagesSlider() {
+  const [tran, setTran] = useState(0);
+
+  // useEffect(() => {
+
+  //   console.log(window.innerWidth)
+  // }, [window.innerWidth])
+
+
   return (
-    <div className="  flex gap-2 px-2 md:px-24 h-full md:justify-center overflow-hidden w-[220dvh] md:w-full  ">
-      
+    <div className="z-50 relative">
+      <div className="z-50  flex justify-start gap-4 px-4 lg:hidden absolute -top-8">
+        <button
+          onClick={() => {
+            if(tran == 0) return null
+            setTran(tran - 43.8);
+          }}
+          className="text-black  text-xl  z-[100]"
+        >
+          <CgArrowLeft className="text-2xl hover:text-gray-600" />
+        </button>
+        <button
+          onClick={() => {
+
+            if(tran == 175.2) return null
+            setTran(tran + 43.8);
+          }}
+          className="text-black  text-xl  z-[100]"
+        >
+          <CgArrowRight className="text-2xl hover:text-gray-600" />
+        </button>
+      </div>
+      <div
+        className="  flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 lg:hidden   "
+        style={{
+          transform: `translateX(-${tran}dvh)`,
+        }}
+      >
         <SinglePlanPackage price={10} hours={2} />
 
         <SinglePlanPackage price={50} hours={5} />
-      
-      
+
         <SinglePlanPackage price={100} hours={10} dark={true} value={true} />
-      
-      
+
         <SinglePlanPackage price={150} hours={15} />
-      
-    
+
         <SinglePlanPackage price={300} hours={30} />
-      
-      
+      </div>
+      <div
+        className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 hidden   "
+        style={{
+          
+        }}
+      >
+        <SinglePlanPackage price={10} hours={2} />
+
+        <SinglePlanPackage price={50} hours={5} />
+
+        <SinglePlanPackage price={100} hours={10} dark={true} value={true} />
+
+        <SinglePlanPackage price={150} hours={15} />
+
+        <SinglePlanPackage price={300} hours={30} />
+      </div>
     </div>
   );
 }
 
-
-{/* <div className="w-1/6 h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-6 pb-4">
+{
+  /* <div className="w-1/6 h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-6 pb-4">
         <div className=" w-full px-5 ">
           <div className="flex justify-between w-full ">
             <p className="w-1/2 font-[800] text-xl">2 Hours</p>
@@ -72,4 +120,5 @@ export default function PlanPackagesSlider() {
             Choose plan
           </button>
         </div>
-      </div> */}
+      </div> */
+}

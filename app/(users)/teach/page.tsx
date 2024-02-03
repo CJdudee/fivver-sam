@@ -36,7 +36,7 @@ export default async function Page() {
           return (
             <div
               key={t._id}
-              className="bg-white outline outline-2 outline-[#3D3D3D] w-2/3 mx-auto rounded-full p-2 pt-2 pb-2 drop-shadow-xl overflow-hidden h-[12rem] "
+              className="bg-white outline outline-2 outline-[#3D3D3D] w-2/3 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl overflow-hidden h-[12rem] "
             >
               {/* <p>{t._id}</p> */}
               {/* <p className={`font-bold`}>{email}</p> */}

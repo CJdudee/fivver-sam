@@ -7,13 +7,10 @@ import BookHomePage from "../components/BookHomePage";
 export default async function Home() {
   const session = await auth();
 
-  // console.log(session)
+  
   // if (!session) redirect("/api/auth/signin");
 
-  // if(session?.user!.roles.includes('admin')) {
-  //   return <p>Admin</p>
-  // }
-
+  
   
 
   return (

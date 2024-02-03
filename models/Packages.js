@@ -11,6 +11,36 @@ const PackageSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    priceOne: {
+        price: {
+            type: Number,
+            required: true
+        },
+        for: {
+            type: Number,
+            default: 1
+        }
+    },
+    priceTwo: {
+        price: {
+            type: Number,
+            required: true
+        },
+        for: {
+            type: Number,
+            default: 2
+        }
+    },
+    priceThree: {
+        price: {
+            type: Number,
+            required: true
+        },
+        for: {
+            type: Number,
+            default: 3
+        }
+    },
     
     // email: {
     //     type: String,
@@ -24,6 +54,10 @@ const PackageSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    for: {
+        type: Number,
+        default: 1
+    }
 })
 
 //have to make users posts a subdoc so i dont go over the 16 mb limit or a populate

@@ -24,14 +24,14 @@ export default async function Page() {
       </div>
 
       <div className="flex text-black bg-[#c5c5c5] gap-8 p-10 w-2/3 rounded-xl justify-evenly">
-        <div className="text-center text-2xl font-bold w-1/3 border-r-2">
-          <p>Total Orders:</p> <p>{teacherJson.orders}</p>
+        <div className="flex justify-center items-center text-2xl font-bold w-1/3 border-r-2">
+          <p className="w-full flex justify-center ">Total Orders:</p> <p className="w-full flex justify-center ">{teacherJson.orders}</p>
         </div>
-        <div className="text-center text-2xl font-bold w-1/3 border-r-2">
-          <p>Current Orders:</p> <p>{teacherJson.currentOrders}</p>
+        <div className="flex justify-center items-center text-2xl font-bold w-1/3 border-r-2">
+          <p className="w-full flex justify-center ">Current Orders:</p> <p className="w-full flex justify-center ">{teacherJson.currentOrders}</p>
         </div>
-        <div className="text-center text-2xl font-bold w-1/3">
-          <p>Canceled Orders:</p> <p>{teacherJson.canceledOrders}</p>
+        <div className="flex justify-center items-center text-2xl font-bold w-1/3">
+          <p className="w-full flex justify-center ">Canceled Orders:</p> <p className="w-full flex justify-center ">{teacherJson.canceledOrders}</p>
         </div>
       </div>
       <Link

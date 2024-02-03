@@ -5,7 +5,7 @@ import { User } from "next-auth";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
-export default function Profile({ user }: any) {
+export default function Profile({ user, tokens }: any) {
   const [openProfile, setOpenProfile] = useState(false);
 
   const profileDrop = useRef<HTMLDivElement | null>(null);
@@ -68,9 +68,12 @@ export default function Profile({ user }: any) {
               Booking panel
             </Link>
           {/* </div> */}
-          {user.roles.length == 1 && user.roles.includes("user") && (
-            <p className="border-t mt-2 py-1">Hours: {user.tokens}</p>
+          { (
+            <p className="border-t mt-2 py-1">Hours: {tokens ? tokens : 0}</p>
           )}
+          {/* {user.roles.length == 1 && user.roles.includes("user") && (
+            <p className="border-t mt-2 py-1">Hours: {user.tokens}</p>
+          )} */}
           <button className="profile" onClick={handleSignOut}>
             SignOut
           </button>

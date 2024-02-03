@@ -1,11 +1,28 @@
 'use server'
 import Booking from '@/models/Booking'
-export const bookAppt = async (date: any, teacherId: string, userId: string) => {
-    console.log(date)
-    console.log(teacherId)
-    console.log(userId)
+import Token from '@/models/Token'
+import User from '@/models/User'
+export const bookAppt = async (date: any, teacherId: string, userId: string, groupSize: number) => {
+    // console.log(date)
+    // console.log(teacherId)
+    // console.log(userId)
 
-    const createdBooking = await Booking.create({ student: userId, teacher: teacherId, date: date.justDate, time: date.dateTime, status: 'pending'})
+    const foundUser = await User.findById(userId).exec()
+
+    if(!foundUser) return { error: 'No user found'}
+
+    const foundTokens = await Token.findOne({user: userId, groupSize})
+
+    if(!foundTokens || foundTokens.tokens == 0) return { error: `Not enought Tokens for a group size of ${groupSize}` }
+
+    const createdBooking = await Booking.create({ student: userId, teacher: teacherId, date: date.justDate, time: date.dateTime, status: 'pending', tokenId: foundTokens._id, groupSize})
+
+    if(!createdBooking) return {error: 'problem with creating booking'}
+
+    foundTokens.tokens -= 1
+    await foundTokens.save()
 
     console.log(createdBooking)
+
+    return {success: 'booking made'}
 }

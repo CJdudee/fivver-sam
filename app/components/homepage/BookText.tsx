@@ -1,12 +1,15 @@
+import { Roboto_Serif } from "next/font/google";
 import React from "react";
 import { LuBookOpen } from "react-icons/lu";
+
+const robot = Roboto_Serif({ subsets: ['latin']})
 
 export default function BookText() {
   return (
     <>
       <div className="w-full ">
-        <div className=" flex flex-col gap-2">
-          <div>
+        <div  className={`${robot.className} flex flex-col gap-2`} >
+          <div  className={`${robot.className}`}>
             <p className=" -mb-3 text-3xl text-[#A34F81]">"</p>
             <p className="text-[#A34F81]">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
@@ -20,8 +23,8 @@ export default function BookText() {
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </p>
         </div>
-        <div className="flex flex-col gap-2">
-          <div>
+        <div  className={`${robot.className} flex flex-col gap-2`}>
+          <div className={`${robot.className}`}>
             <p className=" -mb-3 text-3xl text-[#A34F81]">"</p>
             <p className="text-[#A34F81]">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta

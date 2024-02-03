@@ -1,3 +1,4 @@
+import Token from "@/models/Token";
 import User from "@/models/User";
 import { headers } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -9,6 +10,8 @@ const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
 
 
 const endpointSecret = "whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a";
+
+// whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a
 // whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -85,11 +88,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
               const foundUser = await User.findOne({customerId: checkoutSession.customer})
 
+              if(!foundUser) return NextResponse.json({error: 'No user was found!'})
+
               const stringNum = Number(checkoutSession.metadata!.tokens)
 
-              foundUser.tokens += stringNum
+              const stringFor = Number(checkoutSession.metadata!.for)
+
+              const createdToken = await Token.findOneAndUpdate({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum}}, {upsert: true, new: true, setDefaultsOnInsert: true})
+
+              // foundUser.tokens += stringNum
               
-              await foundUser.save()
+              // await foundUser.save()
 
           // console.log(paymentIntentSucceeded, 'lets see what this is')
               

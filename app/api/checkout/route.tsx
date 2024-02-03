@@ -13,16 +13,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
     
     const data = await req.json()
 
-    const {packageId, userId} = data
+    const {packageId, userId, groupSize} = data
 
-    if(!userId) return NextResponse.json('You are missing key fields')
+    if(!userId || !packageId || !groupSize) return NextResponse.json('You are missing key fields')
 
     console.log(packageId,'this is the packageId')
 
     await connectingMongoose()
 
     try {
-        const packages: [] = await Packages.find({
+        const packages: any = await Packages.find({
             _id: packageId
         }).exec()
 
@@ -49,6 +49,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
             tokensGained += p.tokens
         })
 
+        const priceArray = [
+            packages[0].priceOne.price,
+            packages[0].priceTwo.price,
+            packages[0].priceThree.price,
+        ]
+        
+        console.log(groupSize, 'hit')
         // const tokensGained = packages.reduce((adder: any, currentValue: any) => {
         //     return adder.tokens + currentValue
         // }, 0)
@@ -61,7 +68,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             //     items: ''
             // },
             metadata: {
-                tokens: `${tokensGained}`
+                tokens: `${tokensGained}`,
+                for: `${groupSize}`
             },
             line_items: packages.map((product: any) => ({
                 price_data: {
@@ -70,7 +78,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
                         name: product.name, 
                         // random: '30430'
                     },
-                    unit_amount: product.price * 100
+                    // unit_amount: product.price * 100
+                    unit_amount: priceArray[groupSize - 1] * 100
                 },
                 // quantity: product.quantity,
                 quantity: 1,

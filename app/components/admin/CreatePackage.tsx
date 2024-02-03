@@ -2,6 +2,7 @@
 
 import { createPackage, deletePackage, savePackage } from "@/actions/getPackages";
 import React, { useEffect, useState } from "react";
+import CreateNewPackage from "./packages/CreateNewPackage";
 
 export default function CreatePackage({ packages }: any) {
   const [packagesJson, setPackagesJson ] = useState(packages)
@@ -60,85 +61,11 @@ export default function CreatePackage({ packages }: any) {
   return (
     <>
         <div className='justify-end flex relative w-1/2'>
-            <button onClick={() => setEditPackage({individual: false, name: '', price: 0, tokens: 0, new: true})} className=' absolute right-0 text-2xl'>+</button>
+            <button onClick={() => setEditPackage({individual: false, name: '', price: 0, priceOne: {price: ''}, priceTwo: {price: ''}, priceThree: {price: ''},  tokens: '', new: true})} className=' absolute right-0 text-2xl'>+</button>
         </div>
       
       {editPackage?.new == true && (
-      <div
-      className="flex flex-col items-center justify-center gap-4 bg-slate-400 w-1/2 rounded-xl py-2"
-      key={editPackage.index}
-    >
-      <div>
-        <label>Name: </label>
-        <input
-          className="text-black px-2"
-          value={editPackage.name}
-          onChange={(e) =>
-            setEditPackage((prev: any) => {
-              return { ...prev, name: e.target.value };
-            })
-          }
-        />
-      </div>
-      <div>
-        <label>Price: </label>
-        <input
-        type="number"
-          className="text-black px-2"
-          value={editPackage.price}
-          onChange={(e) =>
-            setEditPackage((prev: any) => {
-              return { ...prev, price: e.target.value };
-            })
-          }
-        />
-      </div>
-      
-      <div>
-        <label>Classes Gain: </label>
-        <input
-            type="number"
-          className="text-black px-2"
-          value={editPackage.tokens}
-          onChange={(e) =>
-            setEditPackage((prev: any) => {
-              return { ...prev, tokens: e.target.value };
-            })
-          }
-        />
-      </div>
-      <div className="flex gap-4">
-        <label>Individual</label>
-        <input type="checkbox" checked={editPackage.individual} value={editPackage.individual} onChange={() => {
-            setEditPackage((prev: any) => {
-                return {...prev, individual: !prev.individual}
-            })
-        }} />
-      </div>
-      <p>{editPackage.individual ? "Single person package" : " Group package"}</p>
-      <div className="bg-purple-400 w-1/2 mx-auto rounded-2xl flex flex-col gap-3">
-        <button
-          type="button"
-          onClick={() => {
-            setEditPackage(null);
-          }}
-          className="w-full text-black"
-        >
-          Cancel
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            // setEditPackage(null);
-            // handleSave(p._id)
-            handleCreate()
-          }}
-          className="w-full text-black"
-        >
-          Create
-        </button>
-      </div>
-    </div>
+        <CreateNewPackage editPackage={editPackage} setEditPackage={setEditPackage} handleCreate={handleCreate} />
         )} 
 
       {packagesJson.map((p: any, i: number) => {

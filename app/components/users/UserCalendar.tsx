@@ -26,7 +26,10 @@ export default function UserCalendar({
   closedDate,
   user,
   booked,
+  groupSize,
+  setGroupSize
 }: any) {
+  // const [groupSize, setGroupSize] = useState(1)
   const [date, setDate] = useState<any>({
     justDate: null,
     dateTime: null,
@@ -35,7 +38,9 @@ export default function UserCalendar({
 
   const handleSave = async () => {
     // console.log(date)
-    await bookAppt(date, teacher._id, user.id);
+    const book = await bookAppt(date, teacher._id, user.id, groupSize);
+
+    console.log(book)
   };
   // console.log(teacher)
   const now = new Date();
@@ -57,6 +62,7 @@ export default function UserCalendar({
   console.log(times);
   return (
     <div className="">
+      <button onClick={() => { setGroupSize(null)}}>Group Size: {groupSize}</button>
       {date.justDate ? (
         <div className="">
           <button
@@ -99,7 +105,7 @@ export default function UserCalendar({
               return (
                 <div
                   key={`time-${i}`}
-                  className="rounded-full bg-[#dfdfdf] text-black p-2"
+                  className="rounded-xl bg-[#dfdfdf] text-black p-2"
                 >
                   <button
                     disabled={foundBook}
@@ -169,6 +175,7 @@ export default function UserCalendar({
               // onClick={handleSave}
               onClick={() => {
                 console.log(date);
+                handleSave()
               }}
               className="bg-blue-400 hover:bg-blue-500 active:bg-blue-600 px-4 py-1 rounded-full w-full"
             >
