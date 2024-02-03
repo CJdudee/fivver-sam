@@ -33,6 +33,7 @@ export default function PricingPack({ packages, userId }: any) {
   };
 
   useEffect(() => {
+    if(!router || !stripeUrl) return 
     if (!stripeUrl?.url) return;
 
     localStorage.setItem("package", JSON.stringify(pickedPackage));
@@ -40,7 +41,7 @@ export default function PricingPack({ packages, userId }: any) {
     console.log(stripeUrl);
 
     router.push(stripeUrl.url);
-  }, [stripeUrl]);
+  }, [stripeUrl, router, pickedPackage]);
 
   // console.log(packages)
 

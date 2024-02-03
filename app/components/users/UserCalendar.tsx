@@ -94,7 +94,7 @@ export default function UserCalendar({
 
               console.log(formatedKk, typeof formatedKk);
 
-              let numb = null;
+              let numb: null | number = null;
 
               if (formatedKk > 12) {
                 numb = formatedKk % 12;

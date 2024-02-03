@@ -10,7 +10,7 @@ export default function BookText() {
       <div className="w-full ">
         <div  className={`${robot.className} flex flex-col gap-2`} >
           <div  className={`${robot.className}`}>
-            <p className=" -mb-3 text-3xl text-[#A34F81]">"</p>
+            <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
             <p className="text-[#A34F81]">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
               laboriosam provident quaerat repellendus cupiditate asperiores ex
@@ -25,7 +25,7 @@ export default function BookText() {
         </div>
         <div  className={`${robot.className} flex flex-col gap-2`}>
           <div className={`${robot.className}`}>
-            <p className=" -mb-3 text-3xl text-[#A34F81]">"</p>
+            <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
             <p className="text-[#A34F81]">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
               laboriosam provident quaerat repellendus cupiditate asperiores ex

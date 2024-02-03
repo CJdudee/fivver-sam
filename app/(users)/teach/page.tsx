@@ -9,7 +9,7 @@ export default async function Page() {
   const teachers = await Teacher.find().populate("user", "-password").exec();
   // console.log(teachers)
 
-  const teachersId = teachers.map((t) => t._id);
+  const teachersId = teachers.map((t: any) => t._id);
 
   const teachersWeeks = await TeacherWeek.find({ teacher: teachersId }).exec();
   // const teachersWeeks = await TeacherWeek.find({_id: teachersId}).exec()

@@ -46,7 +46,7 @@ export default function SlideShow() {
       </ul> */}
       <ul className="flex flex-row w-full overflow-scroll gap-8 whitespace-nowrap h-[40dvh] text-white items-center justify-between ">
         {displayList.map((l: any, index) => (
-          <div className="w-full">
+          <div key={index} className="w-full">
 
           <li className="w-[50dvh] h-[20dvh] bg-purple-900  rounded-full flex justify-center items-center flex-col   text-center">
             <p className="w-full">{l.name}</p>

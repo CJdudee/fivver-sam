@@ -45,7 +45,7 @@ export default function TeacherSchedule({
       setDayIsClosed(false);
       closedDaysArray = [];
     }
-  }, [selectedDate]);
+  }, [selectedDate, closedDays]);
 
   // useEffect( () => {
   //   if(!daysClosed) return
