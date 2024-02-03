@@ -1,39 +1,97 @@
-'use server'
+"use server";
 
-import { connectingMongoose } from "@/app/lib/connectMongo"
-import Booking from "@/models/Booking"
-import Token from "@/models/Token"
-import User from "@/models/User"
+import { connectingMongoose } from "@/app/lib/connectMongo";
+import Booking from "@/models/Booking";
+import Token from "@/models/Token";
+import User from "@/models/User";
+import { addDays, addHours, addMinutes } from "date-fns";
 
 export const cancelBooking = async (bookingId: string) => {
-    // await connectingMongoose()
-    const foundBooking = await Booking.findOne({_id: bookingId})
+  // await connectingMongoose()
+  const foundBooking = await Booking.findOne({ _id: bookingId });
 
-    if(!foundBooking || foundBooking.status == 'canceled') return {error: 'already cancelled'}
+  if (!foundBooking || foundBooking.status == "canceled")
+    return { error: "already cancelled" };
 
-    console.log(foundBooking)
+  
 
-    foundBooking.status = "canceled"
+  console.log(foundBooking);
 
-    const cancelBooking = await foundBooking.save()
+  foundBooking.status = "canceled";
 
-    console.log(cancelBooking)
-    if(!cancelBooking) return 
+  const cancelBooking = await foundBooking.save();
 
-    const foundUser = await User.findById(cancelBooking.student)
+  console.log(cancelBooking);
+  if (!cancelBooking) return;
 
-    if(!foundUser) return {error: 'No user found'}
+  const foundUser = await User.findById(cancelBooking.student);
 
-    const foundToken = await Token.findOne({user: foundUser._id, groupSize: foundBooking.groupSize})
+  if (!foundUser) return { error: "No user found" };
 
-    foundToken.tokens += 1
+  const foundToken = await Token.findOne({
+    user: foundUser._id,
+    groupSize: foundBooking.groupSize,
+  });
 
-    await foundToken.save()
+  foundToken.tokens += 1;
 
-    return {success: 'Booking was cancelled'}
-    // console.log(foundUser)
-    // foundUser.tokens += 1
+  await foundToken.save();
 
-    // await foundUser.save()
-    // const
-}
+  return { success: "Booking was cancelled" };
+  // console.log(foundUser)
+  // foundUser.tokens += 1
+
+  // await foundUser.save()
+  // const
+};
+
+export const userCancelBooking = async (bookingId: string) => {
+  // await connectingMongoose()
+  const foundBooking = await Booking.findOne({ _id: bookingId });
+
+  if (!foundBooking || foundBooking.status == "canceled")
+    return { error: "already cancelled" };
+
+  console.log(foundBooking);
+
+  const time = new Date(foundBooking.date);
+
+  const splitTime = foundBooking.time.split(':') as string
+
+  const addedHour = addHours(time, Number(splitTime[0]));
+
+  const addedMin = addMinutes(addedHour, Number(splitTime[1]));
+
+  const isFullDay = addDays(new Date(), 1) < addedMin;
+
+  if(!isFullDay) return ({error: 'too late to cancel'})
+
+//   return
+
+  foundBooking.status = "canceled";
+
+  const cancelBooking = await foundBooking.save();
+
+  console.log(cancelBooking);
+  if (!cancelBooking) return;
+
+  const foundUser = await User.findById(cancelBooking.student);
+
+  if (!foundUser) return { error: "No user found" };
+
+  const foundToken = await Token.findOne({
+    user: foundUser._id,
+    groupSize: foundBooking.groupSize,
+  });
+
+  foundToken.tokens += 1;
+
+  await foundToken.save();
+
+  return { success: "Booking was cancelled" };
+  // console.log(foundUser)
+  // foundUser.tokens += 1
+
+  // await foundUser.save()
+  // const
+};

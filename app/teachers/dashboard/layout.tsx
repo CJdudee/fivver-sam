@@ -7,7 +7,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <TeacherNavbar />
-      <div className=" bg-gradient-to-b from-[#242424] via-[#3D3D3D] to-[#3D3D3D]">
+      <div className="backgroundColorWave">
         {children}
       </div>
     </>

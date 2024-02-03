@@ -12,6 +12,9 @@
   .profile {
     @apply transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-full rounded
   }
+  .backgroundColorWave {
+    @apply bg-gradient-to-b from-[#242424] via-[#3D3D3D] to-[#3D3D3D]
+  }
 }
 
 

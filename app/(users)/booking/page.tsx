@@ -14,7 +14,7 @@ export default async function Page() {
     if(!user) redirect('/api/auth/signin')
     connectingMongoose()
 
-    const booked = await Booking.find({student: user.id}).populate({ path: 'teacher', populate: { path: 'user'}}).exec()
+    const booked = await Booking.find({student: user.id}).populate({ path: 'teacher', populate: { path: 'user'}}).sort({status: -1}).exec()
 
     console.log(booked)
 
