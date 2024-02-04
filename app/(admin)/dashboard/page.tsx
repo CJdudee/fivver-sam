@@ -1,11 +1,22 @@
 import CreateTeacher from "@/app/components/admin/CreateTeacher";
+import { roleChecker } from "@/app/lib/roleCheck";
+import { serverUser } from "@/app/lib/serverAuth";
 import Teacher from "@/models/Teacher";
 import User from "@/models/User";
 import { simpleJson } from "@/utils/helpers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function Page() {
+
+  const sessionUser = await serverUser()
+
+  roleChecker(sessionUser, 'admin')
+  console.log(sessionUser)
+
+  if(!sessionUser) redirect('/')
+
   const teachers = await Teacher.find().limit(4).populate("user", "-password");
 
   const fewUsers = await User.find().limit(4).exec();

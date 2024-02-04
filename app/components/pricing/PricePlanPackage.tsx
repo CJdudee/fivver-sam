@@ -9,6 +9,7 @@ export default function PricePlanPackage({
   onBuy,
   packageId,
   priceArray,
+  userId,
   dark,
   value,
 }: {
@@ -17,6 +18,7 @@ export default function PricePlanPackage({
   onBuy: any
   packageId: string
   priceArray: any[]
+  userId: string
   dark?: boolean;
   value?: boolean;
 }) {
@@ -96,7 +98,12 @@ export default function PricePlanPackage({
 
       <div className="h-full  w-full flex justify-center items-center pt-5">
         <button
-            onClick={() => onBuy(packageId, size)}
+          disabled={!userId}
+            onClick={() => {
+              if(!userId) return 
+              onBuy(packageId, size)
+            }
+            }
           className={` ${
             dark && "text-gray-800 bg-white"
           } w-3/4 outline-[#C5C5C5] outline outline-1 text-gray-500 text-sm h-2/3 rounded-full font-[1000] bg-white`}

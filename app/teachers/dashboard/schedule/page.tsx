@@ -5,9 +5,12 @@ import TeacherWeek from '@/models/TeacherWeek'
 import { redirect } from 'next/navigation'
 import React from 'react'
 import ClosedDay from '@/models/ClosedDay'
+import { roleChecker } from '@/app/lib/roleCheck'
 
 export default async function Page() {
   const user = await serverUser()
+
+  roleChecker(user, 'teacher')
 
   if(!user) return redirect('/')
 

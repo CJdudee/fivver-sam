@@ -4,6 +4,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { LuBookOpen } from "react-icons/lu";
 import HomePageTop from "./homepage/HomePageTop";
 import WhatMakesDifferent from "./homepage/WhatMakesDifferent";
+import { SiGoogleclassroom } from "react-icons/si";
 import {
   FaBookmark,
   FaFacebook,
@@ -43,26 +44,24 @@ export default function BookHomePage() {
         <p className="text-3xl font-bold">What makes Us different?</p>
         <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
           {" "}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
-          cumque!
+          Here's are reasons that make us special. This is a journey and we will be here along the way 
         </p>
 
         <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
           <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
             <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-4">
               <p className="font-bold text-2xl">Proficiency</p>
-              <p className="text-5xl h-full "> 👨‍🏫 👨‍🏫 </p>
+              <p className="text-5xl h-full "> ✏️👨‍🏫 </p>
               <p className="text-sm h-full w-4/5 mx-auto text-center font-bold ">
                 {" "}
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                asdlkfj. kesrka.
+                Native German Speaker
               </p>
             </div>
             <WhatMakesDifferent
               mainText="Dedicated"
-              emoji={["👨", "👨"]}
+              emoji={["📕", "🎓"]}
               bottomText={
-                " Lorem ipsum dolor sit amet consectetur adipisicing elit. asdlkfj. kesrka."
+                "Your own personal teacher, following you each step of the way"
               }
             />
           </div>
@@ -72,7 +71,7 @@ export default function BookHomePage() {
             <WhatMakesDifferent
               mainText="Expertise"
               emoji={["🏫", "🎩"]}
-              bottomText="This ias dfklasdjf aewrjalsdf jlavlkasdjfw osrfjsldf l."
+              bottomText="You Teacher Has a University Degree in German Language"
               flex={true}
             />
           </div>
@@ -81,12 +80,12 @@ export default function BookHomePage() {
             <WhatMakesDifferent
               mainText="Personal"
               emoji={["💝"]}
-              bottomText="someakl adslkfas.df asd jlfjake .taj dkf?"
+              bottomText="We are a small team of experts, but we are big on personal touch"
             />
             <WhatMakesDifferent
               mainText="Flexible"
               emoji={["📅"]}
-              bottomText="someakl adslkfas.df asd jlfjake .taj dkf?"
+              bottomText="From our reschedule/cancel policy to anything you need, your SprachGeist is there for you"
             />
             {/* <p className="bg-[#F5F5F5] rounded-xl">hey</p>
                 <p className="bg-[#F5F5F5] rounded-xl">hey</p> */}
@@ -103,20 +102,18 @@ export default function BookHomePage() {
         <p className="text-3xl font-bold">Why choose us?</p>
         <p className="mx-auto w-4/5 md:w-1/5 mt-1 text-sm">
           {" "}
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora,
-          cumque!
+          We believe in comfort all the way through your learning process
         </p>
         <div className="flex flex-col md:flex-row  gap-4 w-4/5 mx-auto items-center  mt-8 justify-center">
           <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-8 h-full w-full md:w-2/4">
             <p className="font-bold text-2xl h-1/5">Easy</p>
             <p className="text-sm  w-4/5 mx-auto text-center  h-1/5 font-bold">
               {" "}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. asdlkfj.
-              kesrka.
+              We use Google Meet © and Google Classroom ©
             </p>
             <p className=" text-7xl  h-3/5 flex items-center justify-center  ">
               {" "}
-              👨‍🏫 👨‍🏫{" "}
+              👨‍🏫 {" "} <SiGoogleclassroom className=" text-yellow-700" />
             </p>
           </div>
           <div className=" rounded-xl flex flex-col gap-4 h-full w-full md:w-2/4 ">

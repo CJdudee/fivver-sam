@@ -12,6 +12,8 @@ export default function PricingPack({ packages, userId }: any) {
   const router = useRouter();
 
   const onBuy = async (packageId: string, groupSize: number) => {
+
+    if(!userId) return
     // console.log(groupSize) 
     // return 
 
@@ -59,6 +61,7 @@ export default function PricingPack({ packages, userId }: any) {
               onBuy={onBuy}
               packageId={p._id}
               priceArray={priceArray}
+              userId={userId}
             />
             // <div
             // className={`flex flex-col bg-slate-400 justify-between items-center w-[300px] h-[600px] py-5  outline outline-gray-500 outline-1 rounded-3xl px-6 transition-all hover:w-[350px] hover:h-[625px] duration-300  ${index == 0 && 'rounded-s-none'} ${index == 2 && 'rounded-r-none'}`}

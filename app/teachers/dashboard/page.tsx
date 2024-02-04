@@ -1,3 +1,4 @@
+import { roleChecker } from "@/app/lib/roleCheck";
 import { serverUser } from "@/app/lib/serverAuth";
 import Teacher from "@/models/Teacher";
 import { simpleJson } from "@/utils/helpers";
@@ -8,6 +9,8 @@ import { FcSettings } from "react-icons/fc";
 
 export default async function Page() {
   const user = await serverUser();
+
+  roleChecker(user, 'teacher')
 
   if (!user) redirect("/");
 

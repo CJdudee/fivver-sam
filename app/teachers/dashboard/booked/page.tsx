@@ -1,5 +1,6 @@
 import BookedLessons from '@/app/components/teachers/BookedLessons'
 import { connectingMongoose } from '@/app/lib/connectMongo'
+import { roleChecker } from '@/app/lib/roleCheck'
 import { serverUser } from '@/app/lib/serverAuth'
 import Booking from '@/models/Booking'
 import Teacher from '@/models/Teacher'
@@ -8,8 +9,11 @@ import React from 'react'
 
 export default async function Page() {
 
-    const user = await serverUser()
-    if(!user) return (<div>
+    const user: any = await serverUser()
+
+    roleChecker(user, 'teacher')
+    // console.log(user)
+    if(!user || !user.roles.includes('teacher')) return (<div>
         <p>you are not supposed to be here</p>
     </div>)
 

@@ -19,6 +19,7 @@ import {
 import Calendar from "react-calendar";
 import { bookAppt } from "@/actions/userBook";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
+import Link from "next/link";
 
 export default function UserCalendar({
   teacher,
@@ -27,7 +28,7 @@ export default function UserCalendar({
   user,
   booked,
   groupSize,
-  setGroupSize
+  setGroupSize,
 }: any) {
   // const [groupSize, setGroupSize] = useState(1)
   const [date, setDate] = useState<any>({
@@ -40,12 +41,22 @@ export default function UserCalendar({
     // console.log(date)
     const book = await bookAppt(date, teacher._id, user.id, groupSize);
 
-    console.log(book)
+    console.log(book);
   };
   // console.log(teacher)
   const now = new Date();
 
-  const today = teacherWeek.weekdays.find((d: any) => d.index === now.getDay());
+  const today = teacherWeek?.weekdays.find(
+    (d: any) => d.index === now.getDay()
+  );
+
+  if (!today)
+    return (
+      <>
+        <p className="text-xl text-center">Problem with Getting scheldue</p>
+        <Link href={'/'} className="text-xl flex justify-center underline">Go Back home</Link>
+      </>
+    );
 
   const router = useRouter();
 
@@ -62,7 +73,13 @@ export default function UserCalendar({
   console.log(times);
   return (
     <div className="">
-      <button onClick={() => { setGroupSize(null)}}>Group Size: {groupSize}</button>
+      <button
+        onClick={() => {
+          setGroupSize(null);
+        }}
+      >
+        Group Size: {groupSize}
+      </button>
       {date.justDate ? (
         <div className="">
           <button
@@ -72,8 +89,8 @@ export default function UserCalendar({
                 justDate: null,
                 dateTime: null,
               });
-            
-              setDisplayDate(null)
+
+              setDisplayDate(null);
             }}
           >
             <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A]" />
@@ -118,11 +135,12 @@ export default function UserCalendar({
                       }));
 
                       setDisplayDate(() => {
-                        if(numb != null) {
-                          setDisplayDate(`${numb} : ${format(time, 'mm')} pm`)
+                        if (numb != null) {
+                          setDisplayDate(`${numb} : ${format(time, "mm")} pm`);
                         } else {
-
-                          setDisplayDate(`${formatedKk} : ${format(time, 'mm')} am`)
+                          setDisplayDate(
+                            `${formatedKk} : ${format(time, "mm")} am`
+                          );
                         }
                       });
                     }}
@@ -175,18 +193,25 @@ export default function UserCalendar({
               // onClick={handleSave}
               onClick={() => {
                 console.log(date);
-                handleSave()
+                handleSave();
               }}
               className="bg-blue-400 hover:bg-blue-500 active:bg-blue-600 px-4 py-1 rounded-full w-full"
             >
               Book lesson
             </button>
             <div className="flex flex-col w-2/3 mx-auto gap-1 bg-[#d5d5d5] rounded-full text-black">
-
-            <p className="text-bold w-1/2 text-center font-bold text-xl mx-auto">Time selected: {displayDate}</p>
-            <p onClick={() => {
-              console.log(typeof date.justDate, date.justDate)
-            }} className="text-bold w-1/2 text-center font-bold text-xl mx-auto">Date selected: {(formatDate(date.justDate.toISOString(), 'MM/dd/yyyy'))}</p>
+              <p className="text-bold w-1/2 text-center font-bold text-xl mx-auto">
+                Time selected: {displayDate}
+              </p>
+              <p
+                onClick={() => {
+                  console.log(typeof date.justDate, date.justDate);
+                }}
+                className="text-bold w-1/2 text-center font-bold text-xl mx-auto"
+              >
+                Date selected:{" "}
+                {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")}
+              </p>
             </div>
           </>
         )}

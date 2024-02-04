@@ -5,7 +5,7 @@ import HomePageComp from "../components/HomePageComp";
 import BookHomePage from "../components/BookHomePage";
 
 export default async function Home() {
-  const session = await auth();
+  // const session = await auth();
 
   
   // if (!session) redirect("/api/auth/signin");

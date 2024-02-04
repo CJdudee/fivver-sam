@@ -31,7 +31,7 @@ export default async function NewNavBar() {
     user = await User.findOne({ _id: session.id });
   }
 
-  let tokensJson: any = await Token.find({user: user._id})
+  let tokensJson: any = await Token.find({user: user?._id})
   
   // console.log(tokens)
   if(!tokensJson.length) {
