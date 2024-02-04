@@ -43,8 +43,8 @@ export default function BookHomePage() {
       <div className=" text-center bg-white h-full w-full pt-32 ">
         <p className="text-3xl font-bold">What makes Us different?</p>
         <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
-          {" "}
-          Here's are reasons that make us special. This is a journey and we will be here along the way 
+          {" Here's are reasons that make us special. This is a journey and we will be here along the way "}
+          
         </p>
 
         <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">

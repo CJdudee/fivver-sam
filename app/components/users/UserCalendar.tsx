@@ -58,7 +58,7 @@ export default function UserCalendar({
       </>
     );
 
-  const router = useRouter();
+  // const router = useRouter();
 
   const rounded = roundToNearestMinutes(now, 60);
   const closing = parse(today!.closeTime, "kk-mm", now);
