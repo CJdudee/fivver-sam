@@ -68,8 +68,8 @@ export default function UserBookedLessons({booked}: any) {
             >
               {/* <p>{b.date}</p> */}
               <div className="flex justify-evenly w-full">
-                <p>{isFullDay ? 'true' : 'false'}</p>
-                <p>{ }</p>
+                {/* <p>{isFullDay ? 'true' : 'false'}</p> */}
+                {/* <p>{ }</p> */}
                 <p>{distance}</p>
                 {/* <p>{distanceStric}</p> */}
                 <p>

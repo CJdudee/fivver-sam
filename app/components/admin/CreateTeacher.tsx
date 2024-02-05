@@ -40,7 +40,7 @@ export default function CreateTeacher() {
   return (
     <div className="h-full min-h-full flex items-center justify-center ">
       <form
-        className="flex justify-evenly flex-col items-center bg-black w-2/3 rounded-xl mx-auto p-4 h-2/3"
+        className="flex justify-evenly flex-col items-center bg-black w-full md:w-2/3 rounded-xl mx-auto p-4 h-2/3"
         onSubmit={onSubmit}
       >
         <div className="flex flex-col gap-8 w-full ">
@@ -63,14 +63,14 @@ export default function CreateTeacher() {
             <input value={email} className="rounded-full pl-2 w-2/4 " onChange={(e) => setEmail(e.target.value)} />
           </div>
         </div>
-        <div className="mt-4 w-1/2">
+        <div className="mt-4 w-full flex justify-center md:w-1/2">
           <Select
             classNames={{
               clearIndicator: () => "",
               container: () =>
                 "text-black w-2/3 md:w-full lg:w-full text-center   ",
               indicatorsContainer: () => " ",
-              control: () => "bg-white flex p-1 rounded-lg pl-2   ",
+              control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
               menu: () => "rounded-lg mt-1 ",
               menuList: () => "bg-white rounded-md text-md ",
               dropdownIndicator: () => "rounded-lg ",

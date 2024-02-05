@@ -19,12 +19,12 @@ export default async function Page() {
 
       await connectingMongoose()
     const teacher = await Teacher.findOne({user: user.id})
-    const booked = await Booking.find({teacher: teacher._id, status: 'pending'}).populate('student', '-password -customerId').sort({date: 1})
+    const booked = await Booking.find({teacher: teacher._id, status: 'pending',}).populate('student', '-password -customerId').sort({date: 1})
 
     console.log(booked)
 
   return (
-    <div className='h-screen pt-4'>
+    <div className='h-full min-h-screen pt-4 pb-4 w-screen'>
         <BookedLessons booked={simpleJson(booked)} />
         {/* {booked.map((b) => <p>{b.teacher}</p>)} */}
         {/* {simpleJson(booked)} */}

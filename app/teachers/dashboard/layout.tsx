@@ -7,7 +7,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <TeacherNavbar />
-      <div className="backgroundColorWave">
+      <div className="backgroundColorWave h-full">
         {children}
       </div>
     </>

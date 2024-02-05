@@ -36,7 +36,7 @@ export default async function Page() {
   // console.log(daysClosed)
 
   return (
-    <div className=' min-h-full'>
+    <div className=' h-full min-h-screen'>
         <TeacherSchedule weekDays={JSON.parse(JSON.stringify(weekDays.weekdays))} id={JSON.parse(JSON.stringify(weekDays._id))} teacherId={JSON.parse(JSON.stringify(teacher._id))} daysClosed={JSON.parse(JSON.stringify(daysClosed))} />
     </div>
   )

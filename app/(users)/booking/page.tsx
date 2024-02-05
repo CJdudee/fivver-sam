@@ -12,17 +12,17 @@ export default async function Page() {
 
     const user = await serverUser()
 
-    roleChecker(user, 'user')
+    // roleChecker(user, 'user')
 
     if(!user) redirect('/api/auth/signin')
     connectingMongoose()
 
-    const booked = await Booking.find({student: user.id}).populate({ path: 'teacher', populate: { path: 'user'}}).sort({status: -1}).exec()
+    const booked = await Booking.find({student: user.id, date: { $gte: new Date() }}).populate({ path: 'teacher', populate: { path: 'user'}}).sort({status: -1}).exec()
 
     console.log(booked)
 
   return (
-    <div>
+    <div className='min-h-screen h-full'>
         <UserBookedLessons booked={simpleJson(booked)} />
     </div>
   )

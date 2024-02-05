@@ -72,7 +72,7 @@ export default function UserCalendar({
     date.justDate && getOpeningTimes(date.justDate, teacherWeek.weekdays);
   console.log(times);
   return (
-    <div className="">
+    <div className=" px-2">
       <button
         onClick={() => {
           setGroupSize(null);
@@ -95,7 +95,7 @@ export default function UserCalendar({
           >
             <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A]" />
           </button>
-          <div className="grid grid-cols-2 row-auto flex-col gap-4 ">
+          <div className="grid grid-cols-2 row-auto flex-col gap-4 w-full ">
             {times?.map((time: any, i: number) => {
               const foundBook = booked.find(
                 (b: any) =>
@@ -104,6 +104,8 @@ export default function UserCalendar({
               );
               // console.log(foundBook, "what");
               // console.log(booked, 'what')
+
+              const isPickedTime = format(time, "kk:mm") == date.dateTime
 
               const formatedKk = Number(format(time, "kk"));
 
@@ -117,12 +119,12 @@ export default function UserCalendar({
                 numb = formatedKk % 12;
               }
 
-              console.log(numb);
+              // console.log(time);
 
               return (
                 <div
                   key={`time-${i}`}
-                  className="rounded-xl bg-[#dfdfdf] text-black p-2"
+                  className={`${isPickedTime && 'bg-black text-white'} rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                 >
                   <button
                     disabled={foundBook}
@@ -186,7 +188,7 @@ export default function UserCalendar({
         </div>
       )}
 
-      <div className=" flex flex-col justify-center items-center h-20 gap-4 mt-8">
+      <div className=" flex flex-col justify-center items-center h-full gap-4 mt-8">
         {date.justDate && date.dateTime && (
           <>
             <button
@@ -199,15 +201,15 @@ export default function UserCalendar({
             >
               Book lesson
             </button>
-            <div className="flex flex-col w-2/3 mx-auto gap-1 bg-[#d5d5d5] rounded-full text-black">
-              <p className="text-bold w-1/2 text-center font-bold text-xl mx-auto">
-                Time selected: {displayDate}
+            <div className="flex flex-col w-full md:w-2/3 mx-auto gap-1 text-white rounded-full ">
+              <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
+                Time selected {displayDate}
               </p>
               <p
                 onClick={() => {
                   console.log(typeof date.justDate, date.justDate);
                 }}
-                className="text-bold w-1/2 text-center font-bold text-xl mx-auto"
+                className="text-bold w-full md:w-1/2 text-center font-bold text-xl mx-auto"
               >
                 Date selected:{" "}
                 {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")}

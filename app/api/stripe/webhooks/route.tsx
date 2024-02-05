@@ -9,7 +9,7 @@ const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
 })
 
 
-const endpointSecret = "whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a";
+const endpointSecret = process.env.STRIPE_ENDPOINT_KEY as string;
 
 // whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a
 // whsec_6a0723723d67747712ef5b4b2d8a8c92968a108f2c6f3a163952e082c2b16a4a

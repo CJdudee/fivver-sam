@@ -17,8 +17,16 @@ const timeOptions: string[] = []
 
 for (let i = 8; i < 22; i++) {
     for (let j = 0; j < 60; j += 30) {
-        timeOptions.push(`${i.toString().padStart(2, '0')} : ${j.toString().padStart(2, '0')}`)
+
+      if(i >= 12){
+        let remainder = i % 12
+        if(remainder == 0 ) remainder = 12
+        timeOptions.push(`${remainder.toString().padStart(2, '0')} : ${j.toString().padStart(2, '0')}`)
+    } else {
+      timeOptions.push(`${i.toString().padStart(2, '0')} : ${j.toString().padStart(2, '0')}`)
+      
     }
+}
 }
 
 export default function TimeSelector({changeTime, type, selected}: TimeSelectorProps) {
@@ -33,7 +41,7 @@ export default function TimeSelector({changeTime, type, selected}: TimeSelectorP
     })}>
         {({ open }: any) => (
              <>
-             <Listbox.Label className='block w-full text-md font-medium text-gray-700 mx-auto'>
+             <Listbox.Label className='block w-full text-md font-extrabold text-gray-700 mx-auto'>
                {type === 'openTime' ? 'Opening time' : 'Closing time'}
              </Listbox.Label>
              <div className='relative w-full mt-1 flex'>
@@ -46,7 +54,7 @@ export default function TimeSelector({changeTime, type, selected}: TimeSelectorP
                        'inline-block h-2 w-2 flex-shrink-0 rounded-full'
                      )}
                    />
-                   <span className='ml-3 block truncate'>{selected}</span>
+                   <span className='ml-3 block truncate'>{selected} am</span>
                  </div>
                  <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
                    <HiSelector className='h-5 w-5 text-gray-400' aria-hidden='true' />

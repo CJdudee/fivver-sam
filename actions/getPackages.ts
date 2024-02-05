@@ -12,14 +12,16 @@ export const packages = async () => {
 
 export const savePackage = async(packageObj: any) => {
 
-    const {individual, name, price, tokens} = packageObj
+    const {individual, name, price, priceOne, priceTwo, priceThree, tokens} = packageObj
 
-    if(!name || !price || !tokens) return null
+    if(!name || !priceOne || !priceTwo || !priceThree || !tokens) return null
 
     const updateObj = {
         individual, 
         name, 
-        price, 
+        priceOne,
+        priceTwo,
+        priceThree, 
         tokens
     }
 

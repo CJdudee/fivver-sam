@@ -4,6 +4,7 @@ export default function CreateNewPackage({
   editPackage,
   setEditPackage,
   handleCreate,
+  handleSave,
 }: any) {
   const priceArray = [
     {
@@ -17,6 +18,7 @@ export default function CreateNewPackage({
     },
   ];
 
+  // console.log(handleCreate)
   return (
     <div
       className="flex flex-col items-center justify-center gap-4 bg-slate-600 w-full md:w-[94%] lg:w-4/5 rounded-xl py-2"
@@ -127,14 +129,23 @@ export default function CreateNewPackage({
       <div className="  mx-auto rounded-2xl flex flex-col md:flex-row gap-3 w-full px-8 justify-center items-center">
         <button
           type="button"
-          onClick={() => {
+          onClick={async () => {
             // setEditPackage(null);
             // handleSave(p._id)
-            handleCreate();
+            if(handleCreate){
+              handleCreate();
+
+            }  else {
+
+              handleSave();
+            }
+            if(handleSave){
+
+            }
           }}
           className="bg-blue-400 rounded-full text-black w-1/2"
         >
-          Create
+          {handleCreate && !handleSave ? "Create" : "Save"}
         </button>
         <button
           type="button"

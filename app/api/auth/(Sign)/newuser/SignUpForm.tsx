@@ -53,65 +53,69 @@ export default function SignUpForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="bg-slate-300 rounded-xl p-4 w-full ">
-        <div className="mb-4 text-center  ">
-          <label className="text-2xl  " htmlFor="username">
-            Username
-          </label>
+    <form onSubmit={handleSubmit} className=" outline outline-1 outline-[#c5c5c5] rounded-xl py-20 sm:w-1/2 px-4 sm:px-0 xl:px-8 flex flex-col gap-1 ">
+      <div className="mb-4 flex flex-col font-bold text-[#f5f5f5] w-full ">
+        <label className="text-2xl  text-start w-full sm:w-1/2 mx-auto pl-0.5  " htmlFor="username">
+          Username
+        </label>
 
-          <div className="mt-2">
-            <input
-              className="    w-96 lg:w-1/2 rounded-md  pl-2 "
-              id="username"
-              type="text"
-              name="username"
-              required
-              minLength={3}
-            />
-          </div>
+        <div className="mt-2 mx-auto flex w-full sm:w-1/2">
+          <input
+            className="rounded-md pl-2 py-0.5 w-full bg-[#b4b4b465]  "
+            id="username"
+            type="text"
+            name="username"
+            required
+            minLength={3}
+          />
         </div>
+      </div>
 
-        <div className="mb-4 text-center">
-          <label className="text-2xl " htmlFor="password">
-            Password
-          </label>
-          <div className="mt-2">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="w-96 lg:w-1/2 rounded-md  pl-2"
-            />
-          </div>
+      <div className="mb-4 flex flex-col font-bold text-[#f5f5f5] w-full">
+        <label className="text-2xl  text-start w-full sm:w-1/2 mx-auto pl-0.5 " htmlFor="password">
+          Password
+        </label>
+        <div className="mt-2 mx-auto flex  w-full sm:w-1/2">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className=" rounded-md pl-2 py-0.5 w-full bg-[#b4b4b465]"
+          />
         </div>
+      </div>
 
-        <div className="flex justify-center mb-4">
-          <button
-            className="outline p-2 mt-5 rounded-md hover:bg-gray-300 "
-            type="submit"
-          >
-            LogIn
+      <div className="flex justify-center mb-4 text-[#f5f5f5]">
+        <button
+          className="outline outline-1 p-2  rounded-md hover:bg-[#b4b4b465] w-full sm:w-1/2 font-extralight transition-colors duration-500 "
+          type="submit"
+        >
+          LogIn
+        </button>
+      </div>
+
+      <div className="flex justify-center text-[#f5f5f5]">
+          <button 
+          className="bg-[#b4b4b465] outline outline-1 shadow-lg drop-shadow-lg hover:drop-shadow-2xl hover:shadow-green-300 active:shadow-green-800 transition-all duration-500 outline-gray-400 rounded p-4 w-it flex justify-center items-center font-bold gap-8 " 
+          onClick={() => 
+          signIn('google')
+          // console.log('hey')
+          } type="button"> 
+          {/* GOODLE */}
+          <FcGoogle className="w-8 h-8 text-3xl   rounded-full drop-shadow-xl shadow-md shadow-black" />
+          Sign in with Google
           </button>
-        </div>
+      </div>
 
-        <div className="flex justify-center">
-            <button 
-            className="bg-slate-300 outline outline-1 shadow-lg drop-shadow-lg hover:drop-shadow-2xl hover:shadow-green-300 transition-all duration-500 outline-gray-400 rounded p-4 w-1/2 flex justify-center " 
-            onClick={() => signIn('google')} type="button"> 
-            {/* GOODLE */}
-            <FcGoogle className="w-9 h-9" />
-            </button>
-        </div>
-
-        <div className="flow-root mt-4">
-          <Link
-            href={"/api/auth/signin"}
-            className="float-right text-blue-700 hover:text-purple-500"
-          >
-            Already have an account...
-          </Link>
-        </div>
-      </form>
-    </>
+      <div className="flow-root mt-4 w-full sm:w-1/2 mx-auto ">
+        <Link
+          href={"/api/auth/signin"}
+          className="float-left   font-bold text-gray-400 opacity-80"
+        >
+          Already have an account yet? <span className="text-blue-500 hover:text-purple-500 underline-offset-4 underline ">Login here</span>
+        </Link>
+      </div>
+    </form>
+  </>
   );
 }

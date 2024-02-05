@@ -80,8 +80,8 @@ export default function SignInForm() {
             <button 
             className="bg-[#b4b4b465] outline outline-1 shadow-lg drop-shadow-lg hover:drop-shadow-2xl hover:shadow-green-300 active:shadow-green-800 transition-all duration-500 outline-gray-400 rounded p-4 w-it flex justify-center items-center font-bold gap-8 " 
             onClick={() => 
-            // signIn('google')
-            console.log('hey')
+            signIn('google')
+            // console.log('hey')
             } type="button"> 
             {/* GOODLE */}
             <FcGoogle className="w-8 h-8 text-3xl   rounded-full drop-shadow-xl shadow-md shadow-black" />

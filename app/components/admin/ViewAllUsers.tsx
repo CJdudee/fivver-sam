@@ -79,8 +79,8 @@ export default function ViewAllUsers({foundUserJson} : any) {
     }
 
     const asssignTeacherDialog = turnDialog && (
-      <dialog className=' w-2/3 h-1/2  bg-gray-700 text-white p-4 rounded-xl' ref={dialogRef}>
-          <p>Asssign Teacher to {idUser?.username} </p>
+      <dialog className=' w-full min-w-full md:min-w-0 md:w-2/3 h-1/2  bg-gray-700 text-white p-4 rounded-xl' ref={dialogRef}>
+          <p className='w-full mt-4'>Asssign Teacher to {idUser?.username} </p>
           <button className=' absolute top-1 right-2 hover:text-red-400' onClick={() => {
               setTurnDialog(false)
           }}>Close</button>
@@ -135,7 +135,7 @@ export default function ViewAllUsers({foundUserJson} : any) {
         // console.log(f, "what the");
         if (!f.roles) return;
         return (
-          <div key={i} className={` bg-[#c5c5c5] w-1/2 p-4 rounded-xl text-black font-semibold `}>
+          <div key={i} className={` bg-[#c5c5c5] w-full md:w-1/2 p-4 rounded-xl text-black font-semibold `}>
             <p className="mb-2.5">User: {f.username}</p>
             <div className=" border-t-2 border-b-2 border-black w-2/3 mx-auto"  >
                 <p>User Roles:</p>

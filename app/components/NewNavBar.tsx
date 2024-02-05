@@ -15,8 +15,11 @@ import { K2D } from "next/font/google";
 import Navbar from "./Navbar";
 import NavBarHam from "./NavBarHam";
 import Token from '@/models/Token'
+import { RxHamburgerMenu } from "react-icons/rx";
+import PhoneNav from "./users/navbar/PhoneNav";
+import LogoLink from "./users/navbar/LogoLink";
 
-const k2 = K2D({ subsets: ["latin"], weight: "800" });
+
 
 export default async function NewNavBar() {
   // const session = await auth()
@@ -55,19 +58,7 @@ export default async function NewNavBar() {
   return (
     <nav className=" sticky top-0 z-40 ">
       <div className="hidden border-b-1  border-black min-h-[8vh] md:flex items-center justify-between md:px-8  w-full  pb-1   gap-4  bg-[#242424]">
-        <Link href={'/'} className=" md:px-[16%] w-fit">
-          <div className=" rounded-b-xl bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:bg-gradient-to-br transition-all duration-1000 absolute w-fit md:w-[6%] min-h-fit  top-0 flex flex-col min-w-fit active:w-[10%]  ">
-            <div className="w-full ">
-              <FaBookmark className="text-white ml-auto mr-1" />
-            </div>
-            <div
-              className={` ${k2.className} h-full px-1 text-xl flex flex-col font-extrabold text-white gap-2 `}
-            >
-              <p className="w-full text-center text-2xl">SPRACH</p>
-              <p className="w-full text-center text-2xl -mt-4">GEIST</p>
-            </div>
-          </div>
-        </Link>
+        <LogoLink />
 
         <div className="text-center flex items-center justify-end gap-4 w-full drop-shadow-lg pl-4 h-full ">
           <Link
@@ -96,18 +87,7 @@ export default async function NewNavBar() {
 
       <div className="border-b-1  border-black min-h-[8vh] flex items-center justify-start px-4  w-full  pb-1   gap-4  bg-[#242424] md:hidden">
        
-        <div className="w-1/2">
-
-        <NavBarHam />
-        </div>
-
-        <div className="w-1/2  ">
-          {session && <Profile user={session} tokens={tokensJson} />}
-
-          <div className="flex gap-4 items-center justify-center">
-            {!session && <AuthButtons session={session} />}
-          </div>
-        </div>
+        <PhoneNav session={session} tokensJson={tokensJson} />
         
       </div>
     </nav>
