@@ -2,6 +2,7 @@
 
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 import React from "react";
 
 export default function AuthButtons({
@@ -10,6 +11,8 @@ export default function AuthButtons({
   session: Session | null | any;
 }) {
   // console.log(session)
+
+  const router = useRouter()
 
   return (
     <>
@@ -25,7 +28,9 @@ export default function AuthButtons({
           >
             Login
           </button>
-          <button className=" rounded-lg p-2 transition-colors  duration-500  place-content-center align-middle text-[#D0D0D0]  hover:text-[#858585]">
+          <button className=" rounded-lg p-2 transition-colors  duration-500  place-content-center align-middle text-[#D0D0D0]  hover:text-[#858585]" onClick={() => {
+            router.push('/api/auth/newuser')
+          }}>
           Register
           </button>
         </>

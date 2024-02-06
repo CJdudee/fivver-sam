@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const allowedList = process.env.NODE_ENV === 'production' ? ['https://www.sprachgeist.com', 'http://www.sprachgeist.com', 'https://sprachgeist.com', 'http://sprachgeist.com', '*'] : ['http://localhost:3000', 'https://www.google.com', ]
+const allowedList =( process.env.NODE_ENV === 'production' 
+? ['https://www.sprachgeist.com', 'http://www.sprachgeist.com', 'https://sprachgeist.com', 'http://sprachgeist.com', '*', ] 
+: ['http://localhost:3000', 'https://www.google.com', ])
  
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {

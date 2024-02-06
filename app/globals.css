@@ -10,7 +10,7 @@
     @apply bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops)),radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))]
   }
   .profile {
-    @apply transition-all duration-300  hover:bg-purple-500 active:bg-purple-600 active:duration-0 w-full rounded
+    @apply transition-all duration-300  hover:bg-[#f16c3b] active:bg-[#ff7645] active:duration-0 w-full rounded
   }
   .backgroundColorWave {
     @apply bg-gradient-to-b from-[#242424] via-[#3D3D3D] to-[#3D3D3D]

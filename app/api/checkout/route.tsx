@@ -121,7 +121,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
             msg = error.message
         }
 
-        return NextResponse.json(msg)
+        return new NextResponse(JSON.stringify(msg), {
+            headers: {
+                'Access-Control-Allow-Origin': origin || '*',
+                'Content-Type': 'application/json',
+            }
+        })
     }
 
 
