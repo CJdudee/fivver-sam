@@ -7,6 +7,8 @@ import { connectingMongoose } from "@/app/lib/connectMongo";
 
 export async function POST(req: NextRequest, res: NextResponse) {
 
+    const origin = req.headers.get('origin')
+
     const data = await req.json()
 
     const {username, password, email } = data
@@ -39,9 +41,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     try {
         await User.create(newData)
-        return NextResponse.json("woo")
+        // return NextResponse.json("woo")
+
+        return new NextResponse(JSON.stringify("woo"), {
+            headers: {
+                'Access-Control-Allow-Origin': origin || '*',
+                'Content-Type': 'application/json',
+            }
+        })
     } catch (err) {
-        return NextResponse.json(err)
+        // return NextResponse.json(err)
+        return new NextResponse(JSON.stringify(err), {
+            headers: {
+                'Access-Control-Allow-Origin': origin || '*',
+                'Content-Type': 'application/json',
+            }
+        })
     }
 
 }

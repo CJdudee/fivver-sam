@@ -17,6 +17,9 @@ const endpointSecret = process.env.STRIPE_ENDPOINT_KEY as string;
 export async function POST(req: NextRequest, res: NextResponse) {
 
     // const data = await req.json();
+
+    const origin = req.headers.get('origin')
+
     const data = await req.text()
 
     // const sig = request.headers['stripe-signature'];
@@ -125,5 +128,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
     //     }
       
       console.log('hit')
-    return NextResponse.json("this is the webhook that will be called")
+    // return NextResponse.json("this is the webhook that will be called")
+
+    return new NextResponse(JSON.stringify("This is the Webhook"), {
+      headers: {
+          'Access-Control-Allow-Origin': origin || '*',
+          'Content-Type': 'application/json',
+      }
+  })
 }

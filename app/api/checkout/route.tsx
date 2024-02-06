@@ -10,6 +10,8 @@ const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
 
 
 export async function POST(req: NextRequest, res: NextResponse) {
+
+    const origin = req.headers.get('origin')
     
     const data = await req.json()
 
@@ -102,7 +104,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
 
         console.log(session, 'this is the session for stripe')
-        return NextResponse.json({ url: session.url || ''})
+        // return NextResponse.json({ url: session.url || ''})
+
+        return new NextResponse(JSON.stringify({url: session.url || ''}), {
+            headers: {
+                'Access-Control-Allow-Origin': origin || '*',
+                'Content-Type': 'application/json',
+            }
+        })
 
     } catch (error) {
         
