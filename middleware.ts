@@ -9,8 +9,9 @@ export function middleware(request: NextRequest) {
     console.log(origin, '2origin')
 
     // !origin is for postman and api tester
+    // we need to allow all origins for auth
 
-    if(origin && !allowedList.includes(origin) || !origin ) {
+    if(origin && !allowedList.includes(origin) ) {
         return new NextResponse(null, {
             status: 400,
             statusText: "Bad Request",
