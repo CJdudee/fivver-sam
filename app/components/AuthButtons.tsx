@@ -2,7 +2,8 @@
 
 import { Session } from "next-auth";
 import { signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/router";
 import React from "react";
 
 export default function AuthButtons({

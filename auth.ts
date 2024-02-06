@@ -246,6 +246,6 @@ export const {
     session: { strategy: 'jwt'},
     secret: 'what what',
 
-    // redirectProxyUrl: 'http://www.sprachgeist.com'
+    redirectProxyUrl: 'http://www.sprachgeist.com'
     // ...authConfig
 })
