@@ -21,41 +21,38 @@ export default function CreateNewPackage({
   // console.log(handleCreate)
   return (
     <div
-      className="flex flex-col items-center justify-center gap-4 bg-slate-600 w-full md:w-[94%] lg:w-4/5 rounded-xl py-2"
+      className="flex flex-col items-center justify-center gap-4 pri w-full rounded-xl py-2 text-black "
       // key={editPackage.index}
     >
-      <div className=" text-center flex flex-col gap-4 lg:flex-row w-full px-8">
-        <div className="lg:w-1/2  flex justify-center gap-4 w-full">
-          <label className="text-2xl md:w-fit">Name: </label>
-          <div className=" md:w-fit text-center">
+      <div className=" text-center flex flex-col gap-4 lg:flex-row w-full px-8 font-extrabold">
+        <div className=" flex flex-col md:flex-row justify-center md:gap-4 w-full md:w-1/2 ">
+          <label className="text-2xl md:w-1/4">Name: </label>
 
           <input
-            className="text-black px-2 rounded-full font-bold text-lg  "
+            className="text-black text-center px-2 rounded-full font-bold text-lg md:w-2/4 bg-[#83838354]  "
             value={editPackage.name}
             onChange={(e) =>
-                setEditPackage((prev: any) => {
-                    return { ...prev, name: e.target.value };
-                })
+              setEditPackage((prev: any) => {
+                return { ...prev, name: e.target.value };
+              })
             }
-            />
-            </div>
+          />
         </div>
 
-        <div className="lg:w-1/2  flex justify-center items-center gap-4 w-full">
-          <label className="text-2xl ">Classes: </label>
-          <div className=" md:w-1/4 text-center">
-
-          <input
-            type="number"
-            className="text-black px-2 rounded-full font-bold text-lg w-full"
-            value={editPackage.tokens}
-            onChange={(e) =>
+        <div className="md:w-1/2  flex flex-col md:flex-row justify-center items-center md:gap-4 w-full">
+          <label className="text-2xl md:w-1/2 ">Classes: </label>
+          
+            <input
+              type="number"
+              className="text-black px-2 rounded-full font-bold text-lg w-full bg-[#83838354] text-center"
+              value={editPackage.tokens}
+              onChange={(e) =>
                 setEditPackage((prev: any) => {
-                    return { ...prev, tokens: e.target.value };
+                  return { ...prev, tokens: e.target.value };
                 })
-            }
+              }
             />
-            </div>
+          
         </div>
       </div>
       {/* <div>
@@ -72,7 +69,7 @@ export default function CreateNewPackage({
         />
       </div> */}
 
-      <div className="flex flex-col items-center lg:flex-row w-full gap-4 lg:gap-0 px-8">
+      <div className="flex flex-col  lg:flex-row w-full gap-4 lg:gap-0 ">
         {priceArray.map((p, i) => {
           console.log(p);
 
@@ -87,9 +84,9 @@ export default function CreateNewPackage({
           return (
             <div
               key={`${value} + ${i}`}
-              className="md:w-1/3 flex flex-col items-center"
+              className=" w-full md:w-1/3 flex flex-col items-center px-8"
             >
-              <label>
+              <label className="text-2xl text-center"> 
                 Price For{" "}
                 <span className=" font-bold">
                   {i == 0 ? "Individual" : `Group of ${i + 1}`}
@@ -97,7 +94,7 @@ export default function CreateNewPackage({
               </label>
               <input
                 type="number"
-                className="text-black px-2 rounded-full"
+                className="text-black px-2 rounded-full text-xl w-full text-center font-bold bg-[#83838354]"
                 value={editPackage[value].price}
                 onChange={(e) =>
                   setEditPackage((prev: any) => {
@@ -110,40 +107,22 @@ export default function CreateNewPackage({
         })}
       </div>
 
-      {/* <div className="flex gap-4">
-        <label>Individual</label>
-        <input
-          type="checkbox"
-          checked={editPackage.individual}
-          value={editPackage.individual}
-          onChange={() => {
-            setEditPackage((prev: any) => {
-              return { ...prev, individual: !prev.individual };
-            });
-          }}
-        />
-      </div> */}
-      {/* <p>
-        {editPackage.individual ? "Single person package" : " Group package"}
-      </p> */}
-      <div className="  mx-auto rounded-2xl flex flex-col md:flex-row gap-3 w-full px-8 justify-center items-center">
+      
+      <div className="  mx-auto rounded-2xl flex flex-col md:flex-row gap-3 w-full px-8 justify-center items-center font-bold mt-2">
         <button
           type="button"
           onClick={async () => {
             // setEditPackage(null);
             // handleSave(p._id)
-            if(handleCreate){
+            if (handleCreate) {
               handleCreate();
-
-            }  else {
-
+            } else {
               handleSave();
             }
-            if(handleSave){
-
+            if (handleSave) {
             }
           }}
-          className="bg-blue-400 rounded-full text-black w-1/2"
+          className="outline outline-1 hover:outline-4 active:outline-4 transition-all duration-150 rounded-full text-black w-1/2"
         >
           {handleCreate && !handleSave ? "Create" : "Save"}
         </button>
@@ -152,7 +131,7 @@ export default function CreateNewPackage({
           onClick={() => {
             setEditPackage(null);
           }}
-          className="bg-gray-400 rounded-full text-black w-1/2"
+          className="outline outline-1 hover:outline-4 active:outline-4 hover:outline-red-400 transition-all duration-150 rounded-full text-black w-1/2"
         >
           Cancel
         </button>

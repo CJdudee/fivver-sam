@@ -1,162 +1,270 @@
-'use client'
+"use client";
 
-import { assignTeacherToUser, disableUser } from '@/actions/adminAllUsers'
-import { getAllTeacher } from '@/actions/teacherQuery'
-import { capitalize } from '@/utils/helpers'
-import React, { useEffect, useRef, useState } from 'react'
-import Select from 'react-select'
-import 'react-select'
-import AsyncSelect from 'react-select/async'
+import { assignTeacherToUser, disableUser, removeTeacherFromUser } from "@/actions/adminAllUsers";
+import { getAllTeacher } from "@/actions/teacherQuery";
+import { errorToast, susToast } from "@/app/lib/react-toast";
+import { capitalize } from "@/utils/helpers";
+import React, { useEffect, useRef, useState } from "react";
+import Select from "react-select";
+import "react-select";
+import AsyncSelect from "react-select/async";
 
-export default function ViewAllUsers({foundUserJson} : any) {
-    const [msg, setMsg ] = useState('')
-    const [turnDialog, setTurnDialog] = useState(false)
-    const [idUser, setIdUser] = useState<any>(null)
-    const [teacherId, setTeacherId] = useState<any>(null)
-    const dialogRef = useRef< null | HTMLDialogElement>(null)
-    const [asyncSearch, setAsyncSearch ] = useState('')
-    const [filter, setFilter] = useState<any>(null)
+export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) {
+  const [msg, setMsg] = useState("");
+  const [turnDialog, setTurnDialog] = useState(false);
+  const [idUser, setIdUser] = useState<any>(null);
+  const [teacherId, setTeacherId] = useState<any>(null);
+  const dialogRef = useRef<null | HTMLDialogElement>(null);
+  const [asyncSearch, setAsyncSearch] = useState("");
+
+  const [nameFilter, setNameFilter] = useState('')
+  const [filter, setFilter] = useState<any>(null);
+
+  const [foundAssigned, setFoundAssigned ] = useState(foundAssignedJson)
+
+  useEffect(() => {
+    if (!turnDialog) return dialogRef.current?.close();
+
+    dialogRef.current?.showModal();
+  }, [turnDialog]);
+
+  const filterUser = foundUserJson.filter((u: any) => {
+    // if (filter == null) return true;
+
+    const trueArray: boolean[] = []
 
 
-    useEffect(() => {
-        if(!turnDialog) return dialogRef.current?.close() 
+    if(filter != null) {
+      if (!filter.includes(u.roles)) trueArray.push(false);
 
-        dialogRef.current?.showModal();
-    }, [turnDialog])
+    }
+    // if(u.roles?.includes(filter)) return true
+
+    if(nameFilter != '') {
+
+      const lowerName = u.username.toLowerCase()
+
+      // if(nameFilter != u.username) trueArray.push(false)
+      if(!lowerName.includes(nameFilter.toLowerCase())) trueArray.push(false)
+    }
     
-    const filterUser = foundUserJson.filter((u: any) => {
-      if(filter == null) return true
 
-      if(filter.includes(u.roles)) return true
-      // if(u.roles?.includes(filter)) return true
+    if(trueArray.includes(false)) return false
 
-      return false
+    return true;
+  });
+
+  const loadOptions = async (searchValue: string, callback: any) => {
+    // const filterTeachers = 'hey hey'
+
+    // const allTeachers =  await getAllTeacher()
+    const allTeachers = await fetch("http://localhost:3000/api/teachers", {
+      method: "GET",
+    });
+
+    const allTeachersJson = await allTeachers.json();
+    console.log(allTeachersJson);
+
+    const filterTeachers = await allTeachersJson.filter((option: any) =>
+      option.user.username.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+    console.log(filterTeachers);
+    console.log("loaderoptions", searchValue, filterTeachers);
+
+    callback(filterTeachers);
+  };
+
+  const handleDisable = async (userId: string) => {
+    const result = await disableUser(userId);
+
+    console.log(result);
+
+    if (result.msg) {
+      setMsg(result.msg);
+    }
+  };
+
+  const handleAssignTeacher = async () => {
+    // console.log(idUser, teacherId)
+
+    if (!idUser || !teacherId || !teacherId._id) return;
+
+    const assigned = await assignTeacherToUser(idUser._id, teacherId._id);
+
+    if(!assigned) return errorToast()
+
+    susToast(assigned.msg)
+
+    setFoundAssigned(assigned.data)
+    
+    setTurnDialog(false)
+    setIdUser(null) 
+    setTeacherId(null)
+  };
+
+  const handleRemoveTeacher = async () => {
+    // console.log(idUser, teacherId)
+
+    if (!idUser) return;
+
+    const deleted: any = await removeTeacherFromUser(idUser._id);
+
+    if(!deleted) return errorToast()
+
+    susToast(deleted.msg)
+
+    setFoundAssigned((prev: any) => {
+      return prev.filter((p: any) => p.user != deleted.data) 
     })
-   
+    
+    setTurnDialog(false)
+    setIdUser(null) 
+    setTeacherId(null)
+  };
 
-    const loadOptions =   async(searchValue: string, callback: any) =>  {
+  const handleSelect = (selectedOption: any) => {
+    console.log(selectedOption);
+    console.log(selectedOption._id);
+    setTeacherId(selectedOption);
+  };
 
-      // const filterTeachers = 'hey hey'
+  const asssignTeacherDialog = turnDialog && (
+    <dialog
+      className=" w-full min-w-full md:min-w-0 md:w-2/3 h-2/3 min-h-[400px] pri  text-black p-4 rounded-xl"
+      ref={dialogRef}
+    >
+      <p  className="w-full mt-4 mb-1 truncate">Asssign Teacher to {idUser?.username} </p>
+      <button
+        className=" absolute top-1 right-2 hover:text-red-400 font-bold"
+        onClick={() => {
+          setTurnDialog(false);
+          setIdUser(null) 
+          setTeacherId(null)
+        }}
+      >
+        X
+      </button>
 
-      // const allTeachers =  await getAllTeacher()
-      const allTeachers =  await fetch('http://localhost:3000/api/teachers', {
-        method: "GET"
-      })
-
-      const allTeachersJson = await allTeachers.json()
-      console.log(allTeachersJson)
-
-      const filterTeachers = await allTeachersJson.filter((option: any) => option.user.username.toLowerCase().includes(searchValue.toLowerCase()))
-
-      console.log(filterTeachers)
-      console.log('loaderoptions', searchValue, filterTeachers)
-
-       callback(filterTeachers)
-    }
-
-    const handleDisable = async (userId: string) => {
-        const result = await disableUser(userId)
-
-        console.log(result)
-
-        if(result.msg) {
-            setMsg(result.msg)
-        }
-    }
-
-    const handleAssignTeacher = async () => {
-      // console.log(idUser, teacherId)
-
-      if(!idUser || !teacherId || !teacherId._id) return 
-
-      await assignTeacherToUser(idUser._id, teacherId._id)
-    }
-
-    const handleSelect = (selectedOption: any) => {
-      console.log(selectedOption)
-      console.log(selectedOption._id)
-      setTeacherId(selectedOption)
-    }
-
-    const asssignTeacherDialog = turnDialog && (
-      <dialog className=' w-full min-w-full md:min-w-0 md:w-2/3 h-1/2  bg-gray-700 text-white p-4 rounded-xl' ref={dialogRef}>
-          <p className='w-full mt-4'>Asssign Teacher to {idUser?.username} </p>
-          <button className=' absolute top-1 right-2 hover:text-red-400' onClick={() => {
-              setTurnDialog(false)
-          }}>Close</button>
-
-          <div className=''>
-              <AsyncSelect loadOptions={loadOptions as any} className='text-sm ' 
-              
-              // value={asyncSearch} onChange={(e) => setAsyncSearch(e.target.value)}
-              // styles={{
-              //   valueContainer: (styles) => ({...styles, color: '#000', backgroundColor: '#0000'}) 
-              // }}
-              getOptionLabel={(option) => option.user.username}
-              getOptionValue={(option) => option.user.username}
-              placeholder="Assign a Teacher"
-              classNames={{
-                clearIndicator: () => '',
-                container: () => ' text-black font-bold ',
-                control: () => '',
-                dropdownIndicator: () => '',
-                group: () => '',
-                groupHeading: () => '',
-                indicatorsContainer: () => '',
-                indicatorSeparator: () => '',
-                input: () => '',
-                loadingIndicator: () => '',
-                loadingMessage: () => '',
-                menu: () => 'text-black  text-sm',
-                menuList: () => '',
-                menuPortal: () => '',
-                multiValue: () => '',
-                multiValueLabel: () => '',
-                multiValueRemove: () => '',
-                noOptionsMessage: () => ' text-sm',
-                option: (styles) =>   `text-black hover:bg-amber-400  text-center py-2 `,
-                placeholder: () => '',
-                singleValue: () => ' text-black',
-                valueContainer: () => '',
-              }}
-              onChange={handleSelect}
-               />
-          </div>
-          <div className='h-1/2 flex justify-center items-end w-full  bg-slate-400'>
-            {teacherId && <button className='px-2 bg-blue-400 rounded-full' onClick={handleAssignTeacher} >Assign Teacher to User</button>}
-          </div>
-      </dialog>
-  )
+      <div className="  h-1/3">
+        <AsyncSelect
+          loadOptions={loadOptions as any}
+          className="text-sm "
+          // value={asyncSearch} onChange={(e) => setAsyncSearch(e.target.value)}
+          // styles={{
+          //   valueContainer: (styles) => ({...styles, color: '#000', backgroundColor: '#0000'})
+          // }}
+          getOptionLabel={(option) => option.user.username}
+          getOptionValue={(option) => option.user.username}
+          placeholder="Assign a Teacher"
+          classNames={{
+            clearIndicator: () => "",
+            container: () => " text-black font-bold ",
+            control: () => "",
+            dropdownIndicator: () => "",
+            group: () => "",
+            groupHeading: () => "",
+            indicatorsContainer: () => "",
+            indicatorSeparator: () => "",
+            input: () => "",
+            loadingIndicator: () => "",
+            loadingMessage: () => "",
+            menu: () => "text-black  text-sm",
+            menuList: () => "",
+            menuPortal: () => "",
+            multiValue: () => "",
+            multiValueLabel: () => "",
+            multiValueRemove: () => "",
+            noOptionsMessage: () => " text-sm",
+            option: (styles) =>
+              `text-black hover:bg-amber-400  text-center py-2 `,
+            placeholder: () => "",
+            singleValue: () => " text-black",
+            valueContainer: () => "",
+          }}
+          onChange={handleSelect}
+        />
+      </div>
+      <div className="h-1/2 flex flex-col md:flex-row justify-center items-center md:items-end w-full gap-2 ">
+        {teacherId && (
+          <button
+            className="px-6 outline-1 outline hover:outline-4 transition-all duration-150 rounded-full"
+            onClick={handleAssignTeacher}
+          >
+            Assign Teacher to User
+          </button>
+        )}
+        {idUser && foundAssigned.find((c: any) => c.user == idUser._id) && (
+          <button
+            className="px-6 outline-1 outline hover:outline-4 transition-all duration-150 rounded-full"
+            onClick={handleRemoveTeacher}
+          >
+            Remove assigned Teacher
+          </button>
+        )}
+      </div>
+    </dialog>
+  );
 
   return (
-    <>
+    <div>
+      <div className="mb-2 sticky top-[8vh] bg-[#242424]  flex justify-evenly gap-2 pb-2 pt-2 ">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+          <p className="md:w-1/2">Find By Name</p>
+          <input className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold" onChange={(e) => {
+            setNameFilter(e.target.value)
+            console.log(nameFilter)
+          }} value={nameFilter} />
+        </div>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+          <p className="md:w-1/2">Find By Roles</p>
+          <input className="rounded-full text-lg w-4/5 md:w-1/2" onChange={(e) => setNameFilter(e.target.value)} />
+        </div>
+      </div>
+      <div className=" flex flex-col lg:grid grid-cols-2 items-center gap-4 px-2 md:px-8">
         {asssignTeacherDialog}
         {filterUser.map((f: any, i: number) => {
-        // console.log(f, "what the");
-        if (!f.roles) return;
-        return (
-          <div key={i} className={` bg-[#c5c5c5] w-full md:w-1/2 p-4 rounded-xl text-black font-semibold `}>
-            <p className="mb-2.5">User: {f.username}</p>
-            <div className=" border-t-2 border-b-2 border-black w-2/3 mx-auto"  >
-                <p>User Roles:</p>
-              <ul className="flex justify-center gap-4">
-                {f.roles.map((c: string, i: number) => (
-                  <li key={i}>{capitalize(c)}</li>
-                ))}
-              </ul>
-            </div>
-            <p>Tokens: {f.tokens}</p>
-            <div className='flex gap-4 justify-center'>
 
-            <button className='hover:text-red-300 w-1/2' onClick={() => {
-                setTurnDialog(true)
-                setIdUser(f)
-            }}>Assign Teacher</button>
-            <button className='hover:text-red-300 w-1/2' onClick={() => handleDisable(f._id)}>X</button>
+          const foundAss = foundAssigned.find((c: any) => c.user == f._id)
+          // console.log(f, "what the");
+          if (!f.roles) return;
+          return (
+            <div
+              key={i}
+              className={` bg-[#c5c5c5] w-full p-4 rounded-xl text-black font-semibold `}
+            >
+              <p className="mb-2.5 ">User: {f.username}</p>
+              <div className=" border-t-2 border-b-2 py-2 border-black w-full mx-auto">
+                <p>User Roles:</p>
+                <ul className="flex justify-center gap-4">
+                  {f.roles.map((c: string, i: number) => (
+                    <li key={i}>{capitalize(c)}</li>
+                  ))}
+                </ul>
+              </div>
+              <p className="my-2.5">Tokens: {f.tokens}</p>
+              <p className="my-2.5">Assigned: {foundAss?.teacher.user.username ?? " No Teacher assigned"}</p>
+              <div className="flex gap-4 justify-center">
+                <button
+                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+                  onClick={() => {
+                    setTurnDialog(true);
+                    setIdUser(f);
+                  }}
+                >
+                  Assign Teacher
+                </button>
+                <button
+                  className="hover:outline-red-400 w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+                  onClick={() => handleDisable(f._id)}
+                >
+                  Disable User
+                </button>
+              </div>
             </div>
-          </div>
-        );
-      })}
-    </>
-  )
+          );
+        })}
+      </div>
+    </div>
+  );
 }

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {
   add,
+  addDays,
   format,
   formatDate,
   formatISO,
@@ -20,6 +21,7 @@ import Calendar from "react-calendar";
 import { bookAppt } from "@/actions/userBook";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
+import { errorToast, susToast } from "@/app/lib/react-toast";
 
 export default function UserCalendar({
   teacher,
@@ -37,14 +39,32 @@ export default function UserCalendar({
   });
   const [displayDate, setDisplayDate] = useState<any>(null);
 
+  const [bookedState, setBookedState] = useState(booked)
+
+  console.log(booked)
+
   const handleSave = async () => {
     // console.log(date)
     const book = await bookAppt(date, teacher._id, user.id, groupSize);
 
-    console.log(book);
+    if(!book) return errorToast()
+
+    if(book.error) return errorToast(book.error)
+
+    const copy = [...bookedState, book.data]
+
+    setBookedState(copy)
+    setDate((prev: any) => {
+      return {...prev, dateTime: null}
+    })
+    
+    susToast(book.msg as string)
+    // console.log(book);
   };
   // console.log(teacher)
-  const now = new Date();
+  const now = addDays(new Date(), 1);
+
+  console.log(now);
 
   const today = teacherWeek?.weekdays.find(
     (d: any) => d.index === now.getDay()
@@ -54,7 +74,9 @@ export default function UserCalendar({
     return (
       <>
         <p className="text-xl text-center">Problem with Getting scheldue</p>
-        <Link href={'/'} className="text-xl flex justify-center underline">Go Back home</Link>
+        <Link href={"/"} className="text-xl flex justify-center underline">
+          Go Back home
+        </Link>
       </>
     );
 
@@ -74,11 +96,12 @@ export default function UserCalendar({
   return (
     <div className=" px-2">
       <button
+        className="font-semibold hover:underline text-2xl"
         onClick={() => {
           setGroupSize(null);
         }}
       >
-        Group Size: {groupSize}
+        {"<"} Group Size: {groupSize}
       </button>
       {date.justDate ? (
         <div className="">
@@ -95,9 +118,12 @@ export default function UserCalendar({
           >
             <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A]" />
           </button>
+          <p className="text-center text-2xl font-bold mb-2">Selecte A Time</p>
           <div className="grid grid-cols-2 row-auto flex-col gap-4 w-full ">
             {times?.map((time: any, i: number) => {
-              const foundBook = booked.find(
+              
+
+              const foundBook = bookedState.find(
                 (b: any) =>
                   b.date == date.justDate.toISOString() &&
                   b.time == format(time, "kk:mm")
@@ -105,7 +131,7 @@ export default function UserCalendar({
               // console.log(foundBook, "what");
               // console.log(booked, 'what')
 
-              const isPickedTime = format(time, "kk:mm") == date.dateTime
+              const isPickedTime = format(time, "kk:mm") == date.dateTime;
 
               const formatedKk = Number(format(time, "kk"));
 
@@ -124,11 +150,13 @@ export default function UserCalendar({
               return (
                 <div
                   key={`time-${i}`}
-                  className={`${isPickedTime && 'bg-black text-white'} rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
+                  className={`${
+                    isPickedTime && "bg-black text-white"
+                  } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                 >
                   <button
                     disabled={foundBook}
-                    className=" flex justify-center gap-2  w-full font-bold disabled:text-gray-400"
+                    className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
                     type="button"
                     onClick={() => {
                       setDate((prev: any) => ({
@@ -161,7 +189,7 @@ export default function UserCalendar({
       ) : (
         <div className=" md:px-20">
           <Calendar
-            minDate={new Date()}
+            minDate={addDays(new Date(), 1)}
             tileDisabled={({ date }) => {
               const day = date.getDay();
 
@@ -193,11 +221,12 @@ export default function UserCalendar({
           <>
             <button
               // onClick={handleSave}
+
               onClick={() => {
                 console.log(date);
                 handleSave();
               }}
-              className="bg-blue-400 hover:bg-blue-500 active:bg-blue-600 px-4 py-1 rounded-full w-full"
+              className="bg-blue-400 hover:bg-blue-500 active:bg-blue-600 px-4 py-1 rounded-full w-full font-bold"
             >
               Book lesson
             </button>
@@ -205,6 +234,7 @@ export default function UserCalendar({
               <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
                 Time selected {displayDate}
               </p>
+              
               <p
                 onClick={() => {
                   console.log(typeof date.justDate, date.justDate);
@@ -213,6 +243,9 @@ export default function UserCalendar({
               >
                 Date selected:{" "}
                 {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")}
+              </p>
+              <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
+                Group Size {groupSize}
               </p>
             </div>
           </>

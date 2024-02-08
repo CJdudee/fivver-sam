@@ -13,7 +13,7 @@ export default async function Page() {
 
     console.log(packagesJson)
   return (
-    <div className='flex justify-start py-4 flex-col items-center text-white gap-10 h-screen'>
+    <div className='flex  justify-start py-4 flex-col items-center text-white gap-10  min-h-[92vh] h-full  mx-auto'>
         
         <CreatePackage packages={packagesJson} />
     </div>

@@ -15,6 +15,9 @@
   .backgroundColorWave {
     @apply bg-gradient-to-b from-[#242424] via-[#3D3D3D] to-[#3D3D3D]
   }
+  .pri {
+    @apply bg-[#F5F5F5]
+  }
 }
 
 

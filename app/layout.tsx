@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -9,14 +8,14 @@ import Script from "next/script";
 import AuthProvider from "./context/AuthProvider";
 import { headers } from "next/dist/client/components/headers";
 import { connectingMongoose } from "./lib/connectMongo";
-import { Inknut_Antiqua } from 'next/font/google'
+import { Inknut_Antiqua } from "next/font/google";
+import { Bounce, ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css'
 
 const inter = Inter({ subsets: ["greek"] });
 
-
-
 export const metadata: Metadata = {
-  title: "Lango",
+  title: "SprachGeist",
   description:
     "Learn a new language at a very reasonalbe price. Start your journy now",
 };
@@ -26,15 +25,27 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  await connectingMongoose()
+  await connectingMongoose();
   // const pathname = headers()
   // console.log(pathname)
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-red-800`} style={{}}>
+      <body className={`${inter.className}`} style={{}}>
         <AuthProvider>
-         
+          <ToastContainer
+            position="top-left"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
+
           {children}
         </AuthProvider>
       </body>

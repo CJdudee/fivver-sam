@@ -36,7 +36,7 @@ export default function Page() {
 
   return (
     <main>
-        
+        <button onClick={() => console.log(broughtPackage)}>Click here</button>
     </main>
   )
 }

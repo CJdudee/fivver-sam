@@ -32,13 +32,13 @@ export const savePackage = async(packageObj: any) => {
 
     // revalidateTag('pack')
 
-    return simpleJson({...updateObj, _id: packageObj._id, index: packageObj.index})
+    return simpleJson({data: {...updateObj, _id: packageObj._id, index: packageObj.index}, msg: 'Package has been saved'})
 }
 
 export const createPackage = async(packageObj: any) => {
     const createPackage = await Packages.create(packageObj)
 
-    return simpleJson(createPackage)
+    return simpleJson({data: createPackage, msg: 'Package has been created'})
 }
 
 export const deletePackage = async(packageId: string) => {
@@ -46,5 +46,5 @@ export const deletePackage = async(packageId: string) => {
 
     if(!deleted) return null
 
-    return simpleJson(deleted)
+    return simpleJson({data: deleted, msg: 'Package removed'})
 }

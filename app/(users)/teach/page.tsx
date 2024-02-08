@@ -1,11 +1,23 @@
+import { serverUser } from "@/app/lib/serverAuth";
+import AssignTeacher from "@/models/AssignTeacher";
 import Teacher from "@/models/Teacher";
 import TeacherWeek from "@/models/TeacherWeek";
 import { capitalize, simpleJson } from "@/utils/helpers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import React from "react";
 
 export default async function Page() {
+
+  const user = await serverUser()
+
+  if(user) {
+    const foundAssigned = await AssignTeacher.findOne({user: user.id})
+
+    if(foundAssigned) redirect(`/teach/${foundAssigned.teacher}`)
+  }
+
   const teachers = await Teacher.find().populate("user", "-password").exec();
   // console.log(teachers)
 
@@ -22,7 +34,7 @@ export default async function Page() {
   const teachersWeekJson = simpleJson(teachersWeeks);
   // console.log(teachers);
   return (
-    <div className="bg-gradient-to-b h-full min-h-max from-[#242424] via-[#3D3D3D] to-[#3D3D3D]">
+    <div className="bg-gradient-to-b h-full min-h-[800px] from-[#242424] via-[#3D3D3D] to-[#3D3D3D]">
       <div className="w-full text-center flex flex-col gap-10 py-4  ">
         {teachersJson?.map((t: any) => {
           const { username, email } = t.user;
@@ -36,7 +48,7 @@ export default async function Page() {
           return (
             <div
               key={t._id}
-              className="bg-white outline outline-2 outline-[#3D3D3D] w-2/3 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl overflow-hidden h-[12rem] "
+              className="bg-white outline outline-2 outline-[#3D3D3D] w-full md:w-4/5 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl overflow-hidden h-[12rem] "
             >
               {/* <p>{t._id}</p> */}
               {/* <p className={`font-bold`}>{email}</p> */}
@@ -50,14 +62,16 @@ export default async function Page() {
 
               {foundSch != undefined && foundSch.length != 0 && (
                 <div className="h-2/3 flex items-center justify-center  font-extrabold">
-                  <ul className="h-full flex gap-4 w-4/5 justify-center mt-3">
+                  <ul className="h-full flex gap-4 w-4/5 justify-center mt-3" style={{
+                    //  transform: `translateX(-${tran}dvh)`
+                  }}>
                     {foundSch.map((f: Record<string, unknown>) => {
                       if (f.isOpen == false)
                         return (
                           <li
                             className={`${
                               f.isOpen == false && " bg-[#585757] text-white"
-                            } rounded-xl w-1/6 px-2 py-1 text-sm flex flex-col  items-center h-4/5`}
+                            } rounded-xl w-full px-2 py-1 text-sm flex flex-col  items-center h-4/5`}
                             key={`${f.name} ${f.index}`}
                           >
                             <p className="h-[40%] ">
@@ -71,7 +85,7 @@ export default async function Page() {
                         <li
                           className={`${
                             f.isOpen == false && " bg-[#585757] text-white"
-                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-1/6 px-2 text-sm hover:w-2/6 transition-all duration-500 h-4/5`}
+                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-4/5`}
                           key={`${f.name} ${f.index}`}
                         >
                           <p>{capitalize(f.name as string)}</p>

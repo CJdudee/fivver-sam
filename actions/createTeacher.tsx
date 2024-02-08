@@ -39,5 +39,5 @@ export const newTeacher = async(userData: any) => {
 
     console.log(createdTeacher)
 
-    return "User has been made"
+    return `Teacher ${createdUser.username} has been made`
 }
