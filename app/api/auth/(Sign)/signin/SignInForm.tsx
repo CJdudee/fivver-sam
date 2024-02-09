@@ -12,7 +12,7 @@ export default function SignInForm() {
   const router = useRouter();
 
   if (status === "authenticated") {
-    router.back();
+    router.push('/');
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
