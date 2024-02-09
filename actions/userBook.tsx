@@ -1,5 +1,6 @@
 'use server'
 import Booking from '@/models/Booking'
+import Teacher from '@/models/Teacher'
 import Token from '@/models/Token'
 import User from '@/models/User'
 import { simpleJson } from '@/utils/helpers'
@@ -10,7 +11,9 @@ export const bookAppt = async (date: any, teacherId: string, userId: string, gro
 
     const foundUser = await User.findById(userId).exec()
 
-    if(!foundUser) return { error: 'No user found'}
+    const foundTeacher = await Teacher.findById(teacherId).exec()
+
+    if(!foundUser || !foundTeacher) return { error: 'No user found'}
 
     const foundTokens = await Token.findOne({user: userId, groupSize})
 
@@ -23,6 +26,10 @@ export const bookAppt = async (date: any, teacherId: string, userId: string, gro
 
     foundTokens.tokens -= 1
     await foundTokens.save()
+
+    foundTeacher.orders += 1
+
+    await foundTeacher.save()
 
     console.log(createdBooking)
 

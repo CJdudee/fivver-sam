@@ -22,7 +22,7 @@ export default function BookHomePage() {
   return (
     <main className="h-full">
       <div
-        className={`h-[850px] bg-gradient-to-b relative px-6 pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
+        className={`h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
       >
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}

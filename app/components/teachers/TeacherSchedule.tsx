@@ -10,6 +10,7 @@ import {
   updateWorkDays,
 } from "@/actions/updateWorkDay";
 import TeacherCalendar from "./TeacherCalendar";
+import { errorToast, susToast } from "@/app/lib/react-toast";
 
 export default function TeacherSchedule({
   weekDays,
@@ -70,8 +71,14 @@ export default function TeacherSchedule({
 
   // console.log(dayWeek);
 
-  const handleSumbit = async () => {
-    await updateWorkDays(id, dayWeek);
+  const handleSavingWeek = async () => {
+    const saved = await updateWorkDays(id, dayWeek);
+
+    if(!saved) return errorToast()
+
+    weekDays = dayWeek
+    return susToast(saved.msg)
+
   };
 
   const handleCloseDay = async (date: Date) => {
@@ -115,13 +122,19 @@ export default function TeacherSchedule({
 
   const setWeekDaysJsx = (
     <>
-      <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-8 px-2  lg:px-12">
+    {weekDays != dayWeek && <button
+        className="text-center text-white mt-1 mb-3 font-bold outline outline-1 px-8 py-0.5 rounded-full w-1/3 hover:text-gray-400 hover:outline-white"
+        onClick={handleSavingWeek}
+      >
+        Save
+      </button>}
+      <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-4 md:px-2  lg:px-12">
         {dayWeek.map((w: any, mapindex: number) => {
           const changeTime = _changeTime(w);
 
           return (
             <li
-              className="h-full w-full bg-[#c4c4c4] rounded py-4"
+              className="h-full w-full bg-[#c4c4c4] rounded-xl py-4"
               key={w.name}
             >
               <p>{capitalize(w.name)}</p>
@@ -156,12 +169,7 @@ export default function TeacherSchedule({
           );
         })}
       </ul>
-      <button
-        className="text-center text-white mt-4 bg-black px-8 py-0.5 rounded-full w-1/3 font-semibold"
-        onClick={handleSumbit}
-      >
-        Save
-      </button>
+      
     </>
   );
 
@@ -186,7 +194,7 @@ export default function TeacherSchedule({
 
   return (
     <div className="h-full pb-8">
-      <div className="flex justify-center  items-center w-1/2 mx-auto mb-4 pt-4 gap-2">
+      <div className="flex justify-center  items-center w-1/2 mx-auto mb-2 pt-0 gap-2">
         <p className="text-center text-3xl text-white w-full">
           {!enabled ? "Schedule" : "Closed Days"}
         </p>

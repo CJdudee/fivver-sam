@@ -74,12 +74,12 @@ export default async function TeacherNavbar() {
         </div>
       </div>
 
-      <div className="border-b-1 border-black min-h-[8vh] flex items-center justify-start md:px-8  w-full  pb-1   gap-4  bg-[#242424] md:hidden">
+      <div className="border-b-1 border-black min-h-[8vh] flex items-center justify-start  w-full  pb-0.5   gap-4  bg-[#242424] md:hidden px-2">
        
 
         {/* <NavBarHam /> */}
 
-        <PhoneNav session={session} tokensJson={tokensJson} />
+        <PhoneNav session={session} tokensJson={tokensJson} linkArray={[{link: '/teachers/dashboard', text: 'Dashboard'}, {link: "/teachers/dashboard/booked", text: 'Booking'}, {link: "/teachers/dashboard/schedule", text: "Schedule"}]} />
         
       </div>
     </nav>

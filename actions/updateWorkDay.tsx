@@ -11,7 +11,11 @@ export const updateWorkDays = async(id: number, dayObject: any) => {
 
     foundWorkDays.weekdays = dayObject
 
-    await foundWorkDays.save()
+    const isSaved = await foundWorkDays.save()
+
+    if(!isSaved) return null
+
+    return {msg: 'Week Days has been Updated'}
 
     console.log(foundWorkDays)
 }

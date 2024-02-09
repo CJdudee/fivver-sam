@@ -20,30 +20,7 @@ const TeacherSehema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-    // password: {
-    //     type: String, 
-    //     // select: false
-    // },
-    // roles: {
-    //     type: [String],
-    // default: ['user']
-    // },
-    // email: {
-    //     type: String,
-    //     default: ''
-    // },
-    // emailVerified: {
-    //     type: Date,
-    //     default: null
-    // },
-    // tokens: {
-    //     type: Number,
-    //     default: 0,
-    // },
-    // customerId: {
-    //     type: String,
-    //     default: null
-    // }
+
 })
 
 //have to make users posts a subdoc so i dont go over the 16 mb limit or a populate

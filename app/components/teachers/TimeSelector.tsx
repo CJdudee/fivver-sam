@@ -54,7 +54,7 @@ export default function TimeSelector({changeTime, type, selected}: TimeSelectorP
                        'inline-block h-2 w-2 flex-shrink-0 rounded-full'
                      )}
                    />
-                   <span className='ml-3 block truncate'>{selected} am</span>
+                   <span className='ml-3 block truncate'>{selected}</span>
                  </div>
                  <span className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2'>
                    <HiSelector className='h-5 w-5 text-gray-400' aria-hidden='true' />
@@ -68,10 +68,13 @@ export default function TimeSelector({changeTime, type, selected}: TimeSelectorP
                  leaveFrom='opacity-100'
                  leaveTo='opacity-0'>
                  <Listbox.Options className='absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-                   {timeOptions.map((time) => {
+                   {timeOptions.map((time, index) => {
+
+                    console.log(time)
+
                      return (
                        <Listbox.Option
-                         key={time}
+                         key={time + index}
                          className={({ active }) =>
                            classNames(
                              active ? 'bg-indigo-600 text-white' : 'text-gray-900',

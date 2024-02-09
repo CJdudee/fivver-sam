@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import {
   add,
   addDays,
+  addHours,
+  addMinutes,
   format,
   formatDate,
   formatISO,
@@ -121,19 +123,22 @@ export default function UserCalendar({
           <p className="text-center text-2xl font-bold mb-2">Selecte A Time</p>
           <div className="grid grid-cols-2 row-auto flex-col gap-4 w-full ">
             {times?.map((time: any, i: number) => {
-              
-
               const foundBook = bookedState.find(
                 (b: any) =>
                   b.date == date.justDate.toISOString() &&
                   b.time == format(time, "kk:mm")
               );
+              
+              const formatedKk = Number(format(time, "kk"));
+              const formatedMin = Number(format(time, 'mm'))
+
+              const isUnderDate = now > addMinutes(addHours(date.justDate, formatedKk), formatedMin)
+
               // console.log(foundBook, "what");
               // console.log(booked, 'what')
 
               const isPickedTime = format(time, "kk:mm") == date.dateTime;
 
-              const formatedKk = Number(format(time, "kk"));
 
               // console.log(time, 'time')
 
@@ -155,7 +160,7 @@ export default function UserCalendar({
                   } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                 >
                   <button
-                    disabled={foundBook}
+                    disabled={foundBook || isUnderDate}
                     className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
                     type="button"
                     onClick={() => {

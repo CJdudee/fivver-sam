@@ -8,7 +8,7 @@ const allowedList =( process.env.NODE_ENV === 'production'
 export function middleware(request: NextRequest) {
 
     const origin = request.headers.get('origin')
-    console.log(origin, '2origin')
+    // console.log(origin, '2origin')
 
     // !origin is for postman and api tester
     // we need to allow all origins for auth

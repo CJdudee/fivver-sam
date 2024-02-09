@@ -1,41 +1,35 @@
 import { Roboto_Serif } from "next/font/google";
-import React from "react";
 import { LuBookOpen } from "react-icons/lu";
 
-const robot = Roboto_Serif({ subsets: ['latin']})
+const robot = Roboto_Serif({ subsets: ['latin'], weight: '500'})
 
 export default function BookText() {
   return (
     <>
-      <div className="w-full ">
+      <div className="w-full  flex justify-evenly flex-col h-fit md:py-0 ">
         <div  className={`${robot.className} flex flex-col gap-2`} >
           <div  className={`${robot.className}`}>
             <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
-            <p className="text-[#A34F81]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-              laboriosam provident quaerat repellendus cupiditate asperiores ex
-              modi, deserunt maiores eius a nobis minima, rem ad aperiam
-              praesentium, nam consectetur nisi.
+            <p className="text-xs md:text-lg text-[#A34F81]">
+              SPRACHGEIST, m. the spirit of language: those who do not hold on to perception that initially mock all theory (regardless of) their factual certainty will never come closer to the unfathomable spirit of language
             </p>
           </div>
 
-          <p className=" text-center w-2/3 ml-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <p className=" text-center w-2/3 ml-auto font-extrabold text-xs md:text-lg">
+            Deutsches Wörterbuch von Jacob und Wilhelm Grimm. Lfg. 15(1905)
+
           </p>
         </div>
         <div  className={`${robot.className} flex flex-col gap-2`}>
           <div className={`${robot.className}`}>
             <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
-            <p className="text-[#A34F81]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-              laboriosam provident quaerat repellendus cupiditate asperiores ex
-              modi, deserunt maiores eius a nobis minima, rem ad aperiam
-              praesentium, nam consectetur nisi.
+            <p className="text-xs md:text-lg text-[#A34F81]">
+            The language takes on a personal character; one engages with it as with another person. This is one way to experience the "language spirit" as a living one.
             </p>
           </div>
 
-          <p className=" text-center w-2/3 ml-auto">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          <p className=" text-center w-2/3 ml-auto  font-extrabold text-xs md:text-lg">
+          Sprache und sprachgeist; Rudolf Steiner, 1922
           </p>
         </div>
       </div>

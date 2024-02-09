@@ -31,6 +31,7 @@ export default function PricingPack({ packages, userId }: any) {
 
     console.log(stripeJson);
 
+    setPickedPackage({packageId, groupSize})
     setStripeUrl(stripeJson);
   };
 

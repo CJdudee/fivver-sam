@@ -29,7 +29,7 @@ export default function PricePlanPackage({
     <div
       className={` ${value && "relative"} ${
         dark && "bg-gradient-to-b from-black  to-[#626262] text-white"
-      } bg-white w-4/5 md:w-1/5 h-[415px] outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-8 pb-4 z-20`}
+      } bg-white w-full md:w-1/5 h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-8 pb-4 z-20 min-h-max`}
     >
       {value && (
         <div className="w-[58%]  h-[6%] absolute top-2 right-2 bg-[#D9643A] flex justify-center items-center rounded-full">

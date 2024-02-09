@@ -54,8 +54,8 @@ export default function UserBooking({
   return (
     <div className="h-[92dvh] relative">
       <div
-        className={`  absolute flex w-full px-10 md:px-0 -top-20 mx-auto items-stretch justify-center  transition-all duration-500 gap-10 ${
-          showToken && " top-12"
+        className={`  absolute flex w-full px-10 md:px-0 -top-40 mx-auto items-stretch justify-center  transition-all duration-500 gap-10 ${
+          showToken && " top-16"
         } `}
       >
         <div className=" delay-150 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl flex items-center flex-col justify-center w-1/3">

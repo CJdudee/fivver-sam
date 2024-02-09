@@ -61,20 +61,20 @@ export default function Profile({ user, tokens }: any) {
            {user.roles.includes('teacher') && <Link href={"/teachers/dashboard"} onClick={() => {setOpenProfile(false)}} className=" profile">
               Teacher
             </Link>}
-            <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
+            {user.roles.includes('admin') && <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
               Admin Panel
-            </Link>
-            <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
+            </Link>}
+            {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
               Booking panel
-            </Link>
+            </Link>}
           {/* </div> */}
-          { (
-            <p className="border-t mt-2 py-1">Hours: {tokens ? tokens : 0}</p>
+          {user.roles.includes('user') && (
+            <p className="border-t mt-2 py-1">Total Classes: {tokens ? tokens : 0}</p>
           )}
           {/* {user.roles.length == 1 && user.roles.includes("user") && (
             <p className="border-t mt-2 py-1">Hours: {user.tokens}</p>
           )} */}
-          <button className="profile" onClick={handleSignOut}>
+          <button className="profile hover:text-red-800" onClick={handleSignOut}>
             SignOut
           </button>
         </div>

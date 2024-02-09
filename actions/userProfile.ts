@@ -26,5 +26,9 @@ export const updateUser = async (userDate: any ) => {
 
     foundUser.username = username
 
-    await foundUser.save()
+    const saved = await foundUser.save()
+
+    if(!saved) return null
+
+    return {msg: `${username} has been updated`}
 }

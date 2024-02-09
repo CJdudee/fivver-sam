@@ -50,8 +50,8 @@ export default function SettingGroup({ setGroupSize, teacherName, tokenGroup } :
                         </div>
                         <div className='w-1/2 h-full flex items-center justify-center relative overflow-hidden  '>
                             <IoPersonSharp className=' h-1/2 w-1/2    ' />
-                            <IoPersonSharp className={` ${size != 1 && '-left-16 pt-4'} top-0 bottom-0 mx-auto right-0 left-0  my-auto transition-all duration-300 w-full h-full  absolute`} />
-                            <IoPersonSharp className={` ${size == 3 && '-right-16 pt-4'} top-0 bottom-0 mx-auto right-0 left-0  my-auto transition-all duration-300 w-full h-full  absolute`} />
+                            <IoPersonSharp className={` ${size != 1 && 'left-14 md:left-24 pt-4'}   right-0 left-0 mx-auto   transition-all duration-300 w-2/3 h-2/3  absolute`} />
+                            <IoPersonSharp className={` ${size == 3 && 'right-14 md:right-24 pt-4'} top-0 bottom-0 mx-auto right-0 left-0  my-auto transition-all duration-300 w-2/3 h-2/3  absolute`} />
                         </div>
 
                 </div>

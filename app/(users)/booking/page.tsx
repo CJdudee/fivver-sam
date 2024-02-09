@@ -10,6 +10,8 @@ import React from 'react'
 
 export default async function Page() {
 
+  
+
     const user = await serverUser()
 
     // roleChecker(user, 'user')
@@ -17,12 +19,13 @@ export default async function Page() {
     if(!user) redirect('/api/auth/signin')
     connectingMongoose()
 
-    const booked = await Booking.find({student: user.id, date: { $gte: new Date() }}).populate({ path: 'teacher', populate: { path: 'user'}}).sort({status: -1}).exec()
+    const booked = await Booking.find({student: user.id, date: { $gte: new Date() }}).populate({ path: 'teacher', populate: { path: 'user'}}).sort({date: 1}).exec()
 
-    console.log(booked)
+    // console.log(booked)
 
   return (
-    <div className='min-h-screen h-full'>
+    <div className='min-h-screen h-full px-2'>
+      <p className='text-center text-3xl text-white font-extrabold'>Appointment Page</p>
         <UserBookedLessons booked={simpleJson(booked)} />
     </div>
   )

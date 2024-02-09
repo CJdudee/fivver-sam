@@ -2,6 +2,7 @@
 
 import { connectingMongoose } from "@/app/lib/connectMongo";
 import Booking from "@/models/Booking";
+import Teacher from "@/models/Teacher";
 import Token from "@/models/Token";
 import User from "@/models/User";
 import { addDays, addHours, addMinutes } from "date-fns";
@@ -50,7 +51,7 @@ export const userCancelBooking = async (bookingId: string) => {
   const foundBooking = await Booking.findOne({ _id: bookingId });
 
   if (!foundBooking || foundBooking.status == "canceled")
-    return { error: "already cancelled" };
+    return { error: "Already cancelled" };
 
   console.log(foundBooking);
 
@@ -64,7 +65,7 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const isFullDay = addDays(new Date(), 1) < addedMin;
 
-  if(!isFullDay) return ({error: 'too late to cancel'})
+  if(!isFullDay) return ({error: 'Too late to cancel'})
 
 //   return
 
@@ -77,7 +78,9 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const foundUser = await User.findById(cancelBooking.student);
 
-  if (!foundUser) return { error: "No user found" };
+  const foundTeacher = await Teacher.findById(foundBooking.teacher)
+
+  if (!foundUser || !foundTeacher) return { error: "No user found" };
 
   const foundToken = await Token.findOne({
     user: foundUser._id,
@@ -86,7 +89,11 @@ export const userCancelBooking = async (bookingId: string) => {
 
   foundToken.tokens += 1;
 
+  foundTeacher.canceledOrders += 1
+
   await foundToken.save();
+
+  await foundTeacher.save()
 
   return { success: "Booking was cancelled" };
   // console.log(foundUser)

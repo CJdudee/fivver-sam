@@ -87,7 +87,7 @@ export default async function NewNavBar() {
 
       <div className="border-b-1  border-black min-h-[8vh] flex items-center justify-start px-4  w-full  pb-1   gap-4  bg-[#242424] md:hidden">
        
-        <PhoneNav session={session} tokensJson={tokensJson} />
+        <PhoneNav session={session} tokensJson={tokensJson} linkArray={[{text: 'Pricing', link: '/pricing'}, {text: "Booking", link: '/teach'}]} />
         
       </div>
     </nav>
