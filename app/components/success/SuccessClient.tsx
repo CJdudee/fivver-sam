@@ -77,7 +77,7 @@ export default function SuccessClient({}: any) {
           {packageDetail && <p>Group Size {packageDetail.groupSize}</p>}
         </div>
 
-        <p className="px-4 text-lg font-semilight text-black">It can take up to an hour for your funds to be processed. While you're waiting you can have a <Link className="underline text-gray-500 hover:text-black underline-offset-2" href={'/teach'}>look at all our teachers Here</Link></p>
+        <p className="px-4 text-lg font-semilight text-black">It can take up to an hour for your funds to be processed. While {"you're"} waiting you can have a <Link className="underline text-gray-500 hover:text-black underline-offset-2" href={'/teach'}>look at all our teachers Here</Link></p>
 
         <div className="flex gap-8">
           <Link href={'/'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Go Back Home</Link>

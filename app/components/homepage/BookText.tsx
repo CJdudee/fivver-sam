@@ -24,7 +24,7 @@ export default function BookText() {
           <div className={`${robot.className}`}>
             <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
             <p className="text-xs md:text-lg text-[#A34F81]">
-            The language takes on a personal character; one engages with it as with another person. This is one way to experience the "language spirit" as a living one.
+            The language takes on a personal character; one engages with it as with another person. This is one way to experience the <q>language spirit</q> as a living one.
             </p>
           </div>
 
