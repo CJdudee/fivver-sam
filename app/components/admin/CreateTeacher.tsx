@@ -95,19 +95,19 @@ export default function CreateTeacher() {
             <p className=" text-center font-bold mb-1 text-2xl ">Username</p>
             <input
               value={username}
-              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 " onChange={(e) => setUsername(e.target.value)}
+              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="flex w-full flex-col justify-center items-center">
             <p className=" text-center font-bold mb-1 text-2xl ">Password</p>
             <input
               value={password}
-              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 " onChange={(e) => setPassword(e.target.value)}
+              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex w-full flex-col justify-center items-center">
             <p className=" text-center font-bold mb-1 text-2xl ">Email - optional</p>
-            <input value={email} className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 " onChange={(e) => setEmail(e.target.value)} />
+            <input value={email} className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setEmail(e.target.value)} />
           </div>
         </div>
         {/* <div className="mt-4 w-full flex justify-center md:w-1/2">

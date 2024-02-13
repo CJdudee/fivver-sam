@@ -18,11 +18,11 @@ const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
 
 
-export default function BookHomePage() {
+export default function BookHomePage( {pricePackages}: any) {
   return (
     <main className="h-full">
       <div
-        className={`h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
+        className={`h-[450px] md:h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
       >
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}
@@ -150,7 +150,7 @@ export default function BookHomePage() {
         <div className="w-full h-3/4 absolute bg-white top-0 -z-[0]" />
         <div className="w-full h-1/4 absolute bg-[#313131] bottom-0 -z-0" />
         <div className="z-40">
-          <PlanPackagesSlider />
+          <PlanPackagesSlider pricePackages={pricePackages} />
         </div>
       </div>
 

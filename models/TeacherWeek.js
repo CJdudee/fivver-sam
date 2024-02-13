@@ -14,7 +14,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 0,
                 name: 'sunday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -22,7 +22,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 1,
                 name: 'monday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -30,7 +30,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 2,
                 name: 'tuesday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -38,7 +38,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 3,
                 name: 'wednesday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -46,7 +46,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 4,
                 name: 'thursday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -54,7 +54,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 5,
                 name: 'friday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 
@@ -62,7 +62,7 @@ const TeacherWeekSchema = new mongoose.Schema({
             {
                 index: 6,
                 name: 'saturday',
-                openTime: "8:00",
+                openTime: [],
                 closeTime: "22:00",
                 isOpen: false
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Profile from "../../Profile";
 import AuthButtons from "../../AuthButtons";
@@ -8,9 +8,27 @@ import Link from "next/link";
 export default function PhoneNav({ session, tokensJson, linkArray }: any) {
   const [openNav, setOpenNav] = useState(false);
 
+  const hamDrop = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!openNav) return;
+
+    const handleClick = (e: any) => {
+      if (hamDrop.current && !hamDrop.current.contains(e.target)) {
+        setOpenNav(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handleClick);
+
+    return () => {
+      window.removeEventListener("mousedown", handleClick);
+    };
+  }, [openNav]);
+
   return (
     <div className="w-full flex">
-      <div className="w-1/2 relative">
+      <div ref={hamDrop} className="w-1/2 relative">
         <button onClick={() => setOpenNav(!openNav)}>
           <RxHamburgerMenu className="h-8 w-8 text-white" />
         </button>

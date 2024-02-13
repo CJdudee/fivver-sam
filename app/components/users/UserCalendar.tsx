@@ -15,6 +15,7 @@ import {
   parseISO,
 } from "date-fns";
 import {
+  getOpeningTimeFrame,
   getOpeningTimes,
   roundToNearestMinutes,
   simpleJson,
@@ -93,7 +94,7 @@ export default function UserCalendar({
   // console.log(teacherWeek, now.getDay());
 
   const times =
-    date.justDate && getOpeningTimes(date.justDate, teacherWeek.weekdays);
+    date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
   console.log(times);
   return (
     <div className=" px-2">
@@ -142,7 +143,7 @@ export default function UserCalendar({
 
               // console.log(time, 'time')
 
-              console.log(formatedKk, typeof formatedKk);
+              console.log(formatedKk, typeof formatedKk, time);
 
               let numb: null | number = null;
 

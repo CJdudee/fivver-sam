@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from "react";
 import SinglePlanPackage from "./SinglePlanPackage";
 import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
+import PricePlanPackage from "../pricing/PricePlanPackage";
 
-export default function PlanPackagesSlider() {
+export default function PlanPackagesSlider({ pricePackages }: any) {
   const [tran, setTran] = useState(0);
 
   // useEffect(() => {
@@ -11,13 +12,12 @@ export default function PlanPackagesSlider() {
   //   console.log(window.innerWidth)
   // }, [window.innerWidth])
 
-
   return (
     <div className="z-50 relative">
       <div className="z-50  flex justify-start gap-4 px-4 lg:hidden absolute -top-8">
         <button
           onClick={() => {
-            if(tran == 0) return null
+            if (tran == 0) return null;
             setTran(tran - 43.8);
           }}
           className="text-black  text-xl  z-[100]"
@@ -26,8 +26,7 @@ export default function PlanPackagesSlider() {
         </button>
         <button
           onClick={() => {
-
-            if(tran == 175.2) return null
+            if (tran == 43.8 * (pricePackages.length - 1)) return null;
             setTran(tran + 43.8);
           }}
           className="text-black  text-xl  z-[100]"
@@ -41,23 +40,37 @@ export default function PlanPackagesSlider() {
           transform: `translateX(-${tran}dvh)`,
         }}
       >
-        <SinglePlanPackage price={10} hours={2} />
+        {pricePackages.map((p: any, i: number) => {
+          const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
+          // console.log(index);
+          const onBuy = () => {}
+          return (
+            <PricePlanPackage
+              key={i}
+              price={p.price}
+              hours={p.tokens}
+              onBuy={onBuy}
+              packageId={p._id}
+              priceArray={priceArray}
+              userId={null}
+            />
+          );
+        })}
+        {/* <SinglePlanPackage price={10} hours={2} />
 
         <SinglePlanPackage price={50} hours={5} />
 
         <SinglePlanPackage price={100} hours={10} dark={true} value={true} />
 
-        <SinglePlanPackage price={150} hours={15} />
+        <SinglePlanPackage price={150} hours={15} /> */}
 
-        <SinglePlanPackage price={300} hours={30} />
+        {/* <SinglePlanPackage price={300} hours={30} /> */}
       </div>
       <div
-        className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 hidden   "
-        style={{
-          
-        }}
+        className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 hidden mx-auto   "
+        style={{}}
       >
-        <SinglePlanPackage price={10} hours={2} />
+        {/* <SinglePlanPackage price={10} hours={2} />
 
         <SinglePlanPackage price={50} hours={5} />
 
@@ -65,7 +78,23 @@ export default function PlanPackagesSlider() {
 
         <SinglePlanPackage price={150} hours={15} />
 
-        <SinglePlanPackage price={300} hours={30} />
+        <SinglePlanPackage price={300} hours={30} /> */}
+        {pricePackages.map((p: any, i: number) => {
+          const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
+          // console.log(index);
+          const onBuy = () => {}
+          return (
+            <PricePlanPackage
+              key={i}
+              price={p.price}
+              hours={p.tokens}
+              onBuy={onBuy}
+              packageId={p._id}
+              priceArray={priceArray}
+              userId={null}
+            />
+          );
+        })}
       </div>
     </div>
   );

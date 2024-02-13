@@ -11,6 +11,61 @@ import {
 } from "@/actions/updateWorkDay";
 import TeacherCalendar from "./TeacherCalendar";
 import { errorToast, susToast } from "@/app/lib/react-toast";
+import WeekSchedule from "./weekDay/WeekSchedule";
+
+const initWeekDays = [
+  {
+    index: 0,
+    name: "sunday",
+    openTime: [],
+    closeTime: "10 : 30",
+    isOpen: true,
+  },
+
+  {
+    index: 1,
+    name: "monday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: true,
+  },
+
+  {
+    index: 2,
+    name: "tuesday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: true,
+  },
+  {
+    index: 3,
+    name: "wednesday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: false,
+  },
+  {
+    index: 4,
+    name: "thursday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: false,
+  },
+  {
+    index: 5,
+    name: "friday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: false,
+  },
+  {
+    index: 6,
+    name: "saturday",
+    openTime: [],
+    closeTime: "22:00",
+    isOpen: true,
+  },
+];
 
 export default function TeacherSchedule({
   weekDays,
@@ -20,12 +75,19 @@ export default function TeacherSchedule({
 }: any) {
   const [enabled, setEnabled] = useState(false);
 
+  // const [dayWeek, setDayWeek] = useState<any>(initWeekDays);
   const [dayWeek, setDayWeek] = useState(weekDays);
   const [closedDays, setClosedDays] = useState(daysClosed ?? []);
   const [selectedDate, setSelectedDate] = useState<Date | null>();
   const [dayIsClosed, setDayIsClosed] = useState(false);
 
-  console.log(closedDays);
+  const [openingTime, setOpeningTime] = useState<any>({
+    openTime: undefined,
+    closeTime: undefined,
+    index: undefined,
+  });
+
+  // console.log(closedDays);
   useEffect(() => {
     if (!selectedDate && !closedDays) return;
 
@@ -74,17 +136,16 @@ export default function TeacherSchedule({
   const handleSavingWeek = async () => {
     const saved = await updateWorkDays(id, dayWeek);
 
-    if(!saved) return errorToast()
+    if (!saved) return errorToast();
 
-    weekDays = dayWeek
-    return susToast(saved.msg)
-
+    weekDays = dayWeek;
+    return susToast(saved.msg);
   };
 
   const handleCloseDay = async (date: Date) => {
     const closedDate = await closeTheDay(date, teacherId);
 
-    console.log(closedDate, "yoyu yo");
+    // console.log(closedDate, "yoyu yo");
     const dateCopy = [...closedDays];
 
     dateCopy.push(closedDate);
@@ -102,15 +163,147 @@ export default function TeacherSchedule({
   };
 
   function _changeTime(day: any) {
-    return function (time: string, type: "openTime" | "closeTime") {
+    return function (
+      time: string,
+      type: "openTime" | "closeTime",
+      index: number,
+      arrayIndex: number
+    ) {
+      // const index = dayWeek.findIndex(
+      //   (x: any) => x.name === weedayIndexToName(day.index)
+      // );
+      // const newOpeningHrs: any = [...dayWeek];
+      // newOpeningHrs[index]?.openTime.push({ [type]: time });
+      // console.log(newOpeningHrs);
+
+      if (!time) return;
+
+      if (index != openingTime.index) {
+        if (type == "openTime") {
+          setOpeningTime({ openTime: time, closeTime: undefined, index });
+          return;
+        } else {
+          setOpeningTime({ openTime: undefined, closeTime: time, index });
+          return;
+        }
+      }
+
+      console.log(arrayIndex);
+
+      if (typeof arrayIndex == "number") {
+        console.log("hit");
+
+        const arrayState = dayWeek[index]?.openTime.map((a: any, i: number) => {
+          if (i === arrayIndex) {
+            return {
+              // openTime: openingTime.openTime,
+              // closeingTime: openingTime.closeTime,
+              ...a,
+              [type]: time,
+            };
+          } else {
+            return a;
+          }
+        });
+
+        return setDayWeek((prev: any) => {
+          const state = prev.map((p: any, i: number) => {
+            if (i == index) {
+              return {
+                ...p,
+                openTime: arrayState,
+              };
+            } else {
+              return p;
+            }
+          });
+
+          return state;
+        });
+        // return setDayWeek(arrayState);
+      }
+
+      setOpeningTime((prev: any) => {
+        return { ...prev, [type]: time, index };
+      });
+      console.log(openingTime);
+      // setDayWeek(newOpeningHrs);
+    };
+  }
+  // function _changeTime(day: any) {
+  //   return function (time: string, type: "openTime" | "closeTime") {
+  //     const index = dayWeek.findIndex(
+  //       (x: any) => x.name === weedayIndexToName(day.index)
+  //     );
+  //     const newOpeningHrs: any = [...dayWeek];
+  //     newOpeningHrs[index]?.openTime.push({ [type]: time });
+  //     console.log(newOpeningHrs);
+  //     // setDayWeek(newOpeningHrs);
+  //   };
+  // }
+
+  function saveTime(day: any) {
+    return function (
+      time: string,
+      type: "openTime" | "closeTime",
+      num?: number
+    ) {
       const index = dayWeek.findIndex(
         (x: any) => x.name === weedayIndexToName(day.index)
       );
-      const newOpeningHrs = [...dayWeek];
-      newOpeningHrs[index]![type] = time;
-      setDayWeek(newOpeningHrs);
+
+      if (
+        openingTime.closeTime == undefined ||
+        openingTime.openTime == undefined
+      )
+        return;
+
+      if (!num) {
+        const state = [...dayWeek];
+
+        state[index]?.openTime.push({
+          openTime: openingTime.openTime,
+          closeTime: openingTime.closeTime,
+        });
+        //  dayWeek[index]?.openTime.push({
+        //   openTime: openingTime.openTime,
+        //   closeTime: openingTime.closeTime,
+        // });
+        setDayWeek(state);
+        setOpeningTime({
+          openTime: undefined,
+          closeTime: undefined,
+          index: undefined,
+        });
+      } else {
+        const dayState = dayWeek[index]?.openTime.map((c: any, i: number) => {
+          if (i === num) {
+            return {
+              openTime: openingTime.openTime,
+              closeTime: openingTime.closeTime,
+            };
+          } else {
+            return c;
+          }
+        });
+        setDayWeek(dayState);
+        return;
+      }
     };
   }
+  // function _changeTime(day: any) {
+  //   return function (time: string, type: "openTime" | "closeTime") {
+  //     const index = dayWeek.findIndex(
+  //       (x: any) => x.name === weedayIndexToName(day.index)
+  //     );
+  //     const newOpeningHrs: any = [...dayWeek];
+  //     newOpeningHrs[index]?.openTime.push({[type]: [time]}) ;
+  //     console.log(newOpeningHrs);
+  //     setDayWeek(newOpeningHrs);
+  //   };
+  // }
+
+  console.log(dayWeek);
 
   function openDay(index: number) {
     const copy = [...dayWeek];
@@ -122,54 +315,22 @@ export default function TeacherSchedule({
 
   const setWeekDaysJsx = (
     <>
-    {weekDays != dayWeek && <button
-        className="text-center text-white mt-1 mb-3 font-bold outline outline-1 px-8 py-0.5 rounded-full w-1/3 hover:text-gray-400 hover:outline-white"
-        onClick={handleSavingWeek}
-      >
-        Save
-      </button>}
-      <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-4 md:px-2  lg:px-12">
-        {dayWeek.map((w: any, mapindex: number) => {
-          const changeTime = _changeTime(w);
-
-          return (
-            <li
-              className="h-full w-full bg-[#c4c4c4] rounded-xl py-4"
-              key={w.name}
-            >
-              <p>{capitalize(w.name)}</p>
-              <div className="flex w-full justify-evenly">
-                <div className="px-1 w-full md:px-0 md:w-1/3">
-                  <TimeSelector
-                    type="openTime"
-                    changeTime={changeTime}
-                    selected={dayWeek[mapindex]?.openTime}
-                  />
-                </div>
-                <div className="px-1 w-full md:px-0 md:w-1/3">
-                  <TimeSelector
-                    type="closeTime"
-                    changeTime={changeTime}
-                    selected={dayWeek[mapindex]?.closeTime}
-                  />
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  openDay(mapindex);
-                }}
-                className={`${
-                  w.isOpen ? "bg-[#D9643A]" : "bg-[#f5f5f5]"
-                } w-1/3  mt-4 rounded-full transition-all duration-300 `}
-              >
-                {w.isOpen ? "Open" : "Closed"}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      
+      {weekDays != dayWeek && (
+        <button
+          className="text-center text-white mt-1 mb-3 font-bold outline outline-1 px-8 py-0.5 rounded-full w-1/3 hover:text-gray-400 hover:outline-white"
+          onClick={handleSavingWeek}
+        >
+          Save
+        </button>
+      )}
+      <WeekSchedule
+        openDay={openDay}
+        dayWeek={dayWeek}
+        _changeTime={_changeTime}
+        saveTime={saveTime}
+        openingTime={openingTime}
+        setOpeningTime={setOpeningTime}
+      />
     </>
   );
 

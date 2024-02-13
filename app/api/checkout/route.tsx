@@ -75,7 +75,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             },
             line_items: packages.map((product: any) => ({
                 price_data: {
-                    currency: 'usd',
+                    currency: 'eur',
                     product_data: {
                         name: product.name, 
                         // random: '30430'

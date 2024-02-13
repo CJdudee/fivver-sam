@@ -1,14 +1,16 @@
+import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
 import { capitalize, simpleJson } from "@/utils/helpers";
 import React from "react";
 
 export default async function Page() {
   const teachers = await Teacher.find().populate("user");
-  console.log(teachers);
-
+  const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t) => t._id)}).exec()
+  
+  console.log(foundMonthlyOrders);
   const teacherJson = simpleJson(teachers);
   return (
-    <div className={`text-center text-white h-screen px-4 `}>
+    <div className={`text-center text-white h-full min-h-screen px-4 `}>
       <p className={`text-2xl `}>All Teachers:</p>
       <div className="xl:grid grid-cols-2 gap-2">
         {teacherJson.map((t: any, i: number) => {

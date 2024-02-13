@@ -1,5 +1,6 @@
 import Token from "@/models/Token";
 import User from "@/models/User";
+import { addYears } from "date-fns";
 import { headers } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
 import _stripe from 'stripe'
@@ -97,7 +98,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
               const stringFor = Number(checkoutSession.metadata!.for)
 
-              const createdToken = await Token.findOneAndUpdate({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum}}, {upsert: true, new: true, setDefaultsOnInsert: true})
+              const expire = addYears(new Date(), 1)
+              console.log(expire)
+
+              // const createdToken = await Token.findOneAndUpdate({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum, expire}}, {upsert: true, new: true, setDefaultsOnInsert: true})
+             
+              // const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum}, expire}, {upsert: true, new: true, setDefaultsOnInsert: true})
+
+              const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor, tokens: stringNum, expire})
 
               // foundUser.tokens += stringNum
               

@@ -1,5 +1,6 @@
 "use client";
 import { getPack } from "@/actions/successPack";
+import { capitalize } from "@/utils/helpers";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ export default function SuccessClient({}: any) {
 
   const findPack = async (packageId: string, groupSize: number) => {
     const foundPack = await getPack(packageId);
-
+    console.log(foundPack)
     if (!foundPack) return null;
 
     setBroughtPackage(true);
@@ -30,6 +31,8 @@ export default function SuccessClient({}: any) {
     if (!gotPackages) return setBroughtPackage(false);
 
     const parsed = JSON.parse(gotPackages);
+
+    console.log(parsed)
 
     setBroughtPackage(parsed);
 
@@ -66,7 +69,7 @@ export default function SuccessClient({}: any) {
 
         <p className="text-2xl font-bold">
           You have bought the package:{" "}
-          <span className="text-3xl font-bold">{packageDetail.name}</span>
+          <span className="text-3xl font-bold">{(packageDetail?.name)}</span>
         </p>
 
         {/* <p>{packageDetail?.priceOne.price}</p> */}
@@ -81,7 +84,7 @@ export default function SuccessClient({}: any) {
 
         <div className="flex gap-8">
           <Link href={'/'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Go Back Home</Link>
-          <Link href={'/'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Dashboard</Link>
+          <Link href={'/user/dashboard'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Dashboard</Link>
         </div>
       </div>
     </main>

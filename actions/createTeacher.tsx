@@ -24,7 +24,7 @@ export const newTeacher = async(userData: any) => {
         username,
         password: hashedPwd,
         email,
-        roles
+        roles: ['teacher']
     })
 
     console.log(createdUser)

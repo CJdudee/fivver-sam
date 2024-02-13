@@ -9,13 +9,12 @@ import { NextRequest, NextResponse } from "next/server";
 import React from "react";
 
 export default async function Page() {
+  const user = await serverUser();
 
-  const user = await serverUser()
+  if (user) {
+    const foundAssigned = await AssignTeacher.findOne({ user: user.id });
 
-  if(user) {
-    const foundAssigned = await AssignTeacher.findOne({user: user.id})
-
-    if(foundAssigned) redirect(`/teach/${foundAssigned.teacher}`)
+    if (foundAssigned) redirect(`/teach/${foundAssigned.teacher}`);
   }
 
   const teachers = await Teacher.find().populate("user", "-password").exec();
@@ -48,11 +47,11 @@ export default async function Page() {
           return (
             <div
               key={t._id}
-              className="bg-white outline outline-2 outline-[#3D3D3D] w-full md:w-4/5 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl overflow-hidden h-[12rem] "
+              className="bg-white outline outline-2 outline-[#3D3D3D] w-full md:w-4/5 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl  min-h-[12rem] h-full flex flex-col justify-evenly  "
             >
               {/* <p>{t._id}</p> */}
               {/* <p className={`font-bold`}>{email}</p> */}
-              <p className={`font-bold text-2xl`}>{capitalize(username)}</p>
+              <p className={`font-bold text-2xl mb-2`}>{capitalize(username)}</p>
 
               {foundSch == undefined && (
                 <div className="h-2/3 flex items-center justify-center text-4xl font-extrabold">
@@ -62,11 +61,18 @@ export default async function Page() {
 
               {foundSch != undefined && foundSch.length != 0 && (
                 <div className="h-2/3 flex items-center justify-center  font-extrabold">
-                  <ul className="h-full flex gap-4 w-4/5 justify-center mt-3" style={{
-                    //  transform: `translateX(-${tran}dvh)`
-                  }}>
-                    {foundSch.map((f: Record<string, unknown>) => {
-                      if (f.isOpen == false)
+                  <ul
+                    className="h-full flex gap-4 w-4/5  justify-center mt-3"
+                    style={
+                      {
+                        //  transform: `translateX(-${tran}dvh)`
+                      }
+                    }
+                  >
+                    {foundSch.map((f: any) => {
+                      // console.log(f)
+                      // {foundSch.map((f: Record<string , unknown>) => {
+                      if (f.isOpen == false || f.openTime.length == 0)
                         return (
                           <li
                             className={`${
@@ -85,18 +91,22 @@ export default async function Page() {
                         <li
                           className={`${
                             f.isOpen == false && " bg-[#585757] text-white"
-                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-4/5`}
+                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-[95px] hover:h-[130px] overflow-y-auto`}
                           key={`${f.name} ${f.index}`}
                         >
                           <p>{capitalize(f.name as string)}</p>
-                          <div className="text-xs ">
-                            <p>Open:</p>
-                            <p>{f.openTime as string}</p>
-                          </div>
-                          <div className="text-xs">
-                            <p>Close:</p>
-                            <p>{f.closeTime as string}</p>
-                          </div>
+
+                          {f.openTime.length > 0 &&
+                            f.openTime.map((o: any, i: number) => {
+                              return (
+                                <div key={i} className="text-xs ">
+                                  <p>Open:</p>
+                                  <p>{o.openTime as string}</p>
+                                  <p>Close:</p>
+                                  <p>{o.closeTime as string}</p>
+                                </div>
+                              );
+                            })}
                         </li>
                       );
                     })}
