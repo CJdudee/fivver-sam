@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         default: undefined,
-        unique: true
+        // unique: true
     },
     emailVerified: {
         type: Date,
