@@ -44,9 +44,9 @@ export default function TimeSelector({
 }: TimeSelectorProps) {
   // console.log(selected, "selected");
 
-  let pm = null
+  let pm: Boolean | null = null
 
-  let result = null
+  let result: string | null = null
   
   if (selected) {
     const split = selected.split(":");

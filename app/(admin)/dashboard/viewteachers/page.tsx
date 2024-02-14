@@ -21,7 +21,7 @@ export default async function Page() {
 
   const format = formatDate(new Date(), "MM/yy");
 
-  const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t) => t._id)}).exec()
+  const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t: any) => t._id)}).exec()
   // const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t) => t._id), date: format}).exec()
 
 
