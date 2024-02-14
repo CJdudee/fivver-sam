@@ -18,7 +18,7 @@ export const newUser = async(userData: any) => {
     // }
 
     if(email == "") {
-        email = null
+        email = undefined
     }
 
     const createdUser = await User.create({
@@ -48,7 +48,7 @@ export const newAdmin = async(userData: any) => {
     // }
 
     if(email == "") {
-        email = null
+        email = undefined
     }
 
     const createdUser = await User.create({
