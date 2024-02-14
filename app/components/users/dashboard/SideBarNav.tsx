@@ -46,22 +46,22 @@ export default function SideBarNav({ setTab, tab }: any) {
         </div>
       )}
 
-      <div className="w-1/4 h-full min-h-[88vh] bg-[#f5f5f550] md:flex flex-col md:gap-8 justify-between md:py-24 text-xs px-2 sticky  top-0 hidden ">
+      <div className="w-1/4 h-full min-h-[88vh] bg-[#f5f5f550] md:flex flex-col md:gap-8 justify-between md:py-24 text-xs px-2 sticky  top-0 hidden rounded-r-xl my-4 ">
         <button
           onClick={() => setTab("")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500"
+          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Previous Classes
         </button>
         <button
           onClick={() => setTab("token")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500"
+          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Purchase History
         </button>
         <button
           onClick={() => setTab("")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500"
+          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Expired Tokens
         </button>

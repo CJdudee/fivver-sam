@@ -4,6 +4,7 @@ import { gerFormat } from "@/utils/helpers";
 import { formatDate, subYears } from "date-fns";
 import React, { useState } from "react";
 import SideBarNav from "./SideBarNav";
+import { FaHourglass } from "react-icons/fa";
 
 export default function Maindash({ tokens, prevBooking }: any) {
   const [tab, setTab] = useState("");
@@ -18,14 +19,15 @@ export default function Maindash({ tokens, prevBooking }: any) {
               className="flex flex-col bg-gray-100 py-8 px-8 rounded-xl w-full md:w-3/5 min-h-[200px] h-full mx-auto"
               key={i}
             >
-              <div className=" mb-2 flex flex-col md:flex-row">
+              <div className=" mb-2 flex flex-col md:flex-row justify-center gap-3 items-center">
 
-              <p className="md:w-1/2 text-center text-2xl font-bold">Purchased On</p>
-              <p className="md:w-1/2 text-center text-2xl font-bold">{formatDate(subYears(p.expire, 1), 'dd/MM/yy')}</p>
+              <p className=" text-center text-2xl font-bold">Purchased On</p>
+              <p className=" text-center text-2xl font-bold">{formatDate(subYears(p.expire, 1), 'dd/MM/yy')}</p>
               </div>
               <div className="flex flex-col md:flex-row h-full mx-auto w-full justify-center items-center">
                 
-                <div className="md:w-1/2 h-full text-center flex justify-center gap-2 text-2xl font-bold ">
+                <div className="md:w-1/2 h-full text-center flex justify-center gap-2 text-2xl font-bold items-center ">
+                <FaHourglass className="w-7 h-7 text-gray-600" />
                   <p className="">Tokens:</p>
                   <p className="">{p.tokens}</p>
                 </div>
@@ -64,7 +66,7 @@ export default function Maindash({ tokens, prevBooking }: any) {
         })}
 
         {prevBooking.length == 0 && (
-          <div className="text-3xl font-semibold w-fit  bg-gray-300 px-8 rounded-full py-2">
+          <div className="text-3xl font-semibold w-fit  bg-gray-300 px-8 rounded-full py-2 text-center">
             <p className="">No Previous Bookings</p>
           </div>
         )}
