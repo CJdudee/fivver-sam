@@ -16,6 +16,10 @@ export const newTeacher = async(userData: any) => {
 
     const hashedPwd = await bcrypt.hash(password, 10)
 
+    if(email == "") {
+        email = null
+    }
+
     // const userInfo = {
         
     // }

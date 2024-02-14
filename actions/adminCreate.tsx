@@ -17,6 +17,10 @@ export const newUser = async(userData: any) => {
         
     // }
 
+    if(email == "") {
+        email = null
+    }
+
     const createdUser = await User.create({
         username,
         password: hashedPwd,
@@ -42,6 +46,10 @@ export const newAdmin = async(userData: any) => {
     // const userInfo = {
         
     // }
+
+    if(email == "") {
+        email = null
+    }
 
     const createdUser = await User.create({
         username,
