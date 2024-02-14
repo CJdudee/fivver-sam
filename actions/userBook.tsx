@@ -25,7 +25,10 @@ export const bookAppt = async (date: any, teacherId: string, userId: string, gro
     if(!foundUser || !foundTeacher) return { error: 'No user found'}
 
 
-    const foundTokens = await Token.findOne({user: userId, groupSize})
+    const foundTokens = await Token.findOne({user: userId, groupSize, expire: {$gt: new Date()}, tokens: {$gt: 0}})
+
+    // console.log(foundTokens)
+    // return 
 
     if(!foundTokens || foundTokens.tokens == 0) return { error: `Not enought Classes for a group size of ${groupSize}` }
 

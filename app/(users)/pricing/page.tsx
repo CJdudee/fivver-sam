@@ -28,6 +28,7 @@ export default async function Page() {
         <p className="text-center text-3xl pt-2 font-semibold text-white w-full ">
           Pricing and Packages
         </p>
+        <p className="mt-1 text-white px-2 w-full md:w-2/3 mx-auto text-center">Pricing depends on the Package picked and Group Size</p>
         <div className="hidden md:flex justify-center  gap-8 mt-6 w-[110vh] md:w-full md:h-1/2 min-h-[375px] ">
           <PricingPack
             // packages={gotPackages}

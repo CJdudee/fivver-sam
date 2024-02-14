@@ -25,6 +25,33 @@ export default function WeekSchedule({
     })
   };
 
+  let timeOpenTime = null
+
+  if(typeof newTime === 'number') {
+
+      timeOpenTime = dayWeek[newTime]?.openTime
+  }
+
+    const isDisable = timeOpenTime?.some((t: any) => {
+
+      const openTimeSplit = openingTime?.openTime?.split(':')
+      const closeTimeSplit = openingTime?.closeTime?.split(':')
+      console.log(openTimeSplit, closeTimeSplit)
+
+      if(Number(openTimeSplit?.[0]) > Number(closeTimeSplit?.[0])) return true
+
+      const timeArray = []
+
+
+
+      return t.openTime == openingTime.openTime
+    })
+
+console.log(newTime)
+  console.log(timeOpenTime, 'time op')
+
+  console.log(isDisable)
+
   return (
     <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-4 md:px-2  lg:px-12 relative  ">
       {/* <p className=' absolute right-0 z-20 text-2xl text-white'>+</p> */}
@@ -34,7 +61,7 @@ export default function WeekSchedule({
 
         const saveFun = saveTime(w);
 
-        const timeFrame = dayWeek[mapindex]?.openTime;
+        const timeFrame = dayWeek[mapindex];
 
         let shown = undefined;
 
@@ -47,7 +74,7 @@ export default function WeekSchedule({
             className="h-full w-full bg-[#cac9c9] rounded-xl py-4 min-h-80 drop-shadow-xl shadow-xl "
             key={w.name}
           >
-            <p>{capitalize(w.name)}</p>
+            <p className="text-start pl-4 text-3xl">{capitalize(w.name)}</p>
             <div className="flex flex-col w-full justify-evenly relative my-auto h-3/4 ">
               {/* <p className="  z-20 text-2xl text-white absolute right-32">+</p> */}
               {(newTime == mapindex ||
@@ -79,7 +106,9 @@ export default function WeekSchedule({
                     </div>
                   </div>
                   {shown && shown.openTime && shown.closeTime && (
-                    <button className="px-8 rounded-full outline outline-black outline-1 mt-2" onClick={() => {
+                    <button className=" w-full md:w-2/3 mx-auto px-8 rounded-full outline outline-black outline-1 mt-2 disabled:text-gray-500"
+                    disabled={isDisable}
+                    onClick={() => {
                       saveFun(null, null)
                       setNewTime(null)
                     }}>Save</button>

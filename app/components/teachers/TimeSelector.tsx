@@ -42,7 +42,7 @@ export default function TimeSelector({
   mapIndex,
   arrayIndex,
 }: TimeSelectorProps) {
-  console.log(selected, "selected");
+  // console.log(selected, "selected");
 
   let pm = null
 
@@ -51,13 +51,13 @@ export default function TimeSelector({
   if (selected) {
     const split = selected.split(":");
     
-    console.log(split);
+    // console.log(split);
     
     let number = Number(split[0]);
     
      pm = false;
 
-    console.log(number);
+    // console.log(number);
 
     if (number > 12) {
       number = number % 12;
@@ -122,7 +122,7 @@ export default function TimeSelector({
 
                   let pm = false;
 
-                  console.log(number);
+                  // console.log(number);
 
                   if (number > 12) {
                     number = number % 12;

@@ -11,6 +11,8 @@ import React from "react";
 export default async function Page() {
   const user = await serverUser();
 
+  if(!user) redirect('/')
+
   if (user) {
     const foundAssigned = await AssignTeacher.findOne({ user: user.id });
 

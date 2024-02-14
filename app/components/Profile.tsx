@@ -64,6 +64,9 @@ export default function Profile({ user, tokens }: any) {
             {user.roles.includes('admin') && <Link href={"/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
               Admin Panel
             </Link>}
+            {user.roles.includes('user') && <Link href={"/user/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
+              User Dashboard
+            </Link>}
             {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
               Booking panel
             </Link>}

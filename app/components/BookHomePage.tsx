@@ -49,14 +49,20 @@ export default function BookHomePage( {pricePackages}: any) {
 
         <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
           <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
-            <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-4">
+            {/* <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-4">
               <p className="font-bold text-2xl">Proficiency</p>
               <p className="text-5xl h-full "> ✏️👨‍🏫 </p>
               <p className="text-sm h-full w-4/5 mx-auto text-center font-bold ">
                 {" "}
                 Native German Speaker
               </p>
-            </div>
+            </div> */}
+
+            <WhatMakesDifferent 
+            mainText="Proficiency"
+            emoji={['✏️', '👨‍🏫']}
+            bottomText="Native German Speaker"
+            />
             <WhatMakesDifferent
               mainText="Dedicated"
               emoji={["📕", "🎓"]}

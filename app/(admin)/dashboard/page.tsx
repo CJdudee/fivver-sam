@@ -12,7 +12,7 @@ import React from "react";
 export default async function Page() {
   const sessionUser = await serverUser();
 
-  // roleChecker(sessionUser, "admin");
+  roleChecker(sessionUser, ['admin', 'teacher']);
   console.log(sessionUser);
 
   if (!sessionUser) redirect("/");
@@ -48,14 +48,14 @@ export default async function Page() {
             Change Pricing
           </Link>
         </div>
-        <div className="h-1/6 w-full  transition-all duration-300 mx-auto rounded-xl pri">
+        {/* <div className="h-1/6 w-full  transition-all duration-300 mx-auto rounded-xl pri">
           <Link
             href={"/dashboard/changeprice"}
             className="text-2xl text-black font-extrabold p-2 flex justify-center items-center h-full"
           >
             View Teacher Monthly Classes
           </Link>
-        </div>
+        </div> */}
         {/* <CreateTeacher /> */}
       </div>
     </div>

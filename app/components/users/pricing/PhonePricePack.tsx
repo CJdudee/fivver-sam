@@ -6,6 +6,8 @@ import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
 export default function PhonePricePack({ packages, user }: any) {
   const [tran, setTran] = useState(0);
 
+  const tranNumber = 47.8
+
   console.log(packages, "this is pack man");
   return (
     <>
@@ -13,7 +15,7 @@ export default function PhonePricePack({ packages, user }: any) {
         <button
           onClick={() => {
             if (tran == 0) return null;
-            setTran(tran - 51.5);
+            setTran(tran - tranNumber);
           }}
           className="text-black  text-xl  z-[100] bg-white rounded-full"
         >
@@ -21,8 +23,8 @@ export default function PhonePricePack({ packages, user }: any) {
         </button>
         <button
           onClick={() => {
-            if (tran == (packages.length - 1)  * 51.5) return null;
-            setTran(tran + 51.5);
+            if (tran == (packages.length - 1)  * tranNumber) return null;
+            setTran(tran + tranNumber);
           }}
           className="text-black  text-xl  z-[100] bg-white rounded-full"
         >

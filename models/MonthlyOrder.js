@@ -24,7 +24,11 @@ const MothlyOrderSchema = new mongoose.Schema({
     date: {
         type: String,
         required: true
-    }
+    },
+    paid: {
+        type: Boolean,
+        default: false
+    },
 })
 
 //have to make users posts a subdoc so i dont go over the 16 mb limit or a populate

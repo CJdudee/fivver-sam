@@ -10,7 +10,7 @@ import { roleChecker } from '@/app/lib/roleCheck'
 export default async function Page() {
   const user = await serverUser()
 
-  roleChecker(user, 'teacher')
+  roleChecker(user, ['teacher'])
 
   if(!user) return redirect('/')
 

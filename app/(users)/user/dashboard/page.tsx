@@ -13,18 +13,18 @@ export default async function Page() {
 
   if(!user) redirect('/')
 
-  const foundTokens = await Token.find({user: user.id}).exec()
+  const foundTokens = await Token.find({user: user.id}).sort().exec()
 
   const foundBooking = await Booking.find({student: user.id, date: {$lt: new Date()}})
 
-  console.log(user, foundBooking)
+  console.log(user, foundTokens)
 
   const tokensJson = simpleJson(foundTokens)
 
   const prevBooking = simpleJson(foundBooking)
 
   return (
-    <div className='min-h-[810px] h-[92vh] flex'>
+    <div className='min-h-[810px] h-[92vh] flex w-full overflow-x-hidden relative'>
       <Maindash tokens={tokensJson} prevBooking={prevBooking} />
       
     </div>

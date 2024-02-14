@@ -49,7 +49,7 @@ export default function AllBooking({booked, bookingLength, onCancelBook} : any) 
               <p>
                 Date: {formated}
               </p>
-              <p>Time: {numb ?? b.time } : {sMin} {numb ? 'pm' : 'am'}</p>
+              <p>Time: {numb ?? b.time } {numb ? 'pm' : 'am'}</p>
             </div>
             <div className="text-center w-full">
               <div className="flex flex-col items-center justify-evenly w-full mx-auto rounded-xl p-4  gap-2 mt-4">

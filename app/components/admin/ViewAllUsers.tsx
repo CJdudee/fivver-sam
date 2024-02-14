@@ -1,6 +1,10 @@
 "use client";
 
-import { assignTeacherToUser, disableUser, removeTeacherFromUser } from "@/actions/adminAllUsers";
+import {
+  assignTeacherToUser,
+  disableUser,
+  removeTeacherFromUser,
+} from "@/actions/adminAllUsers";
 import { getAllTeacher } from "@/actions/teacherQuery";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
@@ -9,7 +13,35 @@ import Select from "react-select";
 import "react-select";
 import AsyncSelect from "react-select/async";
 
-export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) {
+const styleForSelect = {
+  clearIndicator: () => "",
+  container: () => " text-black font-bold ",
+  control: () => "",
+  dropdownIndicator: () => "",
+  group: () => "",
+  groupHeading: () => "",
+  indicatorsContainer: () => "",
+  indicatorSeparator: () => "",
+  input: () => "",
+  loadingIndicator: () => "",
+  loadingMessage: () => "",
+  menu: () => "text-black  text-sm",
+  menuList: () => "",
+  menuPortal: () => "",
+  multiValue: () => "",
+  multiValueLabel: () => "",
+  multiValueRemove: () => "",
+  noOptionsMessage: () => " text-sm",
+  option: (styles: any) => `text-black hover:bg-amber-400  text-center py-2 `,
+  placeholder: () => "",
+  singleValue: () => " text-black",
+  valueContainer: () => "",
+};
+
+export default function ViewAllUsers({
+  foundUserJson,
+  foundAssignedJson,
+}: any) {
   const [msg, setMsg] = useState("");
   const [turnDialog, setTurnDialog] = useState(false);
   const [idUser, setIdUser] = useState<any>(null);
@@ -17,10 +49,26 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
   const dialogRef = useRef<null | HTMLDialogElement>(null);
   const [asyncSearch, setAsyncSearch] = useState("");
 
-  const [nameFilter, setNameFilter] = useState('')
-  const [filter, setFilter] = useState<any>(null);
+  const [nameFilter, setNameFilter] = useState("");
+  const [filter, setFilter] = useState<any>(undefined);
 
-  const [foundAssigned, setFoundAssigned ] = useState(foundAssignedJson)
+  const [foundAssigned, setFoundAssigned] = useState(foundAssignedJson);
+
+  const roleSelect = [
+    { value: "user", label: "user" },
+    { value: "teacher", label: "teacher" },
+    { value: "admin", label: "admin" },
+  ];
+
+  const handleRole = (selectedOption: any) => {
+    console.log(filter);
+    // console.log(selectedOption);
+    setFilter(
+      selectedOption.map((s: any) => {
+        return s.value;
+      })
+    );
+  };
 
   useEffect(() => {
     if (!turnDialog) return dialogRef.current?.close();
@@ -31,25 +79,23 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
   const filterUser = foundUserJson.filter((u: any) => {
     // if (filter == null) return true;
 
-    const trueArray: boolean[] = []
+    const trueArray: boolean[] = [];
 
-
-    if(filter != null) {
-      if (!filter.includes(u.roles)) trueArray.push(false);
-
+    if (filter != undefined && filter != "") {
+      if (!filter.every((f: any) => u.roles?.includes(f)))
+        trueArray.push(false);
+      // if (!filter.includes(u.roles)) trueArray.push(false);
     }
     // if(u.roles?.includes(filter)) return true
 
-    if(nameFilter != '') {
-
-      const lowerName = u.username.toLowerCase()
+    if (nameFilter != "") {
+      const lowerName = u.username.toLowerCase();
 
       // if(nameFilter != u.username) trueArray.push(false)
-      if(!lowerName.includes(nameFilter.toLowerCase())) trueArray.push(false)
+      if (!lowerName.includes(nameFilter.toLowerCase())) trueArray.push(false);
     }
-    
 
-    if(trueArray.includes(false)) return false
+    if (trueArray.includes(false)) return false;
 
     return true;
   });
@@ -92,15 +138,15 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
 
     const assigned = await assignTeacherToUser(idUser._id, teacherId._id);
 
-    if(!assigned) return errorToast()
+    if (!assigned) return errorToast();
 
-    susToast(assigned.msg)
+    susToast(assigned.msg);
 
-    setFoundAssigned(assigned.data)
-    
-    setTurnDialog(false)
-    setIdUser(null) 
-    setTeacherId(null)
+    setFoundAssigned(assigned.data);
+
+    setTurnDialog(false);
+    setIdUser(null);
+    setTeacherId(null);
   };
 
   const handleRemoveTeacher = async () => {
@@ -110,17 +156,17 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
 
     const deleted: any = await removeTeacherFromUser(idUser._id);
 
-    if(!deleted) return errorToast()
+    if (!deleted) return errorToast();
 
-    susToast(deleted.msg)
+    susToast(deleted.msg);
 
     setFoundAssigned((prev: any) => {
-      return prev.filter((p: any) => p.user != deleted.data) 
-    })
-    
-    setTurnDialog(false)
-    setIdUser(null) 
-    setTeacherId(null)
+      return prev.filter((p: any) => p.user != deleted.data);
+    });
+
+    setTurnDialog(false);
+    setIdUser(null);
+    setTeacherId(null);
   };
 
   const handleSelect = (selectedOption: any) => {
@@ -134,13 +180,15 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
       className=" w-full min-w-full md:min-w-0 md:w-2/3 h-2/3 min-h-[400px] pri  text-black p-4 rounded-xl"
       ref={dialogRef}
     >
-      <p  className="w-full mt-4 mb-1 truncate">Asssign Teacher to {idUser?.username} </p>
+      <p className="w-full mt-4  truncate font-bold mb-2">
+        Asssign Teacher to {idUser?.username}{" "}
+      </p>
       <button
         className=" absolute top-1 right-2 hover:text-red-400 font-bold"
         onClick={() => {
           setTurnDialog(false);
-          setIdUser(null) 
-          setTeacherId(null)
+          setIdUser(null);
+          setTeacherId(null);
         }}
       >
         X
@@ -156,32 +204,10 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
           // }}
           getOptionLabel={(option) => option.user.username}
           getOptionValue={(option) => option.user.username}
-          placeholder="Assign a Teacher"
-          classNames={{
-            clearIndicator: () => "",
-            container: () => " text-black font-bold ",
-            control: () => "",
-            dropdownIndicator: () => "",
-            group: () => "",
-            groupHeading: () => "",
-            indicatorsContainer: () => "",
-            indicatorSeparator: () => "",
-            input: () => "",
-            loadingIndicator: () => "",
-            loadingMessage: () => "",
-            menu: () => "text-black  text-sm",
-            menuList: () => "",
-            menuPortal: () => "",
-            multiValue: () => "",
-            multiValueLabel: () => "",
-            multiValueRemove: () => "",
-            noOptionsMessage: () => " text-sm",
-            option: (styles) =>
-              `text-black hover:bg-amber-400  text-center py-2 `,
-            placeholder: () => "",
-            singleValue: () => " text-black",
-            valueContainer: () => "",
-          }}
+          placeholder="Please Type Teacher Username"
+          // noOptionsMessage={"hey"}
+          // noOptionsMessage={{msg: 'f'}}
+          classNames={styleForSelect}
           onChange={handleSelect}
         />
       </div>
@@ -199,7 +225,7 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
             className="px-6 outline-1 outline hover:outline-4 transition-all duration-150 rounded-full"
             onClick={handleRemoveTeacher}
           >
-            Remove assigned Teacher
+            Remove Assigned Teacher
           </button>
         )}
       </div>
@@ -211,27 +237,59 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
       <div className="mb-2 sticky top-[8vh] bg-[#242424]  flex justify-evenly gap-2 pb-2 pt-2 ">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <p className="md:w-1/2">Find By Name</p>
-          <input className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold" onChange={(e) => {
-            setNameFilter(e.target.value)
-            console.log(nameFilter)
-          }} value={nameFilter} />
+          <input
+            className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold"
+            onChange={(e) => {
+              setNameFilter(e.target.value);
+              console.log(nameFilter);
+            }}
+            value={nameFilter}
+          />
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <p className="md:w-1/2">Find By Roles</p>
-          <input className="rounded-full text-lg w-4/5 md:w-1/2" onChange={(e) => setNameFilter(e.target.value)} />
+          {/* <input value={filter} className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold" onChange={(e) => setFilter(e.target.value)} /> */}
+          <div className=" w-4/5 flex justify-center ">
+            <Select
+              classNames={{
+                clearIndicator: () => "",
+                container: () =>
+                  "text-black md:w-2/3 md:w-full lg:w-full text-center   ",
+                indicatorsContainer: () => " ",
+                control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
+                menu: () => " ",
+                menuList: () => "bg-white rounded-md text-md ",
+                dropdownIndicator: () => "rounded-lg ",
+                valueContainer: () =>
+                  "rounded-lg text-black text-lg font-semibold flex gap-2   ",
+                group: () => "text-white bg-slate-300 ",
+                option: () => "p-1  hover:bg-slate-100",
+                input: () => "",
+                placeholder: () => "text-black text-md",
+                singleValue: () => "",
+              }}
+              isMulti
+              unstyled
+              isSearchable={false}
+              options={roleSelect}
+              onChange={handleRole}
+              className=" text-sm "
+              placeholder={"Pick User's Roles"}
+              classNamePrefix="unstyled"
+            />
+          </div>
         </div>
       </div>
       <div className=" flex flex-col lg:grid grid-cols-2 items-center gap-4 px-2 md:px-8">
         {asssignTeacherDialog}
         {filterUser.map((f: any, i: number) => {
-
-          const foundAss = foundAssigned.find((c: any) => c.user == f._id)
+          const foundAss = foundAssigned.find((c: any) => c.user == f._id);
           // console.log(f, "what the");
           if (!f.roles) return;
           return (
             <div
               key={i}
-              className={` bg-[#c5c5c5] w-full p-4 rounded-xl text-black font-semibold `}
+              className={` bg-[#dfdede] w-full p-4 rounded-xl text-black font-semibold `}
             >
               <p className="mb-2.5 ">User: {f.username}</p>
               <div className=" border-t-2 border-b-2 py-2 border-black w-full mx-auto">
@@ -243,7 +301,10 @@ export default function ViewAllUsers({ foundUserJson, foundAssignedJson }: any) 
                 </ul>
               </div>
               <p className="my-2.5">Tokens: {f.tokens}</p>
-              <p className="my-2.5">Assigned: {foundAss?.teacher.user.username ?? " No Teacher assigned"}</p>
+              <p className="my-2.5">
+                Assigned:{" "}
+                {foundAss?.teacher?.user.username ?? " No Teacher assigned"}
+              </p>
               <div className="flex gap-4 justify-center">
                 <button
                   className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"

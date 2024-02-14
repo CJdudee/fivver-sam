@@ -1,11 +1,15 @@
 
 // import CreatePackage from '@/app/components/admin/createPackage'
 import CreatePackage from '@/app/components/admin/CreatePackage'
+import { decodeUserAndCheckAdmin } from '@/app/lib/finallyRoleCheck'
 import Packages from '@/models/Packages'
 import { simpleJson } from '@/utils/helpers'
 import React from 'react'
 
 export default async function Page() {
+
+  await decodeUserAndCheckAdmin()
+
 
     const packages = await Packages.find().exec()
 

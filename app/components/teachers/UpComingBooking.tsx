@@ -58,12 +58,7 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
         const addedHour = addHours(time, Number(split[0]));
 
         const addedMin = addMinutes(addedHour, Number(split[1]));
-        // const formatted = b.date.toISOString()
-        // const formatted = time.getMonth();
-        // const formattedDay = time.getDate();
-        // const formattedYear = time.getFullYear();
-        // const formattedHour = time.getHours();
-        // const formattedMin = time.getMinutes();
+        
 
         // const year = getYear(time);
         const formated = formatDate(time, "MM/dd/yy");
@@ -84,9 +79,9 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
           numb = sHour % 12;
         }
 
-        console.log(split);
+        // console.log(split);
 
-        console.log(b.time);
+        // console.log(b.time);
 
         return (
           <div
@@ -129,14 +124,14 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
               <p className=" text-xl md:text-3xl text-black">Status: {b.status}</p>
               <p className="text-xl md:text-3xl text-black">Group Size: {b.groupSize}</p>
             </div>
-            <div className="text-black text-end w-full font-semibold">
+            {/* <div className="text-black text-end w-full font-semibold">
               <button
                 onClick={() => onCancelBook(b._id)}
                 className="hover:text-red-400"
               >
                 Cancel
               </button>
-            </div>
+            </div> */}
           </div>
         );
       })}

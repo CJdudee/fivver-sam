@@ -40,7 +40,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
           transform: `translateX(-${tran}dvh)`,
         }}
       >
-        {pricePackages.map((p: any, i: number) => {
+        {pricePackages.slice(0,3).map((p: any, i: number) => {
           const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
           // console.log(index);
           const onBuy = () => {}
@@ -56,6 +56,15 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
             />
           );
         })}
+
+        {pricePackages.length > 3 && (
+          <div
+          className={`   bg-white w-fit md:w-max h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col justify-stretch items-stretch  pt-8 pb-8 px-8 z-20 min-h-max my-auto`}
+        >
+          
+         <p>View More Packages</p>
+        </div>
+        )}
         {/* <SinglePlanPackage price={10} hours={2} />
 
         <SinglePlanPackage price={50} hours={5} />
@@ -79,7 +88,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
         <SinglePlanPackage price={150} hours={15} />
 
         <SinglePlanPackage price={300} hours={30} /> */}
-        {pricePackages.map((p: any, i: number) => {
+        {pricePackages.slice(0,4).map((p: any, i: number) => {
           const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
           // console.log(index);
           const onBuy = () => {}

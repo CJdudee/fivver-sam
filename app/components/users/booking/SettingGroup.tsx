@@ -28,7 +28,9 @@ export default function SettingGroup({ setGroupSize, teacherName, tokenGroup } :
         }
     }
 
-    const buttonDis = tokenGroup[size - 1] == 0 ||tokenGroup[size - 1] == undefined
+    const buttonDis = tokenGroup[size - 1] == 0 || tokenGroup[size - 1] == undefined
+
+    console.log(buttonDis)
 
   return (
     <div className=" pri rounded-xl pt-0 flex flex-col justify-center items-center gap-8 md:w-2/3 mx-auto text-black font-extrabold min-h-[500px] h-full md:h-1/2  ">
@@ -62,7 +64,7 @@ export default function SettingGroup({ setGroupSize, teacherName, tokenGroup } :
             </div>
 
             <div className='text-center mt-8'>
-                <button className='w-1/3 outline outline-1 hover:outline-4 transition-all duration-150  py-0.5 rounded-full text-black outline-black' disabled={!buttonDis} onClick={() => 
+                <button className='w-1/3 outline outline-1 hover:outline-4 transition-all duration-150  py-0.5 rounded-full text-black outline-black' disabled={buttonDis} onClick={() => 
                 setGroupSize(size)}>Confirm</button>
             </div>
         </div>

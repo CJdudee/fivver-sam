@@ -19,7 +19,7 @@ export default function WhatMakesDifferent({
         {e}
         </p>
       ))} </div>
-      <p className="text-sm  w-4/5 mx-auto text-center h-1/4 flex items-center justify-center  font-semibold ">
+      <p className="text-sm  w-4/5 mx-auto text-center h-1/4 flex items-center justify-center  font-bold ">
         
        {bottomText}
       </p>

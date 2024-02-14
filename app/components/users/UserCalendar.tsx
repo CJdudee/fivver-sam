@@ -15,6 +15,7 @@ import {
   parseISO,
 } from "date-fns";
 import {
+  gerFormat,
   getOpeningTimeFrame,
   getOpeningTimes,
   roundToNearestMinutes,
@@ -34,6 +35,8 @@ export default function UserCalendar({
   booked,
   groupSize,
   setGroupSize,
+  setTokensObj,
+  tokensObj
 }: any) {
   // const [groupSize, setGroupSize] = useState(1)
   const [date, setDate] = useState<any>({
@@ -60,6 +63,31 @@ export default function UserCalendar({
     setDate((prev: any) => {
       return {...prev, dateTime: null}
     })
+
+    const newArray =  {...tokensObj}
+
+    // const tokenGroup = [
+    //   newArray.firstGroupTokens,
+    //   newArray.secondGroupTokens,
+    //   newArray.thirdGroupTokens,
+    // ];
+
+    if(groupSize == 1) {
+      newArray.firstGroupTokens -= 1
+    }
+    if(groupSize == 2) {
+      newArray.secondGroupTokens -= 1
+    }
+    if(groupSize == 3) {
+      newArray.thirdGroupTokens -= 1
+    }
+    // tokenGroup[groupSize - 1] - 1
+
+
+
+    console.log(tokensObj, newArray, 'yo you what')
+
+    setTokensObj(newArray)
     
     susToast(book.msg as string)
     // console.log(book);
@@ -248,7 +276,8 @@ export default function UserCalendar({
                 className="text-bold w-full md:w-1/2 text-center font-bold text-xl mx-auto"
               >
                 Date selected:{" "}
-                {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")}
+                {gerFormat(date.justDate)}
+                {/* {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")} */}
               </p>
               <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
                 Group Size {groupSize}

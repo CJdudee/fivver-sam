@@ -3,29 +3,34 @@
 import { gerFormat } from "@/utils/helpers";
 import { formatDate, subYears } from "date-fns";
 import React, { useState } from "react";
+import SideBarNav from "./SideBarNav";
 
 export default function Maindash({ tokens, prevBooking }: any) {
   const [tab, setTab] = useState("");
 
   const boughtTokens = (
-    <div className="mx-auto w-full">
-      <ul>
+    <div className="mx-auto w-full ">
+      <ul className="flex flex-col gap-8">
         {tokens.map((p: any, i: number) => {
           console.log(p);
           return (
             <li
-              className="flex flex-col bg-gray-100 py-8 px-8 rounded-xl w-3/5 min-h-[200px] h-full mx-auto"
+              className="flex flex-col bg-gray-100 py-8 px-8 rounded-xl w-full md:w-3/5 min-h-[200px] h-full mx-auto"
               key={i}
             >
-              <p className="text-center mb-2 text-2xl font-bold">Bought On {formatDate(subYears(p.expire, 1), 'dd/MM/yy')}</p>
-              <div className="flex h-full">
+              <div className=" mb-2 flex flex-col md:flex-row">
+
+              <p className="md:w-1/2 text-center text-2xl font-bold">Purchased On</p>
+              <p className="md:w-1/2 text-center text-2xl font-bold">{formatDate(subYears(p.expire, 1), 'dd/MM/yy')}</p>
+              </div>
+              <div className="flex flex-col md:flex-row h-full mx-auto w-full justify-center items-center">
                 
-                <div className="w-1/2 h-full text-center flex justify-center gap-8 text-2xl font-bold ">
+                <div className="md:w-1/2 h-full text-center flex justify-center gap-2 text-2xl font-bold ">
                   <p className="">Tokens:</p>
                   <p className="">{p.tokens}</p>
                 </div>
 
-                <div className="w-1/2 h-full text-center flex justify-center gap-8 text-2xl font-bold">
+                <div className="md:w-1/2 h-full text-center flex justify-center gap-2 text-2xl font-bold">
                   <p className="">Group Size:</p>
                   <p className="">{p.groupSize}</p>
                 </div>
@@ -69,26 +74,7 @@ export default function Maindash({ tokens, prevBooking }: any) {
 
   return (
     <>
-      <div className="w-1/6 h-full min-h-full bg-gray-200 flex flex-col gap-8 justify-between py-24">
-        <button
-          onClick={() => setTab("")}
-          className=" hover:bg-blue-300 font-extrabold w-full h-full hover:text-white transition-all duration-500"
-        >
-          Previous Classes
-        </button>
-        <button
-          onClick={() => setTab("token")}
-          className=" hover:bg-blue-300 font-extrabold w-full h-full hover:text-white transition-all duration-500"
-        >
-          Purchase History
-        </button>
-        <button
-          onClick={() => setTab("")}
-          className=" hover:bg-blue-300 font-extrabold w-full h-full hover:text-white transition-all duration-500"
-        >
-          Expired Tokens
-        </button>
-      </div>
+      <SideBarNav setTab={setTab} tab={tab} />
 
       <div className="w-full rounded-r-xl py-20 px-8 mx-auto">
         {tab == "" && prevBookingJsx}

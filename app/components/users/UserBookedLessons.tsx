@@ -36,6 +36,8 @@ export default function UserBookedLessons({ booked }: any) {
     const filteredCopy = copy.filter((c) => c._id != bookingId)
 
     setBookingArray(filteredCopy)
+    // window.location.reload()
+
   };
 
   const filteredBook = bookingArray.filter((b: any) => {

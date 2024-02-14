@@ -9,21 +9,28 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { FcSettings } from "react-icons/fc";
 import MonthlyOrder from "@/models/MonthlyOrder";
+import { decodeUserAndCheckTeacher } from "@/app/lib/finallyRoleCheck";
 
 export default async function Page() {
   const user = await serverUser();
   if (!user) redirect("/");
+
+  await decodeUserAndCheckTeacher();
+
   const teacher = await Teacher.findOne({ user: user.id });
 
   console.log(teacher, user);
 
   const format = formatDate(new Date(), "MM/yy");
 
-  const mothnlyOrder = await MonthlyOrder.findOne({teacher: teacher._id,  date: format });
+  const mothnlyOrder = await MonthlyOrder.findOne({
+    teacher: teacher._id,
+    date: format,
+  });
   console.log(mothnlyOrder);
 
   // console.log(format, typeof format);
-  roleChecker(user, "teacher");
+  // roleChecker(user, ["teacher"]);
 
   const canBooking = await Booking.find({
     teacher: teacher._id,
@@ -51,10 +58,12 @@ export default async function Page() {
   // console.log(currentJson);
 
   const monthlyJsx = (
-    <div className="flex  items-center flex-row text-black  gap-8 py-10 px-4 md:p-10 w-full md:w-full rounded-t-xl justify-evenly">
-      <div className="flex justify-center items-center md:text-2xl font-bold w-1/3  md:border-r-2">
-        <p className="w-full flex justify-center ">This Month Orders</p>{" "}
-        <p className="w-full flex justify-center ">
+    <div className="flex  items-center flex-row text-black  gap-8 py-10 px-4 md:p-10 w-full md:w-full rounded-t-xl justify-evenly h-full min-h-[80px]">
+      <div className="flex justify-center items-center md:text-2xl font-bold w-1/3  md:border-r-2 h-full ">
+        <p className="w-full flex justify-center items-center ">
+          This Month Orders
+        </p>{" "}
+        <p className="w-full flex justify-center items-center ">
           {monthlyOrderJson?.orders}
         </p>
       </div>
@@ -76,7 +85,7 @@ export default async function Page() {
   );
 
   return (
-    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4 h-[92vh] relative min-h-[800px] ">
+    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-screen ">
       <div className=" absolute top-8 right-4 md:right-28">
         {/* <FcSettings className="w-10 h-10 hover:rotate-90 transition-all duratino-500" /> */}
         <Link
@@ -98,8 +107,8 @@ export default async function Page() {
           )}
         </div>
       </div> */}
-      <div className="flex flex-col justify-between w-full items-center  pt-4 bg-[#c9c8c8] mt-0 rounded-xl min-h-full h-full ">
-        <p className="text-2xl text-center text-gray-800 font-semibold">
+      <div className="flex flex-col justify-between w-full items-center  pt-4 bg-[#e6e6e6] mt-0 rounded-xl min-h-full h-full ">
+        <p className="text-2xl text-center text-gray-800 font-extrabold">
           {" "}
           {format} Orders
         </p>
@@ -136,28 +145,29 @@ export default async function Page() {
           </div>
         </div>
 
-        <div className="h-1/3 w-full flex items-center justify-center ">
-          <Link
-            className=" hover:bg-gray-200 font-semibold  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2 border-r-2 border-black flex items-center justify-center"
-            href={"/teachers/dashboard/schedule"}
-          >
-            Make Schedule
-          </Link>
-          <Link
-            className=" hover:bg-gray-200 font-semibold rounded-b-xl  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2 border-black flex items-center justify-center"
-            href={"/teachers/dashboard/booked"}
-          >
-            View booking
-          </Link>
-        </div>
-        <div className="h-1/3 w-full flex items-center justify-center ">
-          <Link
-            className=" hover:bg-gray-200 font-semibold  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2  border-black flex items-center justify-center"
-            href={"/teachers/dashboard/old"}
-          >
-            View Old Classes
-          </Link>
-          
+        <div className="flex flex-col items-end justify-end w-full h-1/4">
+          <div className="w-full flex items-center justify-center ">
+            <Link
+              className=" hover:bg-gray-200 font-semibold  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2 border-r-2 border-black flex items-center justify-center"
+              href={"/teachers/dashboard/schedule"}
+            >
+              Make Schedule
+            </Link>
+            <Link
+              className=" hover:bg-gray-200 font-semibold rounded-b-xl  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2 border-black flex items-center justify-center"
+              href={"/teachers/dashboard/booked"}
+            >
+              View booking
+            </Link>
+          </div>
+          <div className="w-full flex items-center justify-center ">
+            <Link
+              className=" hover:bg-gray-200 font-semibold  p-4 h-full w-full  text-center min-h-max text-3xl border-t-2  border-black flex items-center justify-center"
+              href={"/teachers/dashboard/old"}
+            >
+              View Old Classes
+            </Link>
+          </div>
         </div>
       </div>
     </div>

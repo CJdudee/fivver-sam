@@ -23,6 +23,7 @@ export default function UserBooking({
 }: any) {
   const [groupSize, setGroupSize] = useState<null | number>(null);
   const [showToken, setShowToken] = useState(false);
+  const [tokensObj, setTokensObj ] = useState(foundTokenJson)
 
   useEffect(() => {
     setShowToken(true);
@@ -39,17 +40,30 @@ export default function UserBooking({
 
   const router = useRouter();
 
-  const firstGroup = foundTokenJson.find((t: any) => t.groupSize == 1);
-  const secondGroup = foundTokenJson.find((t: any) => t.groupSize == 2);
-  const thirdGroup = foundTokenJson.find((t: any) => t.groupSize == 3);
+  // const firstGroup = foundTokenJson.filter((t: any) => t.groupSize == 1);
+  // const secondGroup = foundTokenJson.filter((t: any) => t.groupSize == 2);
+  // const thirdGroup = foundTokenJson.filter((t: any) => t.groupSize == 3);
+  // const firstGroup = foundTokenJson.find((t: any) => t.groupSize == 1);
 
-  const tokenGroup = {
-    firstGroup,
-    secondGroup,
-    thirdGroup,
-  };
+  // console.log(firstGroup, 'this is group')
+  // const secondGroup = foundTokenJson.find((t: any) => t.groupSize == 2);
+  // const thirdGroup = foundTokenJson.find((t: any) => t.groupSize == 3);
 
-  // console.log(thirdGroup)
+  // const tokenGroup = {
+  //   firstGroup,
+  //   secondGroup,
+  //   thirdGroup,
+  // };
+
+ 
+
+  const tokenGroup = [
+    foundTokenJson.firstGroupTokens,
+    foundTokenJson.secondGroupTokens,
+    foundTokenJson.thirdGroupTokens,
+  ];
+
+  // console.log(tokenGroup)
 
   return (
     <div className="h-[92dvh] relative">
@@ -60,24 +74,27 @@ export default function UserBooking({
       >
         <div className=" delay-150 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl flex items-center flex-col justify-center w-1/3">
           <p>Individual Classes</p>
-          {firstGroup ? (
-            <p className="text-xl font-extrabold">{firstGroup.tokens} left</p>
+          {tokensObj.firstGroupTokens ? (
+            <p className="text-xl font-extrabold">{tokensObj.firstGroupTokens} left</p>
+            // <p className="text-xl font-extrabold">{firstGroup.tokens} left</p>
           ) : (
             <p>0 left</p>
           )}
         </div>
         <div className=" delay-300 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
           <p>2 person Classes</p>
-          {secondGroup ? (
-            <p className="text-xl font-extrabold">{secondGroup.tokens} left</p>
+          {tokensObj.secondGroupTokens ? (
+            <p className="text-xl font-extrabold">{tokensObj.secondGroupTokens} left</p>
+            // <p className="text-xl font-extrabold">{secondGroup.tokens} left</p>
           ) : (
             <p>0 left</p>
           )}
         </div>
         <div className=" delay-1000 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
           <p>3 person Classes</p>
-          {thirdGroup ? (
-            <p className="text-xl font-extrabold">{thirdGroup.tokens} left</p>
+          {tokensObj.thirdGroup ? (
+            <p className="text-xl font-extrabold">{tokensObj.thirdGroupTokens} left</p>
+            // <p className="text-xl font-extrabold">{thirdGroup.tokens} left</p>
           ) : (
             <p>0 left</p>
           )}
@@ -106,6 +123,8 @@ export default function UserBooking({
             booked={booked}
             groupSize={groupSize}
             setGroupSize={setGroupSize}
+            setTokensObj={setTokensObj}
+            tokensObj={tokensObj}
           />
         </div>
       )}
