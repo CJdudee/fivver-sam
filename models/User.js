@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: undefined,
         // unique: true
+        index: {unique: true, sparse: true}
     },
     emailVerified: {
         type: Date,

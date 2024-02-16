@@ -11,7 +11,7 @@ export default async function Page() {
 
  await decodeUserAndCheckAdmin()
 
-  const foundUsers = await User.find().select("-password -customerId").exec();
+  const foundUsers = await (await User.find().select("-password -customerId")).reverse()
 
   const foundAssigned = await AssignTeacher.find({user: foundUsers.map((f:any) => f._id)}).populate({path: 'teacher', populate: {
     path: 'user'

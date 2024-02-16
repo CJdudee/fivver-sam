@@ -5,6 +5,7 @@ import { formatDate, subYears } from "date-fns";
 import React, { useState } from "react";
 import SideBarNav from "./SideBarNav";
 import { FaHourglass } from "react-icons/fa";
+import OldBookingMap from "../../teachers/old/OldBookingMap";
 
 export default function Maindash({ tokens, prevBooking }: any) {
   const [tab, setTab] = useState("");
@@ -57,16 +58,17 @@ export default function Maindash({ tokens, prevBooking }: any) {
   const prevBookingJsx = (
     <div className="w-full">
       <ul className="mx-auto w-full">
-        {prevBooking.map((p: any, i: number) => {
+      <div className="flex flex-col justify-center items-center gap-8 pt-8 px-2">
+      {prevBooking.map((p: any, i: number) => {
           return (
-            <li key={i}>
-              <p>Hey</p>
-            </li>
+            <OldBookingMap key={i} userData={p.teacher.user} data={p} isTeacher={true} />
           );
         })}
+      </div>
+        
 
         {prevBooking.length == 0 && (
-          <div className="text-3xl font-semibold w-fit  bg-gray-300 px-8 rounded-full py-2 text-center">
+          <div className="text-3xl font-semibold w-fit  bg-gray-300 px-8 rounded-full py-2 text-center mx-auto">
             <p className="">No Previous Bookings</p>
           </div>
         )}

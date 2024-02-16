@@ -8,6 +8,7 @@ import {
 import { getAllTeacher } from "@/actions/teacherQuery";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
+import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 import Select from "react-select";
 import "react-select";
@@ -289,10 +290,23 @@ export default function ViewAllUsers({
           return (
             <div
               key={i}
-              className={` bg-[#dfdede] w-full p-4 rounded-xl text-black font-semibold `}
+              className={` bg-gray-600  w-full p-4 rounded-xl text-white font-bold `}
             >
-              <p className="mb-2.5 ">User: {f.username}</p>
-              <div className=" border-t-2 border-b-2 py-2 border-black w-full mx-auto">
+              {/* <Link
+                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+                  href={`/dashboard/viewusers/${f._id}`}
+                >
+                  View User
+                </Link> */}
+              <div className="mb-2.5 ">
+                <Link
+                  href={`/dashboard/viewusers/${f._id}`}
+                  className=" hover:text-gray-200"
+                >
+                  User: {capitalize(f.username)}
+                </Link>
+              </div>
+              <div className=" border-t-2 border-b-2 py-2 pb-3 border-black w-full mx-auto rounded-xl">
                 <p>User Roles:</p>
                 <ul className="flex justify-center gap-4">
                   {f.roles.map((c: string, i: number) => (
@@ -300,12 +314,12 @@ export default function ViewAllUsers({
                   ))}
                 </ul>
               </div>
-              <p className="my-2.5">Tokens: {f.tokens}</p>
+              {/* <p className="my-2.5">Tokens: {f.tokens}</p> */}
               <p className="my-2.5">
                 Assigned:{" "}
                 {foundAss?.teacher?.user.username ?? " No Teacher assigned"}
               </p>
-              <div className="flex gap-4 justify-center">
+              <div className="flex gap-4 justify-center mt-4">
                 <button
                   className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
                   onClick={() => {
@@ -315,6 +329,12 @@ export default function ViewAllUsers({
                 >
                   Assign Teacher
                 </button>
+                {/* <Link
+                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+                  href={`/dashboard/viewusers/${f._id}`}
+                >
+                  View User
+                </Link> */}
                 <button
                   className="hover:outline-red-400 w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
                   onClick={() => handleDisable(f._id)}

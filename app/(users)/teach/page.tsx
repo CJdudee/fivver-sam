@@ -93,7 +93,7 @@ export default async function Page() {
                         <li
                           className={`${
                             f.isOpen == false && " bg-[#585757] text-white"
-                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-[95px] hover:h-[130px] overflow-y-auto`}
+                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-[95px] hover:h-[130px] overflow-y-auto my-auto`}
                           key={`${f.name} ${f.index}`}
                         >
                           <p>{capitalize(f.name as string)}</p>
@@ -101,7 +101,7 @@ export default async function Page() {
                           {f.openTime.length > 0 &&
                             f.openTime.map((o: any, i: number) => {
                               return (
-                                <div key={i} className="text-xs ">
+                                <div key={i} className="text-xs my-auto ">
                                   <p>Open:</p>
                                   <p>{o.openTime as string}</p>
                                   <p>Close:</p>

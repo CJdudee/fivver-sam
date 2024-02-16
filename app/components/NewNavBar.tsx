@@ -85,7 +85,7 @@ export default async function NewNavBar() {
           >
             Contact
           </Link>}
-          { <Link
+          { !session && <Link
             href={"/trial"}
             className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
           >

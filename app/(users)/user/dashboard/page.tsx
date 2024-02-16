@@ -15,9 +15,9 @@ export default async function Page() {
 
   const foundTokens = await Token.find({user: user.id}).sort().exec()
 
-  const foundBooking = await Booking.find({student: user.id, date: {$lt: new Date()}})
+  const foundBooking = await Booking.find({student: user.id, date: {$lt: new Date()}}).populate({path: 'teacher', populate: { path: 'user'}})
 
-  console.log(user, foundTokens)
+  console.log(user, foundBooking)
 
   const tokensJson = simpleJson(foundTokens)
 

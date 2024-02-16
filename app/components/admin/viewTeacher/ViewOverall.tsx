@@ -1,6 +1,7 @@
 "use client";
 import { capitalize } from "@/utils/helpers";
 import { addMonths, formatDate, parse, subMonths } from "date-fns";
+import Link from "next/link";
 import React, { useState } from "react";
 import { CgArrowDown } from "react-icons/cg";
 import { IoArrowDownSharp } from "react-icons/io5";
@@ -81,6 +82,10 @@ export default function ViewOverall({
                   <p>CanceledOrders</p>
                   <p>{t.canceledOrders}</p>
                 </div>
+              </div>
+              <div className="mt-4">
+
+              <Link href={`/dashboard/viewteachers/${t._id}`} className="mt-4 px-8  outline outline-1 rounded-full w-1/2">View Teacher</Link>
               </div>
             </div>
           );

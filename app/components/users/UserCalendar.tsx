@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   add,
   addDays,
@@ -26,6 +26,7 @@ import { bookAppt } from "@/actions/userBook";
 import { IoArrowBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 import { errorToast, susToast } from "@/app/lib/react-toast";
+import { Transition } from "@headlessui/react";
 
 export default function UserCalendar({
   teacher,
@@ -36,8 +37,9 @@ export default function UserCalendar({
   groupSize,
   setGroupSize,
   setTokensObj,
-  tokensObj
+  tokensObj,
 }: any) {
+  const [isShowing, setIsShowing] = useState(false)
   // const [groupSize, setGroupSize] = useState(1)
   const [date, setDate] = useState<any>({
     justDate: null,
@@ -45,26 +47,40 @@ export default function UserCalendar({
   });
   const [displayDate, setDisplayDate] = useState<any>(null);
 
-  const [bookedState, setBookedState] = useState(booked)
+  const [bookedState, setBookedState] = useState(booked);
 
-  console.log(booked)
+  console.log(booked);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+
+  //     setIsShowing(true)
+  //   }, 1000)
+  // }, [])
+
+  useEffect(() => {
+    if(date.justDate) setIsShowing(true) 
+
+    if(!date.justDate) setIsShowing(false)
+
+  }, [date.justDate])
 
   const handleSave = async () => {
     // console.log(date)
     const book = await bookAppt(date, teacher._id, user.id, groupSize);
 
-    if(!book) return errorToast()
+    if (!book) return errorToast();
 
-    if(book.error) return errorToast(book.error)
+    if (book.error) return errorToast(book.error);
 
-    const copy = [...bookedState, book.data]
+    const copy = [...bookedState, book.data];
 
-    setBookedState(copy)
+    setBookedState(copy);
     setDate((prev: any) => {
-      return {...prev, dateTime: null}
-    })
+      return { ...prev, dateTime: null };
+    });
 
-    const newArray =  {...tokensObj}
+    const newArray = { ...tokensObj };
 
     // const tokenGroup = [
     //   newArray.firstGroupTokens,
@@ -72,24 +88,22 @@ export default function UserCalendar({
     //   newArray.thirdGroupTokens,
     // ];
 
-    if(groupSize == 1) {
-      newArray.firstGroupTokens -= 1
+    if (groupSize == 1) {
+      newArray.firstGroupTokens -= 1;
     }
-    if(groupSize == 2) {
-      newArray.secondGroupTokens -= 1
+    if (groupSize == 2) {
+      newArray.secondGroupTokens -= 1;
     }
-    if(groupSize == 3) {
-      newArray.thirdGroupTokens -= 1
+    if (groupSize == 3) {
+      newArray.thirdGroupTokens -= 1;
     }
     // tokenGroup[groupSize - 1] - 1
 
+    console.log(tokensObj, newArray, "yo you what");
 
+    setTokensObj(newArray);
 
-    console.log(tokensObj, newArray, 'yo you what')
-
-    setTokensObj(newArray)
-    
-    susToast(book.msg as string)
+    susToast(book.msg as string);
     // console.log(book);
   };
   // console.log(teacher)
@@ -125,7 +139,7 @@ export default function UserCalendar({
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
   console.log(times);
   return (
-    <div className=" px-2">
+    <div className=" px-2 overflow-hidden">
       <button
         className="font-semibold hover:underline text-2xl"
         onClick={() => {
@@ -147,78 +161,106 @@ export default function UserCalendar({
               setDisplayDate(null);
             }}
           >
-            <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A]" />
+            <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A] " />
           </button>
-          <p className="text-center text-2xl font-bold mb-2">Selecte A Time</p>
-          <div className="grid grid-cols-2 row-auto flex-col gap-4 w-full ">
-            {times?.map((time: any, i: number) => {
-              const foundBook = bookedState.find(
-                (b: any) =>
-                  b.date == date.justDate.toISOString() &&
-                  b.time == format(time, "kk:mm")
-              );
-              
-              const formatedKk = Number(format(time, "kk"));
-              const formatedMin = Number(format(time, 'mm'))
+          <Transition show={isShowing}
+          className={` `}
+          // enter="transition-opacity duration-75"
+          // enterFrom="opacity-0"
+          // enterTo="opacity-100"
+        //   enter="transition-opacity duration-300 "
+        // enterFrom="opacity-0"
+        // enterTo="opacity-100"
+        // leave="transition-opacity duration-150"
+        // leaveFrom="opacity-100"
+        // leaveTo="opacity-0"
+        enter='transform transition ease-in-out duration-300 sm:duration-700'
+        enterFrom='translate-y-full'
+        enterTo='translate-y-0'
+        leave='transform transition ease-in-out duration-300 sm:duration-700'
+        leaveFrom='translate-y-0'
+        leaveTo='translate-y-full'
+          >
+            <div className="bg-slate-100 text-black py-8 pt-6 px-2 md:px-8 w-full rounded-t-3xl rounded-b-xl  ">
+              <p className="text-center text-2xl font-bold mb-2">
+                Selecte A Time
+              </p>
+              <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4 w-full  ">
+                {times?.map((time: any, i: number) => {
+                  const foundBook = bookedState.find(
+                    (b: any) =>
+                      b.date == date.justDate.toISOString() &&
+                      b.time == format(time, "kk:mm")
+                  );
 
-              const isUnderDate = now > addMinutes(addHours(date.justDate, formatedKk), formatedMin)
+                  const formatedKk = Number(format(time, "kk"));
+                  const formatedMin = Number(format(time, "mm"));
 
-              // console.log(foundBook, "what");
-              // console.log(booked, 'what')
+                  const isUnderDate =
+                    now >
+                    addMinutes(
+                      addHours(date.justDate, formatedKk),
+                      formatedMin
+                    );
+                  // console.log(foundBook, "what");
+                  // console.log(booked, 'what')
 
-              const isPickedTime = format(time, "kk:mm") == date.dateTime;
+                  const isPickedTime = format(time, "kk:mm") == date.dateTime;
 
+                  // console.log(time, 'time')
 
-              // console.log(time, 'time')
+                  console.log(formatedKk, typeof formatedKk, time);
 
-              console.log(formatedKk, typeof formatedKk, time);
+                  let numb: null | number = null;
 
-              let numb: null | number = null;
+                  if (formatedKk > 12) {
+                    numb = formatedKk % 12;
+                  }
 
-              if (formatedKk > 12) {
-                numb = formatedKk % 12;
-              }
+                  // console.log(time);
 
-              // console.log(time);
+                  return (
+                    <div
+                      key={`time-${i}`}
+                      className={`${
+                        isPickedTime && "bg-black text-white"
+                      } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
+                    >
+                      <button
+                        disabled={foundBook || isUnderDate}
+                        className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
+                        type="button"
+                        onClick={() => {
+                          setDate((prev: any) => ({
+                            ...prev,
+                            dateTime: format(time, "kk:mm"),
+                          }));
 
-              return (
-                <div
-                  key={`time-${i}`}
-                  className={`${
-                    isPickedTime && "bg-black text-white"
-                  } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
-                >
-                  <button
-                    disabled={foundBook || isUnderDate}
-                    className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
-                    type="button"
-                    onClick={() => {
-                      setDate((prev: any) => ({
-                        ...prev,
-                        dateTime: format(time, "kk:mm"),
-                      }));
-
-                      setDisplayDate(() => {
-                        if (numb != null) {
-                          setDisplayDate(`${numb} : ${format(time, "mm")} pm`);
-                        } else {
-                          setDisplayDate(
-                            `${formatedKk} : ${format(time, "mm")} am`
-                          );
-                        }
-                      });
-                    }}
-                  >
-                    {/* {format(time, 'kk:mm')} */}
-                    <p>{numb ?? `${format(time, "kk")}`}</p>
-                    <p>:</p>
-                    <p>{format(time, "mm")}</p>
-                    <p>{numb ? "pm" : "am"}</p>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
+                          setDisplayDate(() => {
+                            if (numb != null) {
+                              setDisplayDate(
+                                `${numb} : ${format(time, "mm")} pm`
+                              );
+                            } else {
+                              setDisplayDate(
+                                `${formatedKk} : ${format(time, "mm")} am`
+                              );
+                            }
+                          });
+                        }}
+                      >
+                        {/* {format(time, 'kk:mm')} */}
+                        <p>{numb ?? `${format(time, "kk")}`}</p>
+                        <p>:</p>
+                        <p>{format(time, "mm")}</p>
+                        <p>{numb || formatedKk == 12 ? "pm" : "am"}</p>
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </Transition>
         </div>
       ) : (
         <div className=" md:px-20">
@@ -260,7 +302,7 @@ export default function UserCalendar({
                 console.log(date);
                 handleSave();
               }}
-              className="bg-blue-400 hover:bg-blue-500 active:bg-blue-600 px-4 py-1 rounded-full w-full font-bold"
+              className="bg-[#D9643A] hover:bg-[#D9543A] active:bg-[#994433] px-4 py-1 rounded-full w-full font-bold"
             >
               Book lesson
             </button>
@@ -268,15 +310,14 @@ export default function UserCalendar({
               <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
                 Time selected {displayDate}
               </p>
-              
+
               <p
                 onClick={() => {
                   console.log(typeof date.justDate, date.justDate);
                 }}
                 className="text-bold w-full md:w-1/2 text-center font-bold text-xl mx-auto"
               >
-                Date selected:{" "}
-                {gerFormat(date.justDate)}
+                Date selected: {gerFormat(date.justDate)}
                 {/* {formatDate(date.justDate.toISOString(), "MM/dd/yyyy")} */}
               </p>
               <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">

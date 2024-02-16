@@ -33,23 +33,16 @@ export default function TrialComp() {
 
   return (
     <div className="flex justify-center items-center flex-col">
-      <p className="text-white text-xl w-full md:w-1/2 text-center mb-8 font-semibold underline">
+      <p className="text-white text-xl md:text-2xl w-full md:w-1/2 text-center mb-8 font-semibold underline underline-offset-4 px-2">
         This is All the infomation we need to begin to process your trial.
         Please make sure to use a vaild email so we can contact you if needed
       </p>
 
-      <div className="w-full">
-        <div className="flex flex-col text-white w-1/4 mx-auto">
-          <label className="text-2xl font-bold" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="rounded-full pl-2 text-black w-full py-0.5"
-            id="email"
-          ></input>
-        </div>
-        <div className="flex justify-evenly mt-2">
-          <div className="flex flex-col text-white w-1/4 ">
+      <div className="bg-gray-500 text-white w-full md:w-2/3 text-center mt-4 py-4 pb-8 rounded-xl">
+        <p className="font-semibold text-2xl">User Info</p>
+        
+        <div className="flex justify-evenly mb-2 gap-4 px-4">
+          <div className="flex flex-col text-white w-full md:w-1/4 ">
             <label className="text-2xl font-bold" htmlFor="firstName">
               First Name
             </label>
@@ -58,7 +51,7 @@ export default function TrialComp() {
               id="firstName"
             ></input>
           </div>
-          <div className="flex flex-col text-white w-1/4 ">
+          <div className="flex flex-col text-white w-full md:w-1/4 ">
             <label className="text-2xl font-bold" htmlFor="lastName">
               Last Name
             </label>
@@ -68,9 +61,18 @@ export default function TrialComp() {
             ></input>
           </div>
         </div>
+        <div className="flex flex-col text-white w-4/5 md:w-2/4 mx-auto">
+          <label className="text-2xl font-bold" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="rounded-full pl-2 text-black w-full py-0.5"
+            id="email"
+          ></input>
+        </div>
       </div>
 
-      <div className="bg-gray-950 text-white w-2/3 text-center mt-4 py-4 pb-8 rounded-xl">
+      <div className="bg-gray-500 text-white w-full md:w-2/3 text-center mt-4 py-4 pb-8 rounded-xl">
         <p className="font-semibold mb-2">
           Please Choose days that fit your schdule
         </p>
@@ -103,17 +105,17 @@ export default function TrialComp() {
         </ul>
       </div>
 
-      <div className="mt-4  mx-auto bg-gray-950 w-2/3 py-4 rounded-xl">
+      <div className="mt-4  mx-auto bg-gray-500 w-full md:w-2/3 py-4 rounded-xl">
         <p className="text-2xl text-white font-bold text-center">
-          Please explain further, Times that you are able
+          Please explain further, Times that you are available
         </p>
-        <div className="flex gap-2 items-center justify-center mt-1 mx-auto mb-2">
+        <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-center justify-center mt-1 mx-auto mb-4 md:mb-2 w-full">
           <p className="text-sm text-white font-bold  flex justify-center items-center ">
             For example
           </p>
 
-          <q className="text-sm text-white font-bold  flex justify-center items-center ">
-            On Saturdays, I am free in the morning and wednesdays evenings
+          <q className="text-xs text-white font-bold  flex justify-center items-center text-center ">
+           I am free in the morning and wednesdays evenings
           </q>
         </div>
 

@@ -9,7 +9,7 @@ export default function SideBarNav({ setTab, tab }: any) {
       <div
         className={`${
           hide && "hidden"
-        } w-1/4  h-full min-h-[88vh] bg-[#f5f5f550] flex flex-col md:gap-8 justify-between md:py-24 text-xs md:px-2 sticky  top-0 md:hidden  `}
+        } w-1/4  h-full min-h-[88vh] bg-gray-300 flex flex-col md:gap-8 justify-between md:py-24 text-xs md:px-2 sticky  top-0 md:hidden  `}
       >
         
         <div className="  fixed left-16 ">
@@ -20,19 +20,19 @@ export default function SideBarNav({ setTab, tab }: any) {
       
         <button
           onClick={() => setTab("")}
-          className=" active:bg-gray-800 font-extrabold w-full h-full active:text-white transition-all duration-500"
+          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
         >
           Previous Classes
         </button>
         <button
           onClick={() => setTab("token")}
-          className=" active:bg-gray-800 font-extrabold w-full h-full active:text-white transition-all duration-500"
+          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
         >
           Purchase History
         </button>
         <button
           onClick={() => setTab("")}
-          className=" active:bg-gray-800 font-extrabold w-full h-full active:text-white transition-all duration-500"
+          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
         >
           Expired Tokens
         </button>
@@ -46,22 +46,22 @@ export default function SideBarNav({ setTab, tab }: any) {
         </div>
       )}
 
-      <div className="w-1/4 h-full min-h-[88vh] bg-[#f5f5f550] md:flex flex-col md:gap-8 justify-between md:py-24 text-xs px-2 sticky  top-0 hidden rounded-r-xl my-4 ">
+      <div className="w-1/4 h-full min-h-[88vh] bg-gray-300 md:flex flex-col md:gap-8 justify-between md:py-24 text-xs px-2 sticky  top-0 hidden rounded-r-xl my-4 ">
         <button
           onClick={() => setTab("")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
+          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Previous Classes
         </button>
         <button
           onClick={() => setTab("token")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
+          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Purchase History
         </button>
         <button
           onClick={() => setTab("")}
-          className=" hover:bg-gray-800 font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
+          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
         >
           Expired Tokens
         </button>
