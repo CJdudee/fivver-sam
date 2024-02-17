@@ -145,21 +145,30 @@ export default function TeacherSchedule({
   const handleCloseDay = async (date: Date) => {
     const closedDate = await closeTheDay(date, teacherId);
 
+    if(!closedDate) return errorToast()
+
     // console.log(closedDate, "yoyu yo");
     const dateCopy = [...closedDays];
 
-    dateCopy.push(closedDate);
+    dateCopy.push(closedDate.data);
     setClosedDays(dateCopy);
+
+    susToast(closedDate.msg)
+
   };
   const handleOpenDay = async (date: Date) => {
     const openDay = await openTheDay(date, teacherId);
 
+    if(!openDay) return errorToast()
+
     let dateCopy = [...closedDays];
 
-    dateCopy = dateCopy.filter((d) => d._id != openDay._id);
+    dateCopy = dateCopy.filter((d) => d._id != openDay.data._id);
 
     // console.log(openDay)
     setClosedDays(dateCopy);
+
+    susToast(openDay.msg)
   };
 
   function _changeTime(day: any) {
@@ -341,7 +350,7 @@ export default function TeacherSchedule({
         closedDays={closedDays}
       />
       <button
-        className="text-black font-extrabold bg-[#c5c5c5] px-6 py-0.5 rounded full"
+        className="text-black font-extrabold bg-white hover:text-gray-600 px-6 py-0.5 rounded-full"
         onClick={() => {
           if (!selectedDate) return;
           if (dayIsClosed) handleOpenDay(selectedDate);
@@ -376,7 +385,7 @@ export default function TeacherSchedule({
           </Switch>
         </div>
       </div>
-      <div className="text-center  ">
+      <div className="text-center">
         {!enabled ? setWeekDaysJsx : closedDaysJsx}
       </div>
     </div>

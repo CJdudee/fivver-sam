@@ -8,7 +8,7 @@ export default function WeekSchedule({
   saveTime,
   openingTime,
   openDay,
-  setOpeningTime
+  setOpeningTime,
 }: any) {
   const [newTime, setNewTime] = useState<null | number>(null);
 
@@ -20,37 +20,46 @@ export default function WeekSchedule({
     setNewTime(index);
     setOpeningTime({
       openTime: undefined,
-    closeTime: undefined,
-    index: undefined,
-    })
+      closeTime: undefined,
+      index: undefined,
+    });
   };
 
-  let timeOpenTime = null
+  let timeOpenTime = null;
 
-  if(typeof newTime === 'number') {
-
-      timeOpenTime = dayWeek[newTime]?.openTime
+  if (typeof newTime === "number") {
+    timeOpenTime = dayWeek[newTime]?.openTime;
   }
 
-    const isDisable = timeOpenTime?.some((t: any) => {
+  const isDisable = timeOpenTime?.some((t: any) => {
+    const openTimeSplit = openingTime?.openTime?.split(":");
+    const closeTimeSplit = openingTime?.closeTime?.split(":");
+    console.log(openTimeSplit, closeTimeSplit);
 
-      const openTimeSplit = openingTime?.openTime?.split(':')
-      const closeTimeSplit = openingTime?.closeTime?.split(':')
-      console.log(openTimeSplit, closeTimeSplit)
+    const compareStartSplit = t.openTime.split(":");
+    const compareEndSplit = t.closeTime.split(":");
 
-      if(Number(openTimeSplit?.[0]) > Number(closeTimeSplit?.[0])) return true
+    if (Number(openTimeSplit?.[0]) > Number(closeTimeSplit?.[0])) return true;
 
-      const timeArray = []
+    // if( Number(openTimeSplit?.[0]) < Number(compareStartSplit[0]) < Number(compareEndSplit[0])) return true
+    if (
+      Number(compareStartSplit[0]) <= Number(openTimeSplit?.[0]) &&
+      Number(openTimeSplit?.[0]) <= Number(compareEndSplit[0])
+    )
+      return true;
 
+    // console.log(Number(compareStartSplit[0]) < Number(openTimeSplit?.[0]) && Number(openTimeSplit?.[0]) < Number(compareEndSplit[0]))
 
+    console.log(compareStartSplit, "wooo");
+    const timeArray = [];
 
-      return t.openTime == openingTime.openTime
-    })
+    return t.openTime == openingTime.openTime;
+  });
 
-console.log(newTime)
-  console.log(timeOpenTime, 'time op')
+  console.log(newTime);
+  console.log(timeOpenTime, "time op");
 
-  console.log(isDisable)
+  console.log(isDisable);
 
   return (
     <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-4 md:px-2  lg:px-12 relative  ">
@@ -61,7 +70,7 @@ console.log(newTime)
 
         const saveFun = saveTime(w);
 
-        const timeFrame = dayWeek[mapindex];
+        const timeFrame = dayWeek[mapindex].openTime;
 
         let shown = undefined;
 
@@ -69,25 +78,29 @@ console.log(newTime)
           shown = openingTime;
         }
 
+        // console.log(timeFrame, 'what what in the butt')
+
         return (
           <li
-            className="h-full w-full bg-[#cac9c9] rounded-xl py-4 min-h-80 drop-shadow-xl shadow-xl "
+            className="h-[200px] w-full bg-gray-300 rounded-xl py-4 min-h-80 drop-shadow-xl shadow-xl relative "
             key={w.name}
           >
             <p className="text-start pl-4 text-3xl">{capitalize(w.name)}</p>
-            <div className="flex flex-col w-full justify-evenly relative my-auto h-3/4 ">
+            {Array.isArray(timeFrame) && timeFrame.length != 0 && (
+              <p
+                onClick={() => handleNewTime(mapindex)}
+                className="  z-20 text-4xl text-white hover:text-gray-400 cursor-pointer absolute md:right-8 right-6 top-4"
+              >
+                {newTime == mapindex ? "-" : "+"}
+              </p>
+            )}
+            <div className="flex flex-col w-full justify-evenly relative h-3/4 mt-1 ">
               {/* <p className="  z-20 text-2xl text-white absolute right-32">+</p> */}
+
               {(newTime == mapindex ||
                 (Array.isArray(timeFrame) && timeFrame.length == 0)) && (
                 <>
                   <div className="w-full flex justify-evenly relative">
-                    <p
-                      onClick={() => handleNewTime(mapindex)}
-                      className="  z-20 text-2xl text-white absolute md:right-20 right-0 top-0"
-                    >
-                      -
-                    </p>
-
                     <div className="px-1 w-full md:px-0 md:w-1/3">
                       <TimeSelector
                         type="openTime"
@@ -106,30 +119,36 @@ console.log(newTime)
                     </div>
                   </div>
                   {shown && shown.openTime && shown.closeTime && (
-                    <button className=" w-full md:w-2/3 mx-auto px-8 rounded-full outline outline-black outline-1 mt-2 disabled:text-gray-500"
-                    disabled={isDisable}
-                    onClick={() => {
-                      saveFun(null, null)
-                      setNewTime(null)
-                    }}>Save</button>
+                    <div className=" w-full  mx-auto px-8 mt-2 mb-1">
+                      <button
+                        className=" w-full md:w-2/3  disabled:text-gray-500 outline outline-black outline-1 rounded-full"
+                        disabled={isDisable}
+                        onClick={() => {
+                          saveFun(null, null);
+                          setNewTime(null);
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
                   )}
                 </>
               )}
 
               {Array.isArray(dayWeek[mapindex]?.openTime) ? (
                 dayWeek[mapindex]?.openTime.map((c: any, openingIn: number) => {
-                  console.log("yo yo oy");
+                  // console.log("yo yo oy");
 
                   return (
-                    <>
+                    <div key={openingIn} className="">
                       {/* <p>array</p> */}
-                      <div className="w-full flex justify-evenly relative">
-                        <p
+                      <div className="w-full flex justify-evenly relative ">
+                        {/* <p
                           onClick={() => handleNewTime(mapindex)}
                           className="  z-20 text-2xl text-white absolute right-0 md:right-20 top-0"
                         >
                           +
-                        </p>
+                        </p> */}
                         <div className="px-1 w-full md:px-0 md:w-1/3">
                           <TimeSelector
                             type="openTime"
@@ -154,7 +173,7 @@ console.log(newTime)
                           yo
                         </button>
                       )} */}
-                    </>
+                    </div>
                   );
                 })
               ) : (

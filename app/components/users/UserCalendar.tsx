@@ -27,6 +27,7 @@ import { IoArrowBackCircleSharp } from "react-icons/io5";
 import Link from "next/link";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { Transition } from "@headlessui/react";
+import { DateTime } from "luxon";
 
 export default function UserCalendar({
   teacher,
@@ -137,7 +138,7 @@ export default function UserCalendar({
 
   const times =
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
-  console.log(times);
+  console.log(times, 'this is time and shit ');
   return (
     <div className=" px-2 overflow-hidden">
       <button
@@ -192,6 +193,12 @@ export default function UserCalendar({
                       b.date == date.justDate.toISOString() &&
                       b.time == format(time, "kk:mm")
                   );
+
+                  
+                  console.log(time, 'before edit')
+                  // time = DateTime.fromJSDate(time).setZone('Europe/Berlin')
+                  time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
+                  console.log(time, 'after edit')
 
                   const formatedKk = Number(format(time, "kk"));
                   const formatedMin = Number(format(time, "mm"));

@@ -12,12 +12,13 @@ import {
   formatDistanceToNow,
   formatDistanceToNowStrict,
 } from "date-fns";
+import { DateTime } from "luxon";
 import React, { useState } from "react";
 
 export default function UserBookedLessons({ booked }: any) {
   const [statusFilter, setStatusFilter] = useState();
 
-  const [daysAway, setDaysAway ] = useState<number | undefined>(undefined)
+  const [daysAway, setDaysAway] = useState<number | undefined>(undefined);
 
   const [bookingArray, setBookingArray] = useState(booked ?? []);
   // const [statusFilter, setStatusFilter ] = useState(null)
@@ -44,19 +45,17 @@ export default function UserBookedLessons({ booked }: any) {
   const filteredBook = bookingArray.filter((b: any) => {
     // if (statusFilter == null) return true;
 
-    if(statusFilter != null) {
-
+    if (statusFilter != null) {
       if (b.status == statusFilter) return true;
     }
 
-    if(daysAway != 0 && daysAway != undefined) {
-
+    if (daysAway != 0 && daysAway != undefined) {
       const time = new Date(b.date);
 
       const split = b.time.split(":");
 
       const addedHour = addHours(time, Number(split[0]));
-  
+
       const addedMin = addMinutes(addedHour, Number(split[1]));
 
       const timeFrame = addDays(new Date(), daysAway);
@@ -65,39 +64,50 @@ export default function UserBookedLessons({ booked }: any) {
       // if(b.date < new Date().toISOString()) return false
     }
 
-
-
-
-
     return true;
   });
 
   const handleChangeTimeFrame = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const number = Number(e.target.value);
+    if (number == 0) return setDaysAway(undefined);
 
-    const number = Number(e.target.value)
-    if(number == 0) return setDaysAway(undefined)
-
-
-
-    setDaysAway(number)
-  }
-
+    setDaysAway(number);
+  };
 
   return (
     <>
-      <div className=" sticky top-12 md:top-14 py-2 px-2 z-30 bg-gray-700 rounded-xl ">
+      <div className=" sticky top-12 md:top-12 py-2 px-2 z-30 drop-shadow-xl shadow-xl  bg-[#242424] rounded-xl ">
         <div className="flex flex-col gap-2 items-center justify-center">
-
-        <label className="text-2xl font-bold text-white" htmlFor="daysAway">Set TimeFrame</label>
-        <input className="text-center bg-[#eeeeee94] rounded-full font-bold" id="daysAway" value={daysAway} onChange={(e) => handleChangeTimeFrame(e)} type="number" />
+          <label className="text-2xl font-bold text-white" htmlFor="daysAway">
+            Set TimeFrame
+          </label>
+          <input
+            className="text-center bg-[#eeeeee94] rounded-full font-bold"
+            id="daysAway"
+            value={daysAway}
+            onChange={(e) => handleChangeTimeFrame(e)}
+            type="number"
+          />
         </div>
       </div>
       <div className=" flex flex-col lg:grid grid-cols-2 gap-8 pt-8 px-2">
         {filteredBook.map((b: any) => {
-          const time = new Date(b.date);
+          let time: any = new Date(b.date);
 
-          const distance = formatDistanceToNow(time);
-          const distanceStric = formatDistanceToNowStrict(time);
+          console.log(time, "before edit");
+          time = DateTime.fromJSDate(time).setZone("Europe/Berlin").toJSDate();
+          // time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
+          console.log(time, "after edit");
+
+          const gerOffset = DateTime.now().setZone("Europe/Berlin").offset;
+          const engOffset = DateTime.now().offset;
+
+          const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+
+          console.log(gerOffset, engOffset, "offset");
+
+          // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
           const timeArray = b.time.split(":");
 
@@ -111,6 +121,9 @@ export default function UserBookedLessons({ booked }: any) {
           const addedMin = addMinutes(addedHour, Number(timeArray[1]));
 
           const isFullDay = addDays(new Date(), 1) < addedMin;
+
+          const distance = formatDistanceToNow(time);
+          const distanceStric = formatDistanceToNowStrict(time);
           // const fullDay = addDays(new Date(), 1)
 
           // const addedHour = addHours(fullDay, Number(timeArray[0]))
@@ -131,13 +144,13 @@ export default function UserBookedLessons({ booked }: any) {
 
           // const addedMin = addMinutes(addedHour, Number(timeArray[1]))
 
-          console.log(timeArray, isFullDay, addedMin, addDays(new Date(), 1));
+          // console.log(timeArray, isFullDay, addedMin, addDays(new Date(), 1));
           // console.log(formatted, formattedDay, "yo yo what");
 
           return (
             <div
               key={b._id}
-              className="justify-center flex flex-col items-center text-white font-bold text-2xl bg-gray-600 bg-gradient-to-tl from-gray-600 to-gray-500 drop-shadow-xl shadow-xl rounded-3xl  my-4 p-4 w-full md:w-3/4 lg:w-full mx-auto  "
+              className="justify-center flex flex-col items-center text-white font-bold text-2xl bg-[#3b3b3bd2]  drop-shadow-xl shadow-xl rounded-3xl  my-4 p-4 w-full md:w-3/4 lg:w-full mx-auto  "
             >
               <div className="flex flex-col md:flex-row w-full justify-center items-center gap-2 md:gap-8 text-3xl mb-4">
                 <p className=" text-center  rounded-tl-xl font-extrabold">
@@ -162,7 +175,7 @@ export default function UserBookedLessons({ booked }: any) {
               </div>
               <div className="text-center w-full">
                 <div className="flex flex-col items-center justify-evenly w-full  mx-auto  rounded-3xl border-t-2 border-b-2 py-2">
-                  <p className="pb-1" >Teacher Info</p>
+                  <p className="pb-1">Teacher Info</p>
                   <figure className="p-[1em] rounded-[1em] bg-[#eee] m-0 w-full text-black">
                     <div className="flex flex-col md:flex-row w-full mb-2 justify-center gap-2 ">
                       <p className=" text-center  ">Email:</p>
@@ -204,16 +217,16 @@ export default function UserBookedLessons({ booked }: any) {
                 <p className="text-end w-full ">{distance} away</p>
               </div>
               {b.status == "pending" && (
-                  <button
-                    className="outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full pb-1 mt-2 md:hidden"
-                    onClick={() => {
-                      onCancelBook(b._id);
-                    }}
-                    disabled={!isFullDay}
-                  >
-                    Cancel
-                  </button>
-                )}
+                <button
+                  className="outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full pb-1 mt-2 md:hidden"
+                  onClick={() => {
+                    onCancelBook(b._id);
+                  }}
+                  disabled={!isFullDay}
+                >
+                  Cancel
+                </button>
+              )}
             </div>
           );
         })}

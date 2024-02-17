@@ -3,6 +3,7 @@ import { FaPhone } from "react-icons/fa";
 import { HiClock } from "react-icons/hi";
 import { IoLocation } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
+import TimeZoneComp from "../../TimeZoneComp";
 
 export default function ContactComp() {
   return (
@@ -10,6 +11,10 @@ export default function ContactComp() {
       <div className="text-4xl text-white text-center font-semibold">
         <p>Want to Contact Us?</p>
         <p className="text-lg mt-2">All of our Infomation is here</p>
+        <div className="mt-4">
+
+        <TimeZoneComp />
+        </div>
       </div>
 
       <div className="flex flex-col items-center gap-8">

@@ -1,18 +1,15 @@
-import { roleChecker } from "@/app/lib/roleCheck";
+import { decodeUserAndCheckTeacher } from "@/app/lib/finallyRoleCheck";
 import { serverUser } from "@/app/lib/serverAuth";
 import Booking from "@/models/Booking";
+import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
 import { simpleJson } from "@/utils/helpers";
 import { formatDate } from "date-fns";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
-import { FcSettings } from "react-icons/fc";
-import MonthlyOrder from "@/models/MonthlyOrder";
-import { decodeUserAndCheckTeacher } from "@/app/lib/finallyRoleCheck";
 
-import {google } from 'googleapis'
 import GoogleClient from "@/app/components/teachers/google/GoogleClient";
+import TimeZoneComp from "@/app/components/TimeZoneComp";
 
 export default async function Page() {
   const user = await serverUser();
@@ -22,7 +19,7 @@ export default async function Page() {
 
   const teacher = await Teacher.findOne({ user: user.id });
 
-  console.log(teacher, user);
+  // console.log(teacher, user);
 
   const format = formatDate(new Date(), "MM/yy");
 
@@ -30,10 +27,8 @@ export default async function Page() {
     teacher: teacher._id,
     date: format,
   });
-  console.log(mothnlyOrder);
+  // console.log(mothnlyOrder);
 
-  // console.log(format, typeof format);
-  // roleChecker(user, ["teacher"]);
 
   const canBooking = await Booking.find({
     teacher: teacher._id,
@@ -57,13 +52,18 @@ export default async function Page() {
 
   const monthlyOrderJson = simpleJson(mothnlyOrder);
 
-  
-
-  
-  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // console.log(google)
   // console.log(teacherJson);
-  // console.log(currentJson); 
+  // console.log(currentJson);
+
+  const myUtc = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+
+
+
+  const gerTime = 'what'
+
+  console.log(myUtc)
 
   const monthlyJsx = (
     <div className="flex  items-center flex-row text-black  gap-8 py-10 px-4 md:p-10 w-full md:w-full rounded-t-xl justify-evenly h-full min-h-[80px]">
@@ -95,6 +95,7 @@ export default async function Page() {
   return (
     <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-screen ">
       <GoogleClient />
+      {/* <TimeZoneComp /> */}
       <div className=" absolute top-8 right-2 md:right-28">
         {/* <FcSettings className="w-10 h-10 hover:rotate-90 transition-all duratino-500" /> */}
         <Link

@@ -40,23 +40,6 @@ export default function UserBooking({
 
   const router = useRouter();
 
-  // const firstGroup = foundTokenJson.filter((t: any) => t.groupSize == 1);
-  // const secondGroup = foundTokenJson.filter((t: any) => t.groupSize == 2);
-  // const thirdGroup = foundTokenJson.filter((t: any) => t.groupSize == 3);
-  // const firstGroup = foundTokenJson.find((t: any) => t.groupSize == 1);
-
-  // console.log(firstGroup, 'this is group')
-  // const secondGroup = foundTokenJson.find((t: any) => t.groupSize == 2);
-  // const thirdGroup = foundTokenJson.find((t: any) => t.groupSize == 3);
-
-  // const tokenGroup = {
-  //   firstGroup,
-  //   secondGroup,
-  //   thirdGroup,
-  // };
-
- 
-
   const tokenGroup = [
     foundTokenJson.firstGroupTokens,
     foundTokenJson.secondGroupTokens,
@@ -140,3 +123,19 @@ export default function UserBooking({
     </div>
   );
 }
+
+
+// const firstGroup = foundTokenJson.filter((t: any) => t.groupSize == 1);
+  // const secondGroup = foundTokenJson.filter((t: any) => t.groupSize == 2);
+  // const thirdGroup = foundTokenJson.filter((t: any) => t.groupSize == 3);
+  // const firstGroup = foundTokenJson.find((t: any) => t.groupSize == 1);
+
+  // console.log(firstGroup, 'this is group')
+  // const secondGroup = foundTokenJson.find((t: any) => t.groupSize == 2);
+  // const thirdGroup = foundTokenJson.find((t: any) => t.groupSize == 3);
+
+  // const tokenGroup = {
+  //   firstGroup,
+  //   secondGroup,
+  //   thirdGroup,
+  // };
