@@ -9,6 +9,7 @@ import {
   isEqual,
   parse,
 } from "date-fns";
+import { DateTime } from "luxon";
 
 export const weedayIndexToName = (index: number) => {
   const days = [
@@ -111,11 +112,26 @@ export const timeConvert = (time: any) => {
 };
 
 export const getOpeningTimeFrame = (startDate: Date, dbDays: any) => {
+
   const dayOfWeek = startDate.getDay();
+
+  const compareDate = startDate.getDate()
+
+  const realDate = startDate
+
+  startDate =  DateTime.fromJSDate(startDate, { zone: "Europe/Berlin" } ).setLocale("SJ").startOf('day').toJSDate()
+  // const dayOfWeek = startDate.day()
+
+  console.log(startDate, 'this isa idfjas')
+  // const dayOfWeek = startDate.weekday;
+
+  console.log(dayOfWeek, 'this is index')
   const isToday = isEqual(startDate, new Date());
 
   //edge case
   const today = dbDays.find((d: any) => d.index === dayOfWeek);
+
+  // console.log(today)
 
   if (!today) throw new Error("this day does not exist on the DB");
 
@@ -134,6 +150,8 @@ export const getOpeningTimeFrame = (startDate: Date, dbDays: any) => {
     const interval = 60;
 
     timeFrameArray.map((t) => {
+
+      console.log(t)
       const todayString = t.openTime.replace(/\s+/g, "");
       const todayEndString = t.closeTime.replace(/\s+/g, "");
 
@@ -145,21 +163,45 @@ export const getOpeningTimeFrame = (startDate: Date, dbDays: any) => {
       // const opening = parse("10:00", 'kk:mm', startDate)
       const closing = parse(todayEndString, "kk:mm", startDate);
 
+      const realOpening = parse(todayString, "kk:mm", realDate);
+
+      const realClosing = parse(todayEndString, "kk:mm", realDate);
+
       let hours: number;
       let minutes: number;
 
+      let realHours: number;
+      let realMinutes: number;
+
       hours = getHours(opening);
       minutes = getMinutes(opening);
+
+      realHours = getHours(realOpening)
+
+      realMinutes = getMinutes(realOpening)
 
       const beginning = add(startDate, { hours, minutes });
       const end = add(startDate, {
         hours: getHours(closing),
         minutes: getMinutes(closing),
       });
+
+      const realBeginning = add(realDate, {hours: realHours, minutes: realMinutes})
+
+      const realEnd = add(realDate, {
+        hours: getHours(realClosing),
+        minutes: getMinutes(realClosing)
+      })
       
      
-      for (let i = beginning; i <= end; i = add(i, { minutes: interval })) {
-        times.push(i);
+      for (let i = beginning, p = realBeginning; i <= end; i = add(i, { minutes: interval }), p = add(p, {minutes: interval})) {
+        // console.log(i, 'iiii')
+
+
+        console.log(p, 'the start')
+        if(i.getDate() < compareDate) continue 
+
+        times.push({clientDate: i, realDate: p});
       }
     });
 

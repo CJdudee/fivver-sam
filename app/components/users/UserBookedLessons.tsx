@@ -76,7 +76,7 @@ export default function UserBookedLessons({ booked }: any) {
 
   return (
     <>
-      <div className=" sticky top-12 md:top-12 py-2 px-2 z-30 drop-shadow-xl shadow-xl  bg-[#242424] rounded-xl ">
+      <div className=" sticky top-12 md:top-16 py-2 px-2 z-30 drop-shadow-xl shadow-xl  bg-[#242424] rounded-xl ">
         <div className="flex flex-col gap-2 items-center justify-center">
           <label className="text-2xl font-bold text-white" htmlFor="daysAway">
             Set TimeFrame
@@ -95,49 +95,65 @@ export default function UserBookedLessons({ booked }: any) {
           let time: any = new Date(b.date);
 
           console.log(time, "before edit");
-          time = DateTime.fromJSDate(time).setZone("Europe/Berlin").toJSDate();
+          time = DateTime.fromJSDate(time, {
+            zone: "Europe/Berlin",
+          }).setLocale("SJ").startOf("day").toJSDate();
+          const timeTester = DateTime.fromJSDate(time)
+            .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+            .toFormat("h:mm");
+          // console.log(time, "before edit");
           // time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
           console.log(time, "after edit");
 
-          const gerOffset = DateTime.now().setZone("Europe/Berlin").offset;
-          const engOffset = DateTime.now().offset;
+          // startDate =  DateTime.fromJSDate(startDate, { zone: "Europe/Berlin" } ).setLocale("SJ").startOf('day').toJSDate()
 
-          const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+          const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-
-          console.log(gerOffset, engOffset, "offset");
+          // console.log(gerOffset, engOffset, "offset");
 
           // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
           const timeArray = b.time.split(":");
 
-          const formated = gerFormat(time);
-
+          
           // const fullDay = addDays(new Date(), 1) < time
           // const fullDay = addDays(time, 1)
-
+          
           const addedHour = addHours(time, Number(timeArray[0]));
-
+          
           const addedMin = addMinutes(addedHour, Number(timeArray[1]));
-
+          
           const isFullDay = addDays(new Date(), 1) < addedMin;
-
-          const distance = formatDistanceToNow(time);
+          
+          const distance = formatDistanceToNow(addedMin);
           const distanceStric = formatDistanceToNowStrict(time);
           // const fullDay = addDays(new Date(), 1)
-
+          
           // const addedHour = addHours(fullDay, Number(timeArray[0]))
+          const displayTime = DateTime.fromJSDate(addedMin).toFormat(" hh:mm a").toLocaleLowerCase()
+          const formated = gerFormat(addedMin);
 
+          console.log(addedMin, formated, displayTime)
+          
           let numberStart = Number(timeArray[0]);
 
           let pm = false;
 
-          if (numberStart > 12) {
-            numberStart = numberStart % 12;
-            pm = true;
-          }
           if (numberStart == 12) {
             pm = true;
+          }
+          if (numberStart > 12) {
+            console.log(numberStart, "yo what the");
+            const compare = numberStart;
+            console.log(compare);
+
+            numberStart = numberStart % 12;
+            pm = true;
+
+            if (compare == 24) {
+              numberStart = 12;
+              pm = false;
+            }
           }
 
           const result = `${numberStart}:${timeArray[1]}`;
@@ -170,13 +186,14 @@ export default function UserBookedLessons({ booked }: any) {
                   <p className=" text-center">Booked for {formated}</p>
                 </div>
                 <p className="w-full md:w-1/3 text-center">
-                  At Time {result} {pm ? "pm" : "am"}
+                  At Time {displayTime}
+                  {/* At Time {result} {pm ? "pm" : "am"} */}
                 </p>
               </div>
               <div className="text-center w-full">
                 <div className="flex flex-col items-center justify-evenly w-full  mx-auto  rounded-3xl border-t-2 border-b-2 py-2">
                   <p className="pb-1">Teacher Info</p>
-                  <figure className="p-[1em] rounded-[1em] bg-[#eee] m-0 w-full text-black">
+                  <figure className="p-[1em] rounded-[1em] bg-[#eee] m-0 w-full text-black md:w-[95%] my-4">
                     <div className="flex flex-col md:flex-row w-full mb-2 justify-center gap-2 ">
                       <p className=" text-center  ">Email:</p>
                       <p className=" text-center  ">
@@ -205,7 +222,7 @@ export default function UserBookedLessons({ booked }: any) {
                 )}
                 {b.status == "pending" && (
                   <button
-                    className="outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full pb-1 hidden md:block"
+                    className="outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 hidden md:block disabled:text-gray-400"
                     onClick={() => {
                       onCancelBook(b._id);
                     }}

@@ -13,13 +13,16 @@ import { FcCancel, FcCheckmark } from "react-icons/fc";
 
 import { Bebas_Neue } from "next/font/google";
 import { capitalize } from "@/utils/helpers";
+import { DateTime } from "luxon";
 
 const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400" });
 
 export default function UpComingBooking({ booked, onCancelBook }: any) {
   const filtedBooked = booked.filter((b: any) => {
-    const time = new Date(b.date);
+    let time = new Date(b.date);
     const split = b.time.split(":");
+
+    time =  DateTime.fromJSDate(time, { zone: "Europe/Berlin" } ).setLocale("SJ").startOf('day').toJSDate()
 
     const addedHour = addHours(time, Number(split[0]));
 

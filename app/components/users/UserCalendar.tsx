@@ -13,6 +13,7 @@ import {
   isBefore,
   parse,
   parseISO,
+  subHours,
 } from "date-fns";
 import {
   gerFormat,
@@ -40,7 +41,7 @@ export default function UserCalendar({
   setTokensObj,
   tokensObj,
 }: any) {
-  const [isShowing, setIsShowing] = useState(false)
+  const [isShowing, setIsShowing] = useState(false);
   // const [groupSize, setGroupSize] = useState(1)
   const [date, setDate] = useState<any>({
     justDate: null,
@@ -60,11 +61,10 @@ export default function UserCalendar({
   // }, [])
 
   useEffect(() => {
-    if(date.justDate) setIsShowing(true) 
+    if (date.justDate) setIsShowing(true);
 
-    if(!date.justDate) setIsShowing(false)
-
-  }, [date.justDate])
+    if (!date.justDate) setIsShowing(false);
+  }, [date.justDate]);
 
   const handleSave = async () => {
     // console.log(date)
@@ -138,7 +138,7 @@ export default function UserCalendar({
 
   const times =
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
-  console.log(times, 'this is time and shit ');
+  // console.log(times, "this is time and shit ");
   return (
     <div className=" px-2 overflow-hidden">
       <button
@@ -164,23 +164,24 @@ export default function UserCalendar({
           >
             <IoArrowBackCircleSharp className=" bg-transparent w-8 h-8 text-[#D9643A] " />
           </button>
-          <Transition show={isShowing}
-          className={` `}
-          // enter="transition-opacity duration-75"
-          // enterFrom="opacity-0"
-          // enterTo="opacity-100"
-        //   enter="transition-opacity duration-300 "
-        // enterFrom="opacity-0"
-        // enterTo="opacity-100"
-        // leave="transition-opacity duration-150"
-        // leaveFrom="opacity-100"
-        // leaveTo="opacity-0"
-        enter='transform transition ease-in-out duration-300 sm:duration-700'
-        enterFrom='translate-y-full'
-        enterTo='translate-y-0'
-        leave='transform transition ease-in-out duration-300 sm:duration-700'
-        leaveFrom='translate-y-0'
-        leaveTo='translate-y-full'
+          <Transition
+            show={isShowing}
+            className={` `}
+            // enter="transition-opacity duration-75"
+            // enterFrom="opacity-0"
+            // enterTo="opacity-100"
+            //   enter="transition-opacity duration-300 "
+            // enterFrom="opacity-0"
+            // enterTo="opacity-100"
+            // leave="transition-opacity duration-150"
+            // leaveFrom="opacity-100"
+            // leaveTo="opacity-0"
+            enter="transform transition ease-in-out duration-300 sm:duration-700"
+            enterFrom="translate-y-full"
+            enterTo="translate-y-0"
+            leave="transform transition ease-in-out duration-300 sm:duration-700"
+            leaveFrom="translate-y-0"
+            leaveTo="translate-y-full"
           >
             <div className="bg-slate-100 text-black py-8 pt-6 px-2 md:px-8 w-full rounded-t-3xl rounded-b-xl  ">
               <p className="text-center text-2xl font-bold mb-2">
@@ -191,14 +192,19 @@ export default function UserCalendar({
                   const foundBook = bookedState.find(
                     (b: any) =>
                       b.date == date.justDate.toISOString() &&
-                      b.time == format(time, "kk:mm")
+                      b.time == format(time.realDate, "kk:mm")
                   );
 
-                  
-                  console.log(time, 'before edit')
+                  const timeObj = time
+                  // console.log(time, 'time time time')
+                  // console.log(time, "before edit");
                   // time = DateTime.fromJSDate(time).setZone('Europe/Berlin')
-                  time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
-                  console.log(time, 'after edit')
+                  // time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
+                  time = DateTime.fromJSDate(time.clientDate, {
+                    zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                  }).toJSDate();
+                  // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                  // console.log(time, "after edit");
 
                   const formatedKk = Number(format(time, "kk"));
                   const formatedMin = Number(format(time, "mm"));
@@ -209,19 +215,34 @@ export default function UserCalendar({
                       addHours(date.justDate, formatedKk),
                       formatedMin
                     );
-                  // console.log(foundBook, "what");
+                  console.log(formatedKk, "what");
                   // console.log(booked, 'what')
 
-                  const isPickedTime = format(time, "kk:mm") == date.dateTime;
+                  const isPickedTime = format(timeObj.realDate, "kk:mm") == date.dateTime;
 
                   // console.log(time, 'time')
 
-                  console.log(formatedKk, typeof formatedKk, time);
+                  // console.log(formatedKk, typeof formatedKk, time);
+                  let pm = false
 
                   let numb: null | number = null;
 
                   if (formatedKk > 12) {
                     numb = formatedKk % 12;
+                    pm = true
+
+                    if(formatedKk == 24) {
+                      numb = 12
+                      pm = false
+                    }
+                    // if(numb == 0) {
+                    //   numb = 12
+                    // }
+
+                  }
+
+                  if(formatedKk == 12) {
+                    pm = true
                   }
 
                   // console.log(time);
@@ -240,17 +261,17 @@ export default function UserCalendar({
                         onClick={() => {
                           setDate((prev: any) => ({
                             ...prev,
-                            dateTime: format(time, "kk:mm"),
+                            dateTime: format(timeObj.realDate, "kk:mm"),
                           }));
 
                           setDisplayDate(() => {
                             if (numb != null) {
                               setDisplayDate(
-                                `${numb} : ${format(time, "mm")} pm`
+                                `${numb} : ${format(timeObj.realDate, "mm")} pm`
                               );
                             } else {
                               setDisplayDate(
-                                `${formatedKk} : ${format(time, "mm")} am`
+                                `${formatedKk} : ${format(timeObj.realDate, "mm")} am`
                               );
                             }
                           });
@@ -260,7 +281,8 @@ export default function UserCalendar({
                         <p>{numb ?? `${format(time, "kk")}`}</p>
                         <p>:</p>
                         <p>{format(time, "mm")}</p>
-                        <p>{numb || formatedKk == 12 ? "pm" : "am"}</p>
+                        {/* <p>{numb || formatedKk == 12 ? "pm" : "am"}</p> */}
+                        <p>{pm ? "pm" : "am"}</p>
                       </button>
                     </div>
                   );
@@ -280,7 +302,7 @@ export default function UserCalendar({
               const foundDay = teacherWeek.weekdays.find(
                 (d: any) => d.index == day
               );
-              console.log(foundDay);
+              // console.log(foundDay);
 
               if (foundDay.isOpen == false) return true;
               // if(teacherWeek.weekdays.find((d) => d.index = day)) return true
@@ -292,9 +314,67 @@ export default function UserCalendar({
             }}
             className="REACT_CALENDAR p-2"
             view="month"
-            onClickDay={(date) =>
-              setDate((prev: any) => ({ ...prev, justDate: date }))
-            }
+            onClickDay={(date) => {
+              // var copyDay = new Date("2019-09-06T00:00:00.000Z");
+              // var ldate = DateTime.fromJSDate(copyDay);
+              // var ldate = ldate.setZone("utc");
+              // console.log(ldate.toJSDate());
+
+              // var convertedDate = DateTime.local();
+              // convertedDate.setZone("Asia/Shanghai");
+              // convertedDate = convertedDate.set({
+              //   year: ldate.year,
+              //   month: ldate.month,
+              //   day: ldate.day,
+              //   hour: ldate.hour,
+              //   minute: ldate.minute,
+              //   second: ldate.second,
+              //   millisecond: ldate.millisecond,
+              // });
+              // console.log(convertedDate.toJSDate());
+
+              const isoDate = DateTime.fromJSDate(date, {
+                zone: "Europe/Berlin",
+              })
+                .toUTC()
+                .toISO();
+
+              const minDate = subHours(
+                new Date(date),
+                new Date(date).getHours()
+              );
+              // const dateTest = DateTime.fromISO(isoDate, {
+              //   zone: "Europe/Berlin",
+              // });
+
+              // console.log(dateTest, "yo waht thea lf");
+
+              const randTest = DateTime.fromJSDate(date, { zone: "Europe/Berlin" } )
+
+              const result = randTest.setZone("Europe/Berlin");
+
+              const upDated = result.setZone("Europe/Berlin")
+
+              const sloved = randTest.setLocale("SJ").toLocal().toJSDate()
+
+              console.log(randTest.setLocale("SJ").startOf('day').toJSDate().getDate(), 'space', result, upDated)
+
+              console.log('try again', randTest.setZone("local", { keepLocalTime: true}).startOf('day').toJSDate())
+              // console.log(result.setZone("system", { keepLocalTime: true}).startOf('day').toJSDate())
+              console.log(date, upDated.toJSDate())
+              console.log(new Date(date).toLocaleString("SJ", {
+                timeZone: "Europe/Berlin"
+              } ))
+
+              const bullshit = new Date(date).toLocaleDateString("SJ", {
+                timeZone: "Europe/Berlin"
+              } )
+
+              // console.log(date, 'this is on clikc',  dateTest, subHours(dateTest, 8 ), DateTime.fromISO(dateTest).setZone('Europe/Berlin').toISO())
+              // setDate((prev: any) => ({ ...prev, justDate: sloved }));
+              setDate((prev: any) => ({ ...prev, justDate: date }));
+              // setDate((prev: any) => ({ ...prev, justDate: date }))
+            }}
           />
         </div>
       )}

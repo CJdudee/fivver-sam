@@ -6,16 +6,36 @@ import Token from '@/models/Token'
 import User from '@/models/User'
 import { simpleJson } from '@/utils/helpers'
 import { formatDate } from 'date-fns'
+import { DateTime } from 'luxon'
 export const bookAppt = async (date: any, teacherId: string, userId: string, groupSize: number) => {
     // console.log(date)
     // console.log(teacherId)
     // console.log(userId)
-    console.log(typeof date.justDate)
+
+    const randTest = DateTime.fromJSDate(date.justDate, { zone: 'utc'})
+    // const randTest = DateTime.fromISO("2018-08-25T09:00:40.000-04:00", { zone: 'utc'})
+
+    // const result = randTest.setZone('Europe/Berlin')
+
+    const setDate = randTest.toUTC().toISO()
+
+    console.log(randTest.toUTC().toISO(),  'random shit')
+
+    console.log(typeof date.justDate, date, new Date(date.justDate))
 
     const formated = formatDate(date.justDate, 'MM/yy')
     console.log(formated)
 
+// console.log(date, 'datea')
 
+const myUtc = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+
+const dateTest = DateTime.fromJSDate(date.justDate, { zone: 'Europe/Berlin'}).toFormat('LLL dd yyyy hh:mm')
+// const dateTest = DateTime.fromISO(`${date.justDate}`).setZone('Europe/Berlin').toFormat('LLL dd yyyy hh:mm')
+
+// console.log(dateTest, DateTime.utc().setZone('Europe/Berlin').toFormat('yyyy LLL dd hh:mm') )
+// const time = DateTime.now()
+// return
     // MonthlyOrder.updateOne({date: formated}, {orders: })
     // return
 
@@ -32,7 +52,7 @@ export const bookAppt = async (date: any, teacherId: string, userId: string, gro
 
     if(!foundTokens || foundTokens.tokens == 0) return { error: `Not enought Classes for a group size of ${groupSize}` }
 
-    const createdBooking = await Booking.create({ student: userId, teacher: teacherId, date: date.justDate, time: date.dateTime, status: 'pending', tokenId: foundTokens._id, groupSize})
+    const createdBooking = await Booking.create({ student: userId, teacher: teacherId, date: setDate, time: date.dateTime, status: 'pending', tokenId: foundTokens._id, groupSize})
 
     if(!createdBooking) return null
 

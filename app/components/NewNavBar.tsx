@@ -57,7 +57,7 @@ export default async function NewNavBar() {
 
   return (
     <nav className=" sticky top-0 z-40 ">
-      <div className="hidden border-b-1  border-black min-h-[8vh] md:flex items-center justify-between md:px-8  w-full  pb-1   gap-4  bg-[#242424]">
+      <div className="hidden border-b-1  border-black min-h-[68px] md:flex items-center justify-between md:px-8  w-full  pb-1   gap-4  bg-[#242424]">
         <LogoLink />
 
         <div className="text-center flex items-center justify-end gap-4 w-full drop-shadow-lg pl-4 h-full ">
