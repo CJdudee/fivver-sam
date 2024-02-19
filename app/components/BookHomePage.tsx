@@ -16,9 +16,7 @@ import { K2D } from "next/font/google";
 
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
-
-
-export default function BookHomePage( {pricePackages}: any) {
+export default function BookHomePage({ pricePackages }: any) {
   return (
     <main className="h-full">
       <div
@@ -43,8 +41,9 @@ export default function BookHomePage( {pricePackages}: any) {
       <div className=" text-center bg-white h-full w-full pt-32 ">
         <p className="text-3xl font-bold">What makes Us different?</p>
         <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
-          {" Here's are reasons that make us special. This is a journey and we will be here along the way "}
-          
+          {
+            " Here's are reasons that make us special. This is a journey and we will be here along the way "
+          }
         </p>
 
         <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
@@ -58,10 +57,10 @@ export default function BookHomePage( {pricePackages}: any) {
               </p>
             </div> */}
 
-            <WhatMakesDifferent 
-            mainText="Proficiency"
-            emoji={['✏️', '👨‍🏫']}
-            bottomText="Native German Speaker"
+            <WhatMakesDifferent
+              mainText="Proficiency"
+              emoji={["✏️", "👨‍🏫"]}
+              bottomText="Native German Speaker"
             />
             <WhatMakesDifferent
               mainText="Dedicated"
@@ -78,6 +77,15 @@ export default function BookHomePage( {pricePackages}: any) {
               mainText="Expertise"
               emoji={["🏫", "🎩"]}
               bottomText="You Teacher Has a University Degree in German Language"
+              flex={true}
+            />
+          </div>
+          <div className="bg-[#F5F5F5] h-full w-full md:w-1/5 items-stretch rounded-xl">
+            {/* <p className=" h-[100%]">hey</p> */}
+            <WhatMakesDifferent
+              mainText="Preperation"
+              emoji={["🅰️", "💡"]}
+              bottomText="Up to date on exam preparation A1-C2"
               flex={true}
             />
           </div>
@@ -119,7 +127,7 @@ export default function BookHomePage( {pricePackages}: any) {
             </p>
             <p className=" text-7xl  h-3/5 flex items-center justify-center  ">
               {" "}
-              👨‍🏫 {" "} <SiGoogleclassroom className=" text-yellow-700" />
+              👨‍🏫 <SiGoogleclassroom className=" text-yellow-700" />
             </p>
           </div>
           <div className=" rounded-xl flex flex-col gap-4 h-full w-full md:w-2/4 ">
@@ -148,6 +156,17 @@ export default function BookHomePage( {pricePackages}: any) {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-8 h-full w-full md:w-2/4">
+            <p className="font-bold text-2xl h-1/5">English</p>
+            <p className=" text-6xl  h-3/5 flex items-center justify-center  ">
+              {" "}
+              🌎 ✍️
+            </p>
+            <p className="text-sm  w-4/5 mx-auto text-center  h-1/5 font-bold">
+              {" "}
+              All teachers speak English
+            </p>
           </div>
         </div>
       </div>

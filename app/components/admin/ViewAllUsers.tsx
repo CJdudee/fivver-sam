@@ -105,7 +105,7 @@ export default function ViewAllUsers({
     // const filterTeachers = 'hey hey'
 
     // const allTeachers =  await getAllTeacher()
-    const allTeachers = await fetch("http://localhost:3000/api/teachers", {
+    const allTeachers = await fetch(`${process.env.HOSTNAME}/api/teachers`, {
       method: "GET",
     });
 
