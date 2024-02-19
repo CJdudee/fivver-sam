@@ -10,14 +10,27 @@ import { redirect } from "next/navigation";
 
 import GoogleClient from "@/app/components/teachers/google/GoogleClient";
 import TimeZoneComp from "@/app/components/TimeZoneComp";
+import CalendarGoogle from "@/app/components/teachers/google/CalendarGoogle";
 
-export default async function Page() {
+export default async function Page({searchParams}: any) {
+
+  console.log(typeof searchParams.code)
+
+  const googCode = searchParams.code
+
+  
+
   const user = await serverUser();
   if (!user) redirect("/");
 
   await decodeUserAndCheckTeacher();
 
   const teacher = await Teacher.findOne({ user: user.id });
+
+  if(searchParams.code) {
+    teacher.googleCode = googCode
+    await teacher.save()
+  }
 
   // console.log(teacher, user);
 
@@ -54,14 +67,14 @@ export default async function Page() {
 
   // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // console.log(google)
-  // console.log(teacherJson);
+  console.log(teacherJson);
   // console.log(currentJson);
 
   const myUtc = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
 
 
 
-  const gerTime = 'what'
+  // const gerTime = 'what'
 
   console.log(myUtc)
 
@@ -94,7 +107,13 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-screen ">
-      <GoogleClient />
+      {(!googCode && !teacherJson.googleCode) && <GoogleClient />}
+      {(googCode || teacherJson.googleCode) && (
+        <div className="text-2xl text-white font-bold">
+          You have connected your Google Calendar
+        </div>
+      )}
+      <CalendarGoogle teacherCode={teacherJson.googleCode} userId={user.id} />
       {/* <TimeZoneComp /> */}
       <div className=" absolute top-8 right-2 md:right-28">
         {/* <FcSettings className="w-10 h-10 hover:rotate-90 transition-all duratino-500" /> */}

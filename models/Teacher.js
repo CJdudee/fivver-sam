@@ -19,8 +19,20 @@ const TeacherSehema = new mongoose.Schema({
     canceledOrders: {
         type: Number,
         default: 0
-    }
+    },
+    googleCode: {
+        type: String,
 
+    },
+    googleToken: {
+        type: Object,
+    },
+    googleRefresh: {
+        type: String
+    },
+    googleAccess: {
+        type: String
+    }
 })
 
 //have to make users posts a subdoc so i dont go over the 16 mb limit or a populate
