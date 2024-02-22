@@ -4,13 +4,11 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import Profile from "../../Profile";
 import AuthButtons from "../../AuthButtons";
 import Link from "next/link";
-import PhoneNavTest from "./PhoneNavTest";
-import HeadlessDrop from "./HeadlessDrop";
 
-export default function PhoneNav({ session, tokensJson, linkArray }: any) {
+export default function PhoneNavTest({ linkArray, hamDrop  }: any) {
   const [openNav, setOpenNav] = useState(false);
 
-  const hamDrop = useRef<HTMLDivElement | null>(null);
+//   const hamDrop = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!openNav) return;
@@ -29,8 +27,7 @@ export default function PhoneNav({ session, tokensJson, linkArray }: any) {
   }, [openNav]);
 
   return (
-    <div className="w-full flex justify-between items-center">
-      {/* <div ref={hamDrop} className="w-1/2 relative">
+    <div ref={hamDrop} className="w-1/2 relative">
         <button onClick={() => setOpenNav(!openNav)}>
           <RxHamburgerMenu className="h-8 w-8 text-white" />
         </button>
@@ -44,17 +41,6 @@ export default function PhoneNav({ session, tokensJson, linkArray }: any) {
             })}
           </div>
         )}
-      </div> */}
-      {/* <PhoneNavTest linkArray={linkArray} hamDrop={hamDrop} /> */}
-      <HeadlessDrop linkArray={linkArray} />
-
-      <div className="w-1/2  ">
-        {session && <Profile user={session} tokens={tokensJson} />}
-
-        <div className="flex gap-4 items-center justify-center">
-          {!session && <AuthButtons session={session} />}
-        </div>
       </div>
-    </div>
   );
 }

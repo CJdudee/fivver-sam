@@ -67,9 +67,9 @@ export default function Profile({ user, tokens }: any) {
             {user.roles.includes('user') && <Link href={"/user/dashboard"} onClick={() => {setOpenProfile(false)}} className="profile">
               User Dashboard
             </Link>}
-            {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
+            {/* {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
               Booking panel
-            </Link>}
+            </Link>} */}
           {/* </div> */}
           {user.roles.includes('user') && (
             <p className="border-t mt-2 py-1">Total Classes: {tokens ? tokens : 0}</p>

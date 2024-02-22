@@ -21,10 +21,10 @@ export default function CreateNewPackage({
   // console.log(handleCreate)
   return (
     <div
-      className="flex flex-col items-center justify-center gap-4 pri w-full rounded-xl py-2 text-black "
+      className="flex flex-col items-center justify-center gap-4 pri w-full rounded-xl py-6 text-black "
       // key={editPackage.index}
     >
-      <div className=" text-center flex flex-col gap-4 lg:flex-row w-full px-8 font-extrabold">
+      <div className=" text-center flex flex-col gap-4 lg:flex-row w-full px-8 font-extrabold items-center">
         <div className=" flex flex-col md:flex-row justify-center md:gap-4 w-full md:w-1/2 ">
           <label className="text-2xl md:w-1/4">Name: </label>
 
@@ -44,7 +44,7 @@ export default function CreateNewPackage({
           
             <input
               type="number"
-              className="text-black px-2 rounded-full font-bold text-lg w-full bg-[#83838354] text-center"
+              className="text-black px-2 rounded-full font-bold text-lg w-full bg-[#83838354] text-center [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               value={editPackage.tokens}
               onChange={(e) =>
                 setEditPackage((prev: any) => {
@@ -69,7 +69,7 @@ export default function CreateNewPackage({
         />
       </div> */}
 
-      <div className="flex flex-col  lg:flex-row w-full gap-4 lg:gap-0 ">
+      <div className="flex flex-col  lg:flex-row w-full gap-4 lg:gap-0 items-center">
         {priceArray.map((p, i) => {
           console.log(p);
 
@@ -94,7 +94,7 @@ export default function CreateNewPackage({
               </label>
               <input
                 type="number"
-                className="text-black px-2 rounded-full text-xl w-full text-center font-bold bg-[#83838354]"
+                className="text-black px-2 rounded-full text-xl w-full text-center font-bold bg-[#83838354] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 value={editPackage[value].price}
                 onChange={(e) =>
                   setEditPackage((prev: any) => {

@@ -89,13 +89,13 @@ export default function CreatePackage({ packages }: any) {
               new: true,
             })
           }
-          className=" absolute right-0 text-2xl"
+          className=" absolute right-0 text-4xl hover:text-gray-400"
         >
           +
         </button>
       </div>
 
-      <div className="flex flex-col xl:grid grid-cols-2 w-full gap-8 px-4">
+      <div className="flex flex-col xl:grid grid-cols-2 w-full gap-8 px-4 mt-2">
         {editPackage?.new == true && (
           <CreateNewPackage
             editPackage={editPackage}
@@ -117,7 +117,7 @@ export default function CreatePackage({ packages }: any) {
           return (
             <div
               key={i}
-              className="text-center pri w-full rounded-xl py-2 text-black my-auto"
+              className="text-center pri w-full rounded-xl py-6 text-black my-auto"
             >
               <div className=" md:flex justify-evenly text-3xl font-extrabold mb-6">
                 <p className="md:w-1/2">Name: {p.name}</p>
@@ -126,15 +126,15 @@ export default function CreatePackage({ packages }: any) {
               <div className="text-center md:flex text-xl justify-evenly mb-6 font-semibold ">
                 <p className="md:w-1/3">
                   Price one:{" "}
-                  <span className="font-extrabold">${p.priceOne.price}</span>
+                  <span className="font-extrabold">€ {p.priceOne.price}</span>
                 </p>
                 <p className="md:w-1/3">
                   Price two:{" "}
-                  <span className="font-extrabold">${p.priceTwo.price}</span>
+                  <span className="font-extrabold">€ {p.priceTwo.price}</span>
                 </p>
                 <p className="md:w-1/3">
                   Price three:{" "}
-                  <span className="font-extrabold">${p.priceThree.price}</span>
+                  <span className="font-extrabold">€ {p.priceThree.price}</span>
                 </p>
               </div>
               {/* <p>{p.individual ? "Single person package" : " Group package"}</p> */}
@@ -154,7 +154,7 @@ export default function CreatePackage({ packages }: any) {
                     // setEditPackage({ ...p, index: i });
                     handleDelete(p._id);
                   }}
-                  className="w-full text-black outline outline-1 rounded-full py-0.5 font-bold transition-all hover:outline-4 duration-150 active:outline-4 hover:shadow-md"
+                  className="w-full text-black outline outline-1 hover:outline-red-400 rounded-full py-0.5 font-bold transition-all hover:outline-4 duration-150 active:outline-4 hover:shadow-md"
                 >
                   Delete
                 </button>

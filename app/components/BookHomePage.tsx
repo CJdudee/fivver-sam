@@ -13,6 +13,10 @@ import {
 } from "react-icons/fa";
 import PlanPackagesSlider from "./homepage/PlanPackagesSlider";
 import { K2D } from "next/font/google";
+import BackgroundTest from "./homepage/BackgroundTest";
+import Image from "next/image";
+import WhatWeStandFor from "./homepage/WhatWeStandFor";
+import Link from "next/link";
 
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
@@ -20,22 +24,17 @@ export default function BookHomePage({ pricePackages }: any) {
   return (
     <main className="h-full">
       <div
-        className={`h-[450px] md:h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#242424] via-[#3D3D3D] to-[#3D3D3D] overflow-hidden  `}
+        className={`h-[450px] md:h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#202020] via-[#202020] to-[#202020] overflow-hidden  `}
       >
+
+{/* teacherTest44 */}
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}
-
+        <Image src={'/homePageBg6.svg'} draggable={false} alt="" className=" absolute  right-0 bottom-0 top-0 opacity-20" fill />
         {/* <div className=" absolute  bottom-0 h-full w-3/5 left-0 -right-24 top-52  border-[40px] ml-auto rounded-full rounded-b-full border-opacity-80 border-fuchsia-400 z-0 "></div> */}
-        <div className=" absolute  bottom-0 h-4/5  w-1/2 left-0 -right-[20%] -top-[55%]  border-[40px] ml-auto rounded-full  border-opacity-80  z-0 flex justify-center items-center ">
-          <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto flex justify-center items-center">
-            <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto"></div>
-          </div>
-        </div>
-        <div className=" absolute  bottom-0 h-4/5  w-1/2 right-0 -left-[20%] top-[55%]  border-[40px] mr-auto rounded-full  border-opacity-80  z-0 flex justify-center items-center ">
-          <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto flex justify-center items-center">
-            <div className=" border-[40px] h-[92%] w-[92%] rounded-full mx-auto"></div>
-          </div>
-        </div>
+        {/* <BackgroundTest /> */}
+        {/* <div className=" h-5/6 my-auto top-0 bottom-0 rounded-full w-[7%] bg-orange-300 absolute" /> */}
+
       </div>
 
       <div className=" text-center bg-white h-full w-full pt-32 ">
@@ -179,12 +178,18 @@ export default function BookHomePage({ pricePackages }: any) {
         </div>
       </div>
 
+      <div className="bg-[#313131] pt-32 pb-16 text-white font-semibold text-center">
+          <WhatWeStandFor />
+      </div>
+
       <div className="flex gap-20 justify-center items-center pt-32 bg-[#313131] text-white">
-        <p className=" opacity-50">Home</p>
-        <p className=" opacity-50">About Us</p>
-        <p className=" opacity-50">Contact US</p>
+        <Link href={''} className=" opacity-50">Home</Link>
+        <Link href={'/about'} className=" opacity-50">About Us</Link>
+        <Link href={''} className=" opacity-50">Contact Us</Link>
         {/* <p>Home</p> */}
       </div>
+
+      
 
       <div className="bg-[#313131]">
         <div className=" py-4 flex justify-center gap-4 w-1/2 mx-auto">

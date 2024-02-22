@@ -29,7 +29,7 @@ export default async function Page() {
     // console.log(booked)
 
   return (
-    <div className='h-full min-h-screen  pb-4 w-screen'>
+    <div className='h-full min-h-screen  pb-4'>
         <BookedLessons booked={simpleJson(booked)} />
         {/* {booked.map((b) => <p>{b.teacher}</p>)} */}
         {/* {simpleJson(booked)} */}

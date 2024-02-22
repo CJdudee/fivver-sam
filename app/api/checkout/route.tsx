@@ -44,6 +44,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         if(!foundUser) return NextResponse.json('No user was found with that id')
 
+        if(!foundUser.emailVerified) return NextResponse.json({emailUrl: `${process.env.HOSTNAME}/email`})
+
         let tokensGained = 0
 
 
@@ -103,7 +105,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
             cancel_url: `${process.env.HOSTNAME}/pricing`
         })
 
-        console.log(session, 'this is the session for stripe')
+        // console.log(session, 'this is the session for stripe')
         // return NextResponse.json({ url: session.url || ''})
 
         return new NextResponse(JSON.stringify({url: session.url || ''}), {

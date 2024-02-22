@@ -14,12 +14,10 @@ import { FaBookmark } from "react-icons/fa";
 import { K2D } from "next/font/google";
 import Navbar from "./Navbar";
 import NavBarHam from "./NavBarHam";
-import Token from '@/models/Token'
+import Token from "@/models/Token";
 import { RxHamburgerMenu } from "react-icons/rx";
 import PhoneNav from "./users/navbar/PhoneNav";
 import LogoLink from "./users/navbar/LogoLink";
-
-
 
 export default async function NewNavBar() {
   // const session = await auth()
@@ -34,17 +32,31 @@ export default async function NewNavBar() {
     user = await User.findOne({ _id: session.id });
   }
 
-  let tokensJson: any = await Token.find({user: user?._id})
-  
+  let tokensJson: any = await Token.find({ user: user?._id });
+
   // console.log(tokens)
-  if(!tokensJson.length) {
-    tokensJson = null
+  if (!tokensJson.length) {
+    tokensJson = null;
   } else {
-    tokensJson = tokensJson.reduce( (accumlator: number, currentValue: any) => accumlator + currentValue.tokens, 0)
+    tokensJson = tokensJson.reduce(
+      (accumlator: number, currentValue: any) =>
+        accumlator + currentValue.tokens,
+      0
+    );
   }
 
+  console.log(tokensJson, "this is tokesn");
 
-  console.log(tokensJson, 'this is tokesn')
+  let linkArray = [
+    { text: "Pricing", link: "/pricing" },
+    { text: "Booking", link: "/teach" },
+  ];
+
+  if(!session) {
+    linkArray = [
+      { text: "Pricing", link: "/pricing" },
+    ]
+  }
 
   // const tokens = null
   // const allUser = await User.find({roles: ['user']})
@@ -67,30 +79,38 @@ export default async function NewNavBar() {
           >
             Pricing
           </Link>
-          {session && <Link
-            href={"/teach"}
-            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-          >
-            Booking
-          </Link>}
-          {session && <Link
-            href={"/booking"}
-            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-          >
-            Booked
-          </Link>}
-          { <Link
-            href={"/contact"}
-            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-          >
-            Contact
-          </Link>}
-          { !session && <Link
-            href={"/trial"}
-            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-          >
-            Trial
-          </Link>}
+          {session && (
+            <Link
+              href={"/teach"}
+              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+            >
+              Booking
+            </Link>
+          )}
+          {session && (
+            <Link
+              href={"/booking"}
+              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+            >
+              Booked
+            </Link>
+          )}
+          {
+            <Link
+              href={"/contact"}
+              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+            >
+              Contact
+            </Link>
+          }
+          {!session && (
+            <Link
+              href={"/trial"}
+              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+            >
+              Trial
+            </Link>
+          )}
         </div>
 
         {/* <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800"> */}
@@ -104,9 +124,11 @@ export default async function NewNavBar() {
       </div>
 
       <div className="border-b-1  border-black min-h-[8vh] flex items-center justify-start px-4  w-full  pb-1   gap-4  bg-[#242424] md:hidden">
-       
-        <PhoneNav session={session} tokensJson={tokensJson} linkArray={[{text: 'Pricing', link: '/pricing'}, {text: "Booking", link: '/teach'}]} />
-        
+        <PhoneNav
+          session={session}
+          tokensJson={tokensJson}
+          linkArray={linkArray}
+        />
       </div>
     </nav>
   );

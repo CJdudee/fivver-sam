@@ -145,7 +145,7 @@ export default function TeacherSchedule({
   const handleCloseDay = async (date: Date) => {
     const closedDate = await closeTheDay(date, teacherId);
 
-    if(!closedDate) return errorToast()
+    if (!closedDate) return errorToast();
 
     // console.log(closedDate, "yoyu yo");
     const dateCopy = [...closedDays];
@@ -153,13 +153,12 @@ export default function TeacherSchedule({
     dateCopy.push(closedDate.data);
     setClosedDays(dateCopy);
 
-    susToast(closedDate.msg)
-
+    susToast(closedDate.msg);
   };
   const handleOpenDay = async (date: Date) => {
     const openDay = await openTheDay(date, teacherId);
 
-    if(!openDay) return errorToast()
+    if (!openDay) return errorToast();
 
     let dateCopy = [...closedDays];
 
@@ -168,7 +167,7 @@ export default function TeacherSchedule({
     // console.log(openDay)
     setClosedDays(dateCopy);
 
-    susToast(openDay.msg)
+    susToast(openDay.msg);
   };
 
   function _changeTime(day: any) {
@@ -261,23 +260,16 @@ export default function TeacherSchedule({
         (x: any) => x.name === weedayIndexToName(day.index)
       );
 
-      if (
-        openingTime.closeTime == undefined ||
-        openingTime.openTime == undefined
-      )
-        return;
+      if (!openingTime.closeTime || !openingTime.openTime) return;
 
       if (!num) {
         const state = [...dayWeek];
-
+        // Add new time slot
         state[index]?.openTime.push({
           openTime: openingTime.openTime,
           closeTime: openingTime.closeTime,
         });
-        //  dayWeek[index]?.openTime.push({
-        //   openTime: openingTime.openTime,
-        //   closeTime: openingTime.closeTime,
-        // });
+
         setDayWeek(state);
         setOpeningTime({
           openTime: undefined,
@@ -285,6 +277,7 @@ export default function TeacherSchedule({
           index: undefined,
         });
       } else {
+        // Update existing time slot
         const dayState = dayWeek[index]?.openTime.map((c: any, i: number) => {
           if (i === num) {
             return {
@@ -298,6 +291,34 @@ export default function TeacherSchedule({
         setDayWeek(dayState);
         return;
       }
+    };
+  }
+
+  function deleteTime(day: any) {
+    return function (num: number) {
+      const index = dayWeek.findIndex(
+        (x: any) => x.name === weedayIndexToName(day.index)
+      );
+
+      // if (num == 100) return;
+
+      if (typeof num != 'number') return 
+
+      let state = [...dayWeek]
+
+      console.log(index)
+      console.log(num)
+
+         state[index].openTime = state[index]?.openTime.filter((c: any, i: number) => {
+        if (i === num) {
+          return false ;
+        } else {
+          return true;
+        }
+      });
+
+      console.log(state)
+      setDayWeek(state);
     };
   }
   // function _changeTime(day: any) {
@@ -326,7 +347,7 @@ export default function TeacherSchedule({
     <>
       {weekDays != dayWeek && (
         <button
-          className="text-center text-white mt-1 mb-3 font-bold outline outline-1 px-8 py-0.5 rounded-full w-1/3 hover:text-gray-400 hover:outline-white"
+          className="text-center text-white mt-2 mb-4 font-bold outline outline-1 px-8 py-0.5 rounded-full w-1/3 hover:text-gray-400 hover:outline-white "
           onClick={handleSavingWeek}
         >
           Save
@@ -339,6 +360,7 @@ export default function TeacherSchedule({
         saveTime={saveTime}
         openingTime={openingTime}
         setOpeningTime={setOpeningTime}
+        deleteTime={deleteTime}
       />
     </>
   );
@@ -368,7 +390,7 @@ export default function TeacherSchedule({
         <p className="text-center text-3xl text-white w-full">
           {!enabled ? "Schedule" : "Closed Days"}
         </p>
-        <div className="flex justify-center w-1/2">
+        <div className="flex justify-center w-1/2  ">
           <Switch
             checked={enabled}
             onChange={setEnabled}

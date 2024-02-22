@@ -12,13 +12,10 @@ import GoogleClient from "@/app/components/teachers/google/GoogleClient";
 import TimeZoneComp from "@/app/components/TimeZoneComp";
 import CalendarGoogle from "@/app/components/teachers/google/CalendarGoogle";
 
-export default async function Page({searchParams}: any) {
+export default async function Page({ searchParams }: any) {
+  console.log(typeof searchParams.code);
 
-  console.log(typeof searchParams.code)
-
-  const googCode = searchParams.code
-
-  
+  const googCode = searchParams.code;
 
   const user = await serverUser();
   if (!user) redirect("/");
@@ -27,12 +24,10 @@ export default async function Page({searchParams}: any) {
 
   const teacher = await Teacher.findOne({ user: user.id });
 
-  if(searchParams.code) {
-    teacher.googleCode = googCode
-    await teacher.save()
+  if (searchParams.code) {
+    teacher.googleCode = googCode;
+    await teacher.save();
   }
-
-  // console.log(teacher, user);
 
   const format = formatDate(new Date(), "MM/yy");
 
@@ -40,8 +35,6 @@ export default async function Page({searchParams}: any) {
     teacher: teacher._id,
     date: format,
   });
-  // console.log(mothnlyOrder);
-
 
   const canBooking = await Booking.find({
     teacher: teacher._id,
@@ -65,30 +58,17 @@ export default async function Page({searchParams}: any) {
 
   const monthlyOrderJson = simpleJson(mothnlyOrder);
 
-  // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  // console.log(google)
-  console.log(teacherJson);
-  // console.log(currentJson);
-
-  const myUtc = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
-
-
-
-  // const gerTime = 'what'
-
-  console.log(myUtc)
-
   const monthlyJsx = (
-    <div className="flex  items-center flex-row text-black  gap-8 py-10 px-4 md:p-10 w-full md:w-full rounded-t-xl justify-evenly h-full min-h-[80px]">
-      <div className="flex flex-col justify-center items-center md:text-3xl font-bold w-1/2 md:w-1/3  md:border-r-2 h-full ">
-        <p className="w-full flex justify-center items-center ">
+    <div className="flex  items-center flex-col md:flex-row text-black gap-6 md:gap-8 py-10 px-2 md:p-10 w-full md:w-full rounded-t-xl justify-evenly h-full min-h-[80px]">
+      <div className="flex flex-col justify-center items-center md:text-xl font-bold w-full md:w-1/2    h-full shadow-xl px-2 rounded-xl py-2 ">
+        <p className="w-full flex justify-center items-center whitespace-nowrap ">
           This Month Orders
-        </p>{" "}
+        </p>
         <p className="w-full flex justify-center items-center ">
           {monthlyOrderJson?.orders}
         </p>
       </div>
-      <div className="flex flex-col justify-center items-center md:text-3xl font-bold w-1/2 md:w-1/3  md:border-r-2">
+      <div className="flex flex-col justify-center items-center md:text-xl font-bold w-full md:w-1/2  shadow-xl px-2 rounded-xl py-2 ">
         <p className="w-full flex justify-center ">Completed Orders</p>
         <p className="w-full flex justify-center ">
           {monthlyOrderJson?.completedOrders}
@@ -106,20 +86,20 @@ export default async function Page({searchParams}: any) {
   );
 
   return (
-    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-screen ">
-      {(!googCode && !teacherJson.googleCode) && <GoogleClient />}
+    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-full ">
+      {/* {!googCode && !teacherJson.googleCode && <GoogleClient />}
       {(googCode || teacherJson.googleCode) && (
         <div className="text-2xl text-white font-bold">
           You have connected your Google Calendar
         </div>
       )}
-      <CalendarGoogle teacherCode={teacherJson.googleCode} userId={user.id} />
+      <CalendarGoogle teacherCode={teacherJson.googleCode} userId={user.id} /> */}
       {/* <TimeZoneComp /> */}
-      <div className=" absolute top-8 right-2 md:right-28">
+      <div className="  top-8 right-2 md:right-28">
         {/* <FcSettings className="w-10 h-10 hover:rotate-90 transition-all duratino-500" /> */}
         <Link
           href={"/profile"}
-          className="outline outline-black md:outline-white outline-[.5px] px-6 py-2 rounded-full text-black md:text-[#c5c5c5] hover:text-[#838383]"
+          className="outline outline-white md:outline-white outline-[.5px] px-6 py-2 rounded-full text-white md:text-[#c5c5c5] hover:text-[#838383]"
         >
           Profile
         </Link>
@@ -136,14 +116,81 @@ export default async function Page({searchParams}: any) {
           )}
         </div>
       </div> */}
-      <div className="flex flex-col justify-between w-full items-center  pt-4 bg-[#e6e6e6] mt-0 rounded-xl min-h-full h-full ">
-        <p className="text-2xl text-center text-gray-800 font-extrabold mb-2">
+      <div className="dashboard flex flex-col items-center w-fit rounded-xl bg-gray-100 shadow-md">
+        <div className="header bg-gradient-to-r to-[#D9643A] from-[#E35D5B] py-4 rounded-t-xl text-white w-full">
+          <h1 className="text-3xl font-bold text-center">Teacher Dashboard</h1>
+          <p className="text-lg text-center">
+            See your orders and manage your schedule
+          </p>
+        </div>
+
+        <div className="body flex flex-col justify-between gap-4 px-4 py-8">
+          <div className="orders-summary flex flex-col gap-4">
+            <div className="flex items-center justify-between text-lg font-bold">
+              <p>Total Orders</p>
+              <span>{teacherJson.orders}</span>
+            </div>
+            <div className="flex items-center justify-between text-lg font-bold">
+              <p>Current Orders</p>
+              <span>{currentJson}</span>
+            </div>
+            <div className="flex items-center justify-between text-lg font-bold">
+              <p>Canceled Orders</p>
+              <span>{teacherJson.canceledOrders}</span>
+            </div>
+          </div>
+
+          <div className="monthly-orders flex flex-col rounded-xl bg-white shadow-lg drop-shadow-lg px-4 md:px-0">
+            {monthlyOrderJson && (
+              <>
+                <h2 className="text-2xl font-bold text-center py-4">
+                  Monthly Orders {format}
+                </h2>
+                {monthlyJsx}
+              </>
+            )}
+            {!monthlyOrderJson && (
+              <p className="text-center text-lg font-bold py-4">
+                No Orders This Month
+              </p>
+            )}
+          </div>
+
+          <div className="actions flex flex-col gap-4">
+            <Link
+              href="/teachers/dashboard/schedule"
+              className="button hover:bg-gray-200 rounded-lg py-2 px-4 text-center text-lg font-bold"
+            >
+              Make Schedule
+            </Link>
+            <Link
+              href="/teachers/dashboard/booked"
+              className="button hover:bg-gray-200 rounded-lg py-2 px-4 text-center text-lg font-bold"
+            >
+              View Booking
+            </Link>
+            <Link
+              href="/teachers/dashboard/old"
+              className="button hover:bg-gray-200 rounded-lg py-2 px-4 text-center text-lg font-bold"
+            >
+              View Old Classes
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <div className="flex flex-col justify-between w-full items-center  pt-4 bg-[#eec8a4] outline-2 outline outline-black mt-0 rounded-3xl min-h-full h-full ">
+        <p className="text-3xl text-center text-gray-800 font-extrabold mb-6">
           {" "}
           {format} Orders
         </p>
 
         <div className="md:px-8 w-full">
-          <div className="w-full border-b-2 border-black rounded-2xl shadow-lg border-t-2">
+          <div className="w-full border-b-2 border-black rounded-2xl shadow-2xl drop-shadow-2xl border-t-2">
             {monthlyOrderJson && monthlyJsx}
             {!monthlyOrderJson && (
               <div className="text-3xl text-center font-bold mt-2">
@@ -155,20 +202,20 @@ export default async function Page({searchParams}: any) {
 
         <div className="w-full">
           <div className="flex  items-center flex-row text-black  gap-8 py-10 px-4 md:p-10 w-full md:w-full rounded-t-xl justify-evenly">
-            <div className="flex flex-col  justify-center items-center text-xs md:text-3xl font-bold w-1/3  md:border-r-2">
+            <div className="flex flex-col  justify-center items-center text-xs md:text-3xl font-semibold w-1/3 ">
               <p className="w-full flex justify-center ">Total Orders</p>{" "}
               <p className="w-full flex justify-center ">
                 {teacherJson.orders}
               </p>
             </div>
-            <div className="flex  flex-col justify-center items-center text-xs md:text-3xl font-bold w-1/3  md:border-r-2">
+            <div className="flex  flex-col justify-center items-center text-xs md:text-3xl font-semibold w-1/3 ">
               <p className="w-full flex justify-center ">Current Orders</p>
               <p className="w-full flex justify-center ">{currentJson}</p>
-              {/* <p className="w-full flex justify-center ">{teacherJson.currentOrders}</p> */}
+              
             </div>
-            <div className="flex  flex-col justify-center items-center text-xs md:text-3xl font-bold w-1/3">
+            <div className="flex  flex-col justify-center items-center text-xs md:text-3xl font-semibold w-1/3">
               <p className="w-full flex justify-center ">Cancel Orders</p>
-              {/* <p className="w-1/2 flex justify-center ">{teacherJson.canceledOrders}</p> */}
+              
               <p className="w-full flex justify-center ">
                 {teacherJson.canceledOrders}
               </p>
@@ -200,7 +247,5 @@ export default async function Page({searchParams}: any) {
             </Link>
           </div>
         </div>
-      </div>
-    </div>
-  );
+      </div> */
 }

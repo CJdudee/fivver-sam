@@ -76,22 +76,22 @@ export default function PricePlanPackage({
       <div className="mt-4 px-4">
         <ul className="flex flex-col gap-1.5">
           <div className="flex gap-3 items-center">
-            <div className={` ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full  bg-slate-300 flex items-center justify-center text-white`}>
-              <CgCheck className=" text-5xl" />
+            <div className={` ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full  bg-slate-200 flex items-center justify-center text-white`}>
+              <CgCheck className=" text-5xl text-green-800" />
             </div>
-            <p className="font-semibold text-xs">Lorem ipsum sit.</p>
+            <p className="font-semibold text-xs">Spend as soon as you purchase</p>
           </div>
           <div className="flex gap-3 items-center">
-            <div className={` ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full  bg-slate-300 flex items-center justify-center text-white`}>
-            <CgCheck className=" text-5xl" />
+            <div className={` ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full  bg-slate-200 flex items-center justify-center text-white`}>
+            <CgCheck className=" text-5xl text-green-800" />
             </div>
-            <p className="font-semibold text-xs">Lorem ipsum sit adsfa;.</p>
+            <p className="font-semibold text-xs">Good up to a year</p>
           </div>
           <div className="flex gap-3 items-center">
-            <div className={`  ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full bg-slate-300  flex items-center justify-center text-white`}>
-            <CgCheck className=" text-5xl" />
+            <div className={`  ${dark && 'bg-[#2C2C2C]'} w-5 h-5 rounded-full bg-slate-200  flex items-center justify-center text-white`}>
+            <CgCheck className=" text-5xl text-green-800" />
             </div>
-            <p className="font-semibold text-xs">Lorem ipsum sit.</p>
+            <p className="font-semibold text-xs">Reschedule any classes as long as you do it a full day before</p>
           </div>
         </ul>
       </div>

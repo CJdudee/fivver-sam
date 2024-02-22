@@ -95,7 +95,8 @@ export default function TimeSelector({
                     "inline-block h-2 w-2 flex-shrink-0 rounded-full"
                   )}
                 />
-                <span className="ml-3 block truncate ">{result} { pm == false && 'am' } {pm == true && 'pm'}</span>
+                {/* <span className="ml-3 block truncate ">{result} { pm == false && 'am' } {pm == true && 'pm'}</span> */}
+                <span className="ml-3 block truncate ">{selected}</span>
               </div>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <HiSelector
@@ -163,7 +164,8 @@ export default function TimeSelector({
                                 "ml-3 block truncate"
                               )}
                             >
-                              {result} {pm ? "pm" : "am"}
+                              {/* {result} {pm ? "pm" : "am"} */}
+                              {time}
                               <span className="sr-only">
                                 {" "}
                                 is {true ? "online" : "offline"}

@@ -49,7 +49,7 @@ export default function UserBooking({
   // console.log(tokenGroup)
 
   return (
-    <div className="h-[92dvh] relative">
+    <div className="h-[92dvh] relative pt-2">
       <div
         className={`  absolute flex w-full px-10 md:px-0 -top-40 mx-auto items-stretch justify-center  transition-all duration-500 gap-10 ${
           showToken && " top-16"

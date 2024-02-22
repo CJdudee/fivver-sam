@@ -1,17 +1,22 @@
-import { Roboto_Serif } from "next/font/google";
+import { Kanit, PT_Serif, Roboto_Serif } from "next/font/google";
 import { LuBookOpen } from "react-icons/lu";
 
 const robot = Roboto_Serif({ subsets: ['latin'], weight: '500'})
 
+const kanit = Kanit({ subsets: ['latin'], weight: '700'})
+
+const protest = PT_Serif({ subsets: ['latin'] , weight: '700'})
+
 export default function BookText() {
   return (
     <>
+    <p className={`${protest.className} text-xl md:text-5xl text-[#C04000] md:mb-4 font-extrabold text-center w-full`}>Online school for German language</p>
       <div className="w-full  flex justify-evenly flex-col h-fit md:py-0 ">
         <div  className={`${robot.className} flex flex-col gap-2`} >
           <div  className={`${robot.className}`}>
-            <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
-            <p className="text-xs md:text-lg text-[#A34F81]">
-              SPRACHGEIST, m. the spirit of language: those who do not hold on to perception that initially mock all theory (regardless of) their factual certainty will never come closer to the unfathomable spirit of language
+            <p className=" -mb-3 text-3xl text-[#C04000]">{`"`}</p>
+            <p className="text-xs md:text-lg text-[#C04000]">
+              Sprachgeist, m. the spirit of language: those who do not hold on to perception that initially mock all theory (regardless of) their factual certainty will never come closer to the unfathomable spirit of language
             </p>
           </div>
 
@@ -22,8 +27,8 @@ export default function BookText() {
         </div>
         <div  className={`${robot.className} flex flex-col gap-2`}>
           <div className={`${robot.className}`}>
-            <p className=" -mb-3 text-3xl text-[#A34F81]">{`"`}</p>
-            <p className="text-xs md:text-lg text-[#A34F81]">
+            <p className=" -mb-3 text-3xl text-[#C04000]">{`"`}</p>
+            <p className="text-xs md:text-lg text-[#C04000]">
             The language takes on a personal character; one engages with it as with another person. This is one way to experience the <q>language spirit</q> as a living one.
             </p>
           </div>
@@ -33,8 +38,8 @@ export default function BookText() {
           </p>
         </div>
       </div>
-      <div className=" pt-4 pl-8 flex items-end">
-        <button className=" px-10 py-2.5 rounded-full bg-gradient-to-t from-[#252525] via-[#252525] to-[#626262] text-white flex items-center gap-1.5 justify-center">
+      <div className=" pt-4 pl-8 flex">
+        <button className=" px-10 py-1 md:py-2.5 rounded-xl bg-gradient-to-t from-[#C04000] via-[#C04000] to-[#C04000] text-white flex items-center gap-1.5 justify-center">
           Book a Trial
           {/* <IoBookOutline className="text-md" />{" "} */}
           <LuBookOpen className="" />

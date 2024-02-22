@@ -166,7 +166,7 @@ export default function UserCalendar({
           </button>
           <Transition
             show={isShowing}
-            className={` `}
+            className={` flex justify-center items-center h-[400px]`}
             // enter="transition-opacity duration-75"
             // enterFrom="opacity-0"
             // enterTo="opacity-100"
@@ -187,7 +187,7 @@ export default function UserCalendar({
               <p className="text-center text-2xl font-bold mb-2">
                 Selecte A Time
               </p>
-              <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4 w-full  ">
+              <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4 w-full   ">
                 {times?.map((time: any, i: number) => {
                   const foundBook = bookedState.find(
                     (b: any) =>
@@ -197,7 +197,6 @@ export default function UserCalendar({
 
                   const timeObj = time
                   // console.log(time, 'time time time')
-                  // console.log(time, "before edit");
                   // time = DateTime.fromJSDate(time).setZone('Europe/Berlin')
                   // time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
                   time = DateTime.fromJSDate(time.clientDate, {
@@ -206,7 +205,7 @@ export default function UserCalendar({
                   // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
                   // console.log(time, "after edit");
 
-                  const formatedKk = Number(format(time, "kk"));
+                  let formatedKk = Number(format(time, "kk"));
                   const formatedMin = Number(format(time, "mm"));
 
                   const isUnderDate =
@@ -232,7 +231,7 @@ export default function UserCalendar({
                     pm = true
 
                     if(formatedKk == 24) {
-                      numb = 12
+                      formatedKk = 0
                       pm = false
                     }
                     // if(numb == 0) {
@@ -251,7 +250,7 @@ export default function UserCalendar({
                     <div
                       key={`time-${i}`}
                       className={`${
-                        isPickedTime && "bg-black text-white"
+                        isPickedTime && "bg-black text-white "
                       } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                     >
                       <button
@@ -278,11 +277,11 @@ export default function UserCalendar({
                         }}
                       >
                         {/* {format(time, 'kk:mm')} */}
-                        <p>{numb ?? `${format(time, "kk")}`}</p>
+                        <p>{formatedKk ?? `${format(time, "kk")}`}</p>
                         <p>:</p>
                         <p>{format(time, "mm")}</p>
                         {/* <p>{numb || formatedKk == 12 ? "pm" : "am"}</p> */}
-                        <p>{pm ? "pm" : "am"}</p>
+                        {/* <p>{pm ? "pm" : "am"}</p> */}
                       </button>
                     </div>
                   );

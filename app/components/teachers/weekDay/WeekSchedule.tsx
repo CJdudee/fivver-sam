@@ -9,6 +9,7 @@ export default function WeekSchedule({
   openingTime,
   openDay,
   setOpeningTime,
+  deleteTime,
 }: any) {
   const [newTime, setNewTime] = useState<null | number>(null);
 
@@ -56,13 +57,13 @@ export default function WeekSchedule({
     return t.openTime == openingTime.openTime;
   });
 
-  console.log(newTime);
-  console.log(timeOpenTime, "time op");
+  // console.log(newTime);
+  // console.log(timeOpenTime, "time op");
 
-  console.log(isDisable);
+  // console.log(isDisable);
 
   return (
-    <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold font-mono text-xl gap-4 md:px-2  lg:px-12 relative  ">
+    <ul className="text-center h-full flex flex-col lg:grid grid-cols-2 justify-between items-center w-full text-black font-bold text-xl gap-4 md:px-2 lg:px-8 relative ">
       {/* <p className=' absolute right-0 z-20 text-2xl text-white'>+</p> */}
 
       {dayWeek.map((w: any, mapindex: number) => {
@@ -71,6 +72,8 @@ export default function WeekSchedule({
         const saveFun = saveTime(w);
 
         const timeFrame = dayWeek[mapindex].openTime;
+
+        const deleteTimeFrame = deleteTime(w)
 
         let shown = undefined;
 
@@ -82,7 +85,7 @@ export default function WeekSchedule({
 
         return (
           <li
-            className="h-[200px] w-full bg-gray-300 rounded-xl py-4 min-h-80 drop-shadow-xl shadow-xl relative "
+            className="h-[220px] w-full bg-gray-300 rounded-2xl py-4 pb-6 min-h-80 drop-shadow-xl shadow-xl relative "
             key={w.name}
           >
             <p className="text-start pl-4 text-3xl">{capitalize(w.name)}</p>
@@ -94,7 +97,7 @@ export default function WeekSchedule({
                 {newTime == mapindex ? "-" : "+"}
               </p>
             )}
-            <div className="flex flex-col w-full justify-evenly relative h-3/4 mt-1 ">
+            <div className="flex flex-col w-full justify-evenly relative h-3/4 mt-1 overflow-auto ">
               {/* <p className="  z-20 text-2xl text-white absolute right-32">+</p> */}
 
               {(newTime == mapindex ||
@@ -135,7 +138,7 @@ export default function WeekSchedule({
                 </>
               )}
 
-              {Array.isArray(dayWeek[mapindex]?.openTime) ? (
+              {Array.isArray(dayWeek[mapindex]?.openTime) && (
                 dayWeek[mapindex]?.openTime.map((c: any, openingIn: number) => {
                   // console.log("yo yo oy");
 
@@ -143,12 +146,12 @@ export default function WeekSchedule({
                     <div key={openingIn} className="">
                       {/* <p>array</p> */}
                       <div className="w-full flex justify-evenly relative ">
-                        {/* <p
-                          onClick={() => handleNewTime(mapindex)}
+                        <p
+                          onClick={() => deleteTimeFrame(openingIn)}
                           className="  z-20 text-2xl text-white absolute right-0 md:right-20 top-0"
                         >
-                          +
-                        </p> */}
+                          -
+                        </p>
                         <div className="px-1 w-full md:px-0 md:w-1/3">
                           <TimeSelector
                             type="openTime"
@@ -176,26 +179,7 @@ export default function WeekSchedule({
                     </div>
                   );
                 })
-              ) : (
-                <>
-                  {/* <div className="px-1 w-full md:px-0 md:w-1/3">
-                    <TimeSelector
-                      type="openTime"
-                      changeTime={changeTime}
-                      selected={dayWeek[mapindex]?.openTime}
-                     
-                    />
-                  </div>
-                  <div className="px-1 w-full md:px-0 md:w-1/3">
-                    <TimeSelector
-                      type="closeTime"
-                      changeTime={changeTime}
-                      selected={dayWeek[mapindex]?.closeTime}
-                      
-                    />
-                  </div> */}
-                </>
-              )}
+              ) }
             </div>
             <button
               type="button"
@@ -204,7 +188,7 @@ export default function WeekSchedule({
               }}
               className={`${
                 w.isOpen ? "bg-[#D9643A]" : "bg-[#f5f5f5]"
-              } w-1/3  mt-4 rounded-full transition-all duration-300 `}
+              } w-1/3 mt-4 rounded-full transition-all duration-300 text-white`}
             >
               {w.isOpen ? "Open" : "Closed"}
             </button>
@@ -214,3 +198,26 @@ export default function WeekSchedule({
     </ul>
   );
 }
+
+
+
+// : (
+//   <>
+//     {/* <div className="px-1 w-full md:px-0 md:w-1/3">
+//       <TimeSelector
+//         type="openTime"
+//         changeTime={changeTime}
+//         selected={dayWeek[mapindex]?.openTime}
+       
+//       />
+//     </div>
+//     <div className="px-1 w-full md:px-0 md:w-1/3">
+//       <TimeSelector
+//         type="closeTime"
+//         changeTime={changeTime}
+//         selected={dayWeek[mapindex]?.closeTime}
+        
+//       />
+//     </div> */}
+//   </>
+// )

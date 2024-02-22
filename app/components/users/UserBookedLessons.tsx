@@ -130,7 +130,7 @@ export default function UserBookedLessons({ booked }: any) {
           // const fullDay = addDays(new Date(), 1)
           
           // const addedHour = addHours(fullDay, Number(timeArray[0]))
-          const displayTime = DateTime.fromJSDate(addedMin).toFormat(" hh:mm a").toLocaleLowerCase()
+          const displayTime = DateTime.fromJSDate(addedMin).toFormat(" HH:mm ").toLocaleLowerCase()
           const formated = gerFormat(addedMin);
 
           console.log(addedMin, formated, displayTime)

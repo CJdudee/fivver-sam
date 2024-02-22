@@ -14,9 +14,9 @@ export default function TimeZoneComp() {
         const gerTime = DateTime.now().setZone('Europe/Berlin')
         const time = DateTime.now()
 
-         formatedTime = gerTime.toFormat("H:m:ss a").toLowerCase()
+         formatedTime = gerTime.toFormat("HH:mm:ss a").toLowerCase()
 
-         const timeFormattedAgain = time.toFormat("H:mm:ss a")
+         const timeFormattedAgain = time.toFormat("HH:mm:ss a")
 
          setTestTime(formatedTime)
          setTestTime2(timeFormattedAgain)
