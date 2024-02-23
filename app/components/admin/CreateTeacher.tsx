@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 
 export default function CreateTeacher() {
-  const [options, setOptions] = useState(0)
+  const [options, setOptions] = useState<number | null>(0);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -30,7 +30,10 @@ export default function CreateTeacher() {
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+
+    e.preventDefault();
+    
+    if(options == null) return 
 
     const userData = {
       username,
@@ -39,110 +42,179 @@ export default function CreateTeacher() {
       roles,
     };
 
-    if(options == 0) {
+    if (options == 0) {
+      const createdUser = await newUser(userData);
 
-      const createdUser = await newUser(userData)
+      if (!createdUser) return errorToast();
 
-      if(!createdUser) return errorToast()
-
-      susToast(createdUser as string)
-
+      susToast(createdUser as string);
     }
-    if(options == 1) {
-
+    if (options == 1) {
       const createdTeacher = await newTeacher(userData);
 
-      if(!createdTeacher) return errorToast()
+      if (!createdTeacher) return errorToast();
 
-      susToast(createdTeacher as string)
-
+      susToast(createdTeacher as string);
     }
-    if(options == 2) {
-
+    if (options == 2) {
       const createdAdmin = await newAdmin(userData);
 
-      if(!createdAdmin) return errorToast()
+      if (!createdAdmin) return errorToast();
 
-      susToast(createdAdmin as string)
-
+      susToast(createdAdmin as string);
     }
 
-    setUsername('')
-    setPassword('')
-    setRoles([])
-    setEmail('')
-
-
-    
+    setUsername("");
+    setPassword("");
+    setRoles([]);
+    setEmail("");
+    setOptions(null)
   };
 
   return (
-    <div className="h-full min-h-full flex flex-col items-center justify-center ">
-      <div className="pri w-full md:w-2/3 py-2  rounded-t-xl flex justify-evenly">
-        <button onClick={() => setOptions(0)} className={`${options == 0 && 'text-gray-400'} font-bold text-xs sm:text-lg transition-colors duration-300`}>Create User</button>
-        <button onClick={() => setOptions(1)} className={`${options == 1 && 'text-gray-400'} font-bold text-xs sm:text-lg transition-colors duration-300`}>Create Teacher</button>
-        <button onClick={() => setOptions(2)} className={`${options == 2 && 'text-gray-400'} font-bold text-xs sm:text-lg transition-colors duration-300`}>Create Admin</button>
+    <div className=" flex flex-col items-center justify-center h-full">
+      <div className="max-w-lg bg-slate-200 shadow-md rounded-lg px-8 py-4 w-full h-2/3 flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-semibold text-black  text-center mb-8 w-full">
+          Create {options === null ? 'User' : options === 0 ? "User" : options === 1 ? "Teacher" : "Admin"}
+        </h2>
+
+        <form onSubmit={onSubmit} className="w-full">
+          <div className="space-y-4">
+            <div className="flex flex-col mb-4">
+              <label className="text-black  font-bold mb-2">
+                Username:
+              </label>
+              <input
+                type="text"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-sky-500 focus:ring-2"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col mb-4">
+              <label className="text-black  font-bold mb-2">
+                Password:
+              </label>
+              <input
+                type="password"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-sky-500 focus:ring-2"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col mb-4">
+              <label className="text-black  font-bold mb-2">
+                Email (optional):
+              </label>
+              <input
+                type="email"
+                className="w-full px-3 py-2 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-sky-500 focus:ring-2"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className="flex flex-col mb-4">
+              <label className="text-black  font-bold mb-2">
+                Roles:
+              </label>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className={`text-black bg-white px-4 py-2 rounded-full font-semibold ${
+                    roles.includes("user") ? "bg-gradient-to-l from-[#E35D5B] to-[#D9643A] text-white" : ""
+                  } hover:bg-gradient-to-l from-[#E35D5B] to-[#D9643A] transition-all duration-300`}
+                  onClick={() => {
+                    if (!roles.includes("user")) {
+                      setRoles(["user"]);
+                      setOptions(0)
+                    } else {
+                      setRoles(roles.filter((role) => role !== "user"));
+                      setOptions(null)
+                    }
+                  }}
+                >
+                  User
+                </button>
+                <button
+                  type="button"
+                  className={`text-black bg-white px-4 py-2 rounded-full font-semibold ${
+                    roles.includes("teacher") ? "bg-gradient-to-l from-[#E35D5B] to-[#D9643A] text-white" : ""
+                  } hover:bg-gradient-to-l from-[#E35D5B] to-[#D9643A] transition-all duration-300`}
+                  onClick={() => {
+                    if (!roles.includes("teacher")) {
+                      setRoles(["teacher"]);
+                      setOptions(1)
+                    } else {
+                      setRoles(roles.filter((role) => role !== "teacher"));
+                      setOptions(null)
+                    }
+                  }}
+                >
+                  Teacher
+                </button>
+                <button
+                  type="button"
+                  className={`text-black bg-white px-4 py-2 rounded-full font-semibold ${
+                    roles.includes("admin") ? "bg-gradient-to-l from-[#E35D5B] to-[#D9643A] text-white" : ""
+                  } hover:bg-gradient-to-l from-[#E35D5B] to-[#D9643A] transition-all duration-300`}
+                  onClick={() => {
+                    if (!roles.includes("admin")) {
+                      setRoles(["admin"]);
+                      setOptions(2)
+                    } else {
+                      setRoles(roles.filter((role) => role !== "admin"));
+                      setOptions(null)
+                    }
+                  }}
+                >
+                  Admin
+                </button>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="w-full  rounded-full py-1 bg-white hover:text-gray-500 font-semibold"
+            >
+              Create
+            </button>
+          </div>
+        </form>
       </div>
-      <form
-        className="flex justify-around flex-col items-center pri text-black w-full md:w-2/3 rounded-b-xl mx-auto p-4 h-2/3"
-        onSubmit={(e) => onSubmit(e)}
-      >
-        <div className="flex flex-col gap-8 w-full ">
-          {options == 0 && <p className="text-center text-2xl font-extrabold -mb-4">Create New User</p>}
-          {options == 1 && <p className="text-center text-2xl font-extrabold -mb-4">Create New Teacher</p>}
-          {options == 2 && <p className="text-center text-2xl font-extrabold -mb-4">Create New Admin</p>}
-          <div className="flex w-full flex-col justify-center items-center">
-            <p className=" text-center font-bold mb-1 text-2xl ">Username</p>
-            <input
-              value={username}
-              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="flex w-full flex-col justify-center items-center">
-            <p className=" text-center font-bold mb-1 text-2xl ">Password</p>
-            <input
-              value={password}
-              className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex w-full flex-col justify-center items-center">
-            <p className=" text-center font-bold mb-1 text-2xl ">Email - optional</p>
-            <input value={email} className="rounded-full pl-2 w-4/5 md:w-2/4 bg-[#83838354] py-0.5 text-center " onChange={(e) => setEmail(e.target.value)} />
-          </div>
-        </div>
-        {/* <div className="mt-4 w-full flex justify-center md:w-1/2">
-          <Select
-            classNames={{
-              clearIndicator: () => "",
-              container: () =>
-                "text-black w-2/3 md:w-full lg:w-full text-center   ",
-              indicatorsContainer: () => " ",
-              control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
-              menu: () => "rounded-lg mt-1 ",
-              menuList: () => "bg-white rounded-md text-md ",
-              dropdownIndicator: () => "rounded-lg ",
-              valueContainer: () =>
-                "rounded-lg text-black text-lg font-semibold   ",
-              group: () => "text-white bg-slate-300 ",
-              option: () => "p-1  hover:bg-slate-100",
-              input: () => "",
-              placeholder: () => "text-black text-md",
-              singleValue: () => "",
-            }}
-            isMulti
-            unstyled
-            isSearchable={false}
-            options={roleSelect}
-            onChange={handleRole}
-            className=" text-sm "
-            placeholder={"Pick User's Roles"}
-            classNamePrefix="unstyled"
-          />
-        </div> */}
-        <div className="block">
-          <button className="text-black bg-white px-8 py-0.5 rounded-full font-semibold outline-1 outline-black hover:outline-4 outline transition-all duration-150">Submit</button>
-        </div>
-      </form>
     </div>
   );
+}
+
+{
+  /* <div className="mt-4 w-full flex justify-center md:w-1/2">
+<Select
+  classNames={{
+    clearIndicator: () => "",
+    container: () =>
+      "text-black w-2/3 md:w-full lg:w-full text-center   ",
+    indicatorsContainer: () => " ",
+    control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
+    menu: () => "rounded-lg mt-1 ",
+    menuList: () => "bg-white rounded-md text-md ",
+    dropdownIndicator: () => "rounded-lg ",
+    valueContainer: () =>
+      "rounded-lg text-black text-lg font-semibold   ",
+    group: () => "text-white bg-slate-300 ",
+    option: () => "p-1  hover:bg-slate-100",
+    input: () => "",
+    placeholder: () => "text-black text-md",
+    singleValue: () => "",
+  }}
+  isMulti
+  unstyled
+  isSearchable={false}
+  options={roleSelect}
+  onChange={handleRole}
+  className=" text-sm "
+  placeholder={"Pick User's Roles"}
+  classNamePrefix="unstyled"
+/>
+</div> */
 }

@@ -21,7 +21,7 @@ export default function GoogleClient() {
         if(!gAuth) return 
 
         router.push(gAuth)
-    }, [gAuth])
+    }, [gAuth, router])
 
 
   return (

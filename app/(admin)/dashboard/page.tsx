@@ -27,40 +27,42 @@ export default async function Page() {
   const userJson = simpleJson(fewUsers);
 
   return (
-    <div className="text-center text-white h-[92vh] min-h-[600px] w-full md:w-4/5 mx-auto">
-      <div className=" p-4 flex flex-col  gap-4 h-full w-full">
-        <div className=" h-1/6 w-full transition-all duration-300 mx-auto rounded-xl pri">
+    <div className="admin-dashboard text-white h-full min-h-[900px] w-full md:w-4/5 mx-auto">
+      <header className="header bg-gradient-to-r from-orange-600 to-orange-800 text-white py-4 rounded-b-xl text-center">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+      </header>
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4  h-[80vh]">
+        <div className="rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:opacity-90 text-black font-extrabold  flex justify-center items-center h-full">
           <Link
-            href={"/dashboard/create"}
-            className="text-2xl h-full  p-2  flex justify-center items-center text-black font-extrabold"
+            href="/dashboard/create"
+            className="rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:opacity-90 text-black font-extrabold p-2 flex justify-center items-center h-full w-full"
           >
             Create Credentials
           </Link>
         </div>
-        <div className="h-4/6">
-          <ViewAll teachersJson={teachersJson} userJson={userJson} />
-        </div>
-        <div className="h-1/6 w-full  transition-all duration-300 mx-auto rounded-xl pri">
+        <ViewAll teachersJson={teachersJson} userJson={userJson} />
+        <div className="rounded-xl shadow-md transition-all duration-300 hover:shadow-lg hover:opacity-90 text-black font-extrabold  flex justify-center items-center h-full">
           <Link
-            href={"/dashboard/changeprice"}
-            className="text-2xl text-black font-extrabold p-2 flex justify-center items-center h-full"
+            href="/dashboard/changeprice"
+            className="rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:opacity-90 text-black font-extrabold p-2 flex justify-center items-center h-full w-full"
           >
             Change Pricing
           </Link>
         </div>
-        {/* <div className="h-1/6 w-full  transition-all duration-300 mx-auto rounded-xl pri">
-          <Link
-            href={"/dashboard/changeprice"}
-            className="text-2xl text-black font-extrabold p-2 flex justify-center items-center h-full"
-          >
-            View Teacher Monthly Classes
-          </Link>
-        </div> */}
-        {/* <CreateTeacher /> */}
-      </div>
+      </main>
     </div>
   );
 }
+
+{/* <div className="h-1/6 w-full  transition-all duration-300 mx-auto rounded-xl pri">
+  <Link
+    href={"/dashboard/changeprice"}
+    className="text-2xl text-black font-extrabold p-2 flex justify-center items-center h-full"
+  >
+    View Teacher Monthly Classes
+  </Link>
+</div> */}
+{/* <CreateTeacher /> */}
 
 //dash board could an absoulte design and will have to remove the navbar
 

@@ -50,11 +50,16 @@ export default async function NewNavBar() {
   let linkArray = [
     { text: "Pricing", link: "/pricing" },
     { text: "Booking", link: "/teach" },
+    { text: 'Contact', link : "/contact"},
+    { text: 'About Us', link: "/about"},
   ];
 
   if(!session) {
     linkArray = [
       { text: "Pricing", link: "/pricing" },
+      { text: "trial", link: '/trial'},
+      { text: 'Contact', link : "/contact"},
+      { text: 'About Us', link: "/about"},
     ]
   }
 
@@ -73,7 +78,20 @@ export default async function NewNavBar() {
         <LogoLink />
 
         <div className="text-center flex items-center justify-end gap-4 w-full drop-shadow-lg pl-4 h-full ">
-          <Link
+
+          {linkArray.map((l: any, i: number) => {
+
+            return (
+              <Link
+              key={i}
+            href={`${l.link}`}
+            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+          >
+            {l.text}
+          </Link>
+            )
+          })}
+          {/* <Link
             href={"/pricing"}
             className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
           >
@@ -110,7 +128,7 @@ export default async function NewNavBar() {
             >
               Trial
             </Link>
-          )}
+          )} */}
         </div>
 
         {/* <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800"> */}

@@ -178,68 +178,70 @@ export default function ViewAllUsers({
 
   const asssignTeacherDialog = turnDialog && (
     <dialog
-      className=" w-full min-w-full md:min-w-0 md:w-2/3 h-2/3 min-h-[400px] pri  text-black p-4 rounded-xl"
+      className=" fixed top-0 left-0 bg-black/60   flex justify-center items-center z-50 w-full h-full"
       ref={dialogRef}
     >
-      <p className="w-full mt-4  truncate font-bold mb-2">
-        Asssign Teacher to {idUser?.username}{" "}
-      </p>
-      <button
-        className=" absolute top-1 right-2 hover:text-red-400 font-bold"
-        onClick={() => {
-          setTurnDialog(false);
-          setIdUser(null);
-          setTeacherId(null);
-        }}
-      >
-        X
-      </button>
+      <div className="bg-gray-100 rounded-xl p-8 shadow-md w-full h-full md:w-1/2 md:h-1/2 relative">
+        <p className="w-full mt-4  truncate font-bold mb-2">
+          Asssign Teacher to {idUser?.username}{" "}
+        </p>
+        <button
+          className=" absolute top-1 right-2 hover:text-red-400 font-bold"
+          onClick={() => {
+            setTurnDialog(false);
+            setIdUser(null);
+            setTeacherId(null);
+          }}
+        >
+          X
+        </button>
 
-      <div className="  h-1/3">
-        <AsyncSelect
-          loadOptions={loadOptions as any}
-          className="text-sm "
-          // value={asyncSearch} onChange={(e) => setAsyncSearch(e.target.value)}
-          // styles={{
-          //   valueContainer: (styles) => ({...styles, color: '#000', backgroundColor: '#0000'})
-          // }}
-          getOptionLabel={(option) => option.user.username}
-          getOptionValue={(option) => option.user.username}
-          placeholder="Please Type Teacher Username"
-          // noOptionsMessage={"hey"}
-          // noOptionsMessage={{msg: 'f'}}
-          classNames={styleForSelect}
-          onChange={handleSelect}
-        />
-      </div>
-      <div className="h-1/2 flex flex-col md:flex-row justify-center items-center md:items-end w-full gap-2 ">
-        {teacherId && (
-          <button
-            className="px-6 outline-1 outline hover:outline-4 transition-all duration-150 rounded-full"
-            onClick={handleAssignTeacher}
-          >
-            Assign Teacher to User
-          </button>
-        )}
-        {idUser && foundAssigned.find((c: any) => c.user == idUser._id) && (
-          <button
-            className="px-6 outline-1 outline hover:outline-4 transition-all duration-150 rounded-full"
-            onClick={handleRemoveTeacher}
-          >
-            Remove Assigned Teacher
-          </button>
-        )}
+        <div className="  h-1/3">
+          <AsyncSelect
+            loadOptions={loadOptions as any}
+            className="text-sm "
+            // value={asyncSearch} onChange={(e) => setAsyncSearch(e.target.value)}
+            // styles={{
+            //   valueContainer: (styles) => ({...styles, color: '#000', backgroundColor: '#0000'})
+            // }}
+            getOptionLabel={(option) => option.user.username}
+            getOptionValue={(option) => option.user.username}
+            placeholder="Please Type Teacher Username"
+            // noOptionsMessage={"hey"}
+            // noOptionsMessage={{msg: 'f'}}
+            classNames={styleForSelect}
+            onChange={handleSelect}
+          />
+        </div>
+        <div className="flex flex-col md:flex-row justify-center gap-4">
+          {teacherId && (
+            <button
+              className="px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-700 font-bold shadow transition-all"
+              onClick={handleAssignTeacher}
+            >
+              Assign Teacher to User
+            </button>
+          )}
+          {idUser && foundAssigned.find((c: any) => c.user === idUser._id) && (
+            <button
+              className="px-4 py-2 rounded-md text-white bg-red-500 hover:bg-red-700 font-bold shadow transition-all"
+              onClick={handleRemoveTeacher}
+            >
+              Remove Assigned Teacher
+            </button>
+          )}
+        </div>
       </div>
     </dialog>
   );
 
   return (
     <div>
-      <div className="mb-2 sticky top-[8vh] bg-[#242424]  flex justify-evenly gap-2 pb-2 pt-2 ">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+      <div className="mb-2 sticky top-[8vh] bg-[#242424]  flex flex-col md:flex-row justify-evenly gap-2 pb-2 pt-2 ">
+        <div className="text-lg md:text-2xl flex flex-col md:flex-row items-center justify-center gap-4">
           <p className="md:w-1/2">Find By Name</p>
           <input
-            className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold"
+            className="rounded-full text-sm md:text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold"
             onChange={(e) => {
               setNameFilter(e.target.value);
               console.log(nameFilter);
@@ -247,7 +249,7 @@ export default function ViewAllUsers({
             value={nameFilter}
           />
         </div>
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className=" text-lg md:text-2xl flex flex-col md:flex-row items-center justify-center gap-4 mt-2">
           <p className="md:w-1/2">Find By Roles</p>
           {/* <input value={filter} className="rounded-full text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold" onChange={(e) => setFilter(e.target.value)} /> */}
           <div className=" w-4/5 flex justify-center ">
@@ -255,7 +257,7 @@ export default function ViewAllUsers({
               classNames={{
                 clearIndicator: () => "",
                 container: () =>
-                  "text-black md:w-2/3 md:w-full lg:w-full text-center   ",
+                  "text-black  w-full lg:w-full text-center   ",
                 indicatorsContainer: () => " ",
                 control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
                 menu: () => " ",
@@ -281,7 +283,7 @@ export default function ViewAllUsers({
           </div>
         </div>
       </div>
-      <div className=" flex flex-col lg:grid grid-cols-2 items-center gap-4 px-2 md:px-8">
+      <div className="flex flex-col lg:grid grid-cols-2 items-center gap-4 px-2 md:px-8">
         {asssignTeacherDialog}
         {filterUser.map((f: any, i: number) => {
           const foundAss = foundAssigned.find((c: any) => c.user == f._id);
@@ -290,57 +292,53 @@ export default function ViewAllUsers({
           return (
             <div
               key={i}
-              className={` bg-gray-600  w-full p-4 rounded-xl text-white font-bold `}
+              className="bg-white p-4 rounded-xl text-black font-bold"
             >
-              {/* <Link
-                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
-                  href={`/dashboard/viewusers/${f._id}`}
-                >
-                  View User
-                </Link> */}
-              <div className="mb-2.5 ">
+              {/* User info */}
+              <div className="mb-2.5 flex items-center ml-2">
                 <Link
                   href={`/dashboard/viewusers/${f._id}`}
-                  className=" hover:text-gray-200"
+                  className="text-lg hover:text-gray-200"
                 >
                   User: {capitalize(f.username)}
                 </Link>
               </div>
-              <div className=" border-t-2 border-b-2 py-2 pb-3 border-black w-full mx-auto rounded-xl">
-                <p>User Roles:</p>
-                <ul className="flex justify-center gap-4">
-                  {f.roles.map((c: string, i: number) => (
+
+              {/* User roles */}
+              <div className="mt-2.5 border-b pb-3 border-black rounded-b-xl">
+                <p className="font-bold">User Roles:</p>
+                <ul className="flex items-center justify-center gap-4">
+                  {f.roles.map((c: any, i: number) => (
                     <li key={i}>{capitalize(c)}</li>
                   ))}
                 </ul>
               </div>
-              {/* <p className="my-2.5">Tokens: {f.tokens}</p> */}
-              <p className="my-2.5">
-                Assigned:{" "}
-                {foundAss?.teacher?.user.username ?? " No Teacher assigned"}
-              </p>
-              <div className="flex gap-4 justify-center mt-4">
-                <button
-                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
-                  onClick={() => {
-                    setTurnDialog(true);
-                    setIdUser(f);
-                  }}
-                >
-                  Assign Teacher
-                </button>
-                {/* <Link
-                  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
-                  href={`/dashboard/viewusers/${f._id}`}
-                >
-                  View User
-                </Link> */}
-                <button
-                  className="hover:outline-red-400 w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
-                  onClick={() => handleDisable(f._id)}
-                >
-                  Disable User
-                </button>
+
+              {/* Assigned teacher */}
+              <div className="flex flex-col md:flex-row items-center justify-between mt-4">
+                <div className="flex flex-col w-full items-center justify-center">
+                  <p>Assigned:</p>
+                  <p>
+                    {foundAss?.teacher?.user.username ?? "No Teacher assigned"}
+                  </p>
+                </div>
+                <div className="flex gap-2 mt-2 md:mt-0">
+                  <button
+                    onClick={() => {
+                      setTurnDialog(true);
+                      setIdUser(f);
+                    }}
+                    className="px-4 py-2 rounded-md text-lg bg-blue-500 hover:bg-blue-700 text-white font-bold shadow transition-all"
+                  >
+                    Assign Teacher
+                  </button>
+                  <button
+                    onClick={() => handleDisable(f._id)}
+                    className="px-4 py-2 rounded-md text-lg bg-red-500 hover:bg-red-700 text-white font-bold shadow transition-all"
+                  >
+                    Disable User
+                  </button>
+                </div>
               </div>
             </div>
           );
@@ -348,4 +346,22 @@ export default function ViewAllUsers({
       </div>
     </div>
   );
+}
+
+{
+  /* <Link
+  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+  href={`/dashboard/viewusers/${f._id}`}
+>
+  View User
+</Link> */
+}
+
+{
+  /* <Link
+  className=" w-1/2 text-lg outline outline-1 hover:outline-4 transition-all duration-150 rounded-full"
+  href={`/dashboard/viewusers/${f._id}`}
+>
+  View User
+</Link> */
 }

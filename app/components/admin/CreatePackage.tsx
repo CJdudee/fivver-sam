@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import CreateNewPackage from "./packages/CreateNewPackage";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { errorToast, susToast } from "@/app/lib/react-toast";
+import { capitalize } from "@/utils/helpers";
 
 export default function CreatePackage({ packages }: any) {
   const [packagesJson, setPackagesJson] = useState(packages);
@@ -75,7 +76,7 @@ export default function CreatePackage({ packages }: any) {
 
   return (
     <>
-      <div className="justify-end flex relative w-full mr-7 ">
+      <div className="flex justify-end w-full mr-7">
         <button
           onClick={() =>
             setEditPackage({
@@ -89,13 +90,14 @@ export default function CreatePackage({ packages }: any) {
               new: true,
             })
           }
-          className=" absolute right-0 text-4xl hover:text-gray-400"
+          className="inline-flex items-center px-4 py-2 text-lg font-semibold text-white hover:text-black rounded-full hover:bg-gray-200 transition-all duration-150"
         >
-          +
+          <span>+</span>
+          <span className="ml-2">Add Package</span>
         </button>
       </div>
 
-      <div className="flex flex-col xl:grid grid-cols-2 w-full gap-8 px-4 mt-2">
+      <div className="grid md:grid-cols-2 gap-8 px-4 mt-2 w-full">
         {editPackage?.new == true && (
           <CreateNewPackage
             editPackage={editPackage}
@@ -117,44 +119,48 @@ export default function CreatePackage({ packages }: any) {
           return (
             <div
               key={i}
-              className="text-center pri w-full rounded-xl py-6 text-black my-auto"
+              className="flex flex-col items-center rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 p-6 text-gray-800 shadow-md my-auto"
             >
-              <div className=" md:flex justify-evenly text-3xl font-extrabold mb-6">
-                <p className="md:w-1/2">Name: {p.name}</p>
-                <p className="md:w-1/2">Classes gain: {p.tokens}</p>
+              <div className="flex justify-between items-center text-xl font-bold mb-4 w-full">
+                <h2 className="text-orange-600">{capitalize(p.name)}</h2>
+                <p className="text-right">{p.tokens} Classes Gain</p>
               </div>
-              <div className="text-center md:flex text-xl justify-evenly mb-6 font-semibold ">
-                <p className="md:w-1/3">
-                  Price one:{" "}
-                  <span className="font-extrabold">€ {p.priceOne.price}</span>
-                </p>
-                <p className="md:w-1/3">
-                  Price two:{" "}
-                  <span className="font-extrabold">€ {p.priceTwo.price}</span>
-                </p>
-                <p className="md:w-1/3">
-                  Price three:{" "}
-                  <span className="font-extrabold">€ {p.priceThree.price}</span>
-                </p>
+              <div className="flex flex-col md:flex-row justify-between gap-4 text-base font-semibold mb-2 w-full items-center">
+                <div>
+                  <span className="text-gray-700">Price One:</span>
+                  <span className="font-bold text-blue-500">
+                    € {p.priceOne.price}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-700">Price Two:</span>
+                  <span className="font-bold text-blue-500">
+                    € {p.priceTwo.price}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-gray-700">Price Three:</span>
+                  <span className="font-bold text-blue-500">
+                    € {p.priceThree.price}
+                  </span>
+                </div>
               </div>
-              {/* <p>{p.individual ? "Single person package" : " Group package"}</p> */}
-              <div className=" w-1/2 mx-auto rounded-2xl flex flex-row gap-2 md:gap-8">
+              <div className="flex justify-between w-1/2 gap-2 mt-4">
                 <button
                   type="button"
                   onClick={() => {
                     setEditPackage({ ...p, index: i });
                   }}
-                  className="w-full text-black outline outline-1 rounded-full py-0.5 font-bold transition-all hover:outline-4 duration-150 active:outline-4 hover:shadow-md"
+                  className="inline-flex items-center px-4 py-2 text-white bg-blue-600 rounded-full hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:outline-none shadow-md font-medium transition"
                 >
                   Edit
                 </button>
                 <button
                   type="button"
                   onClick={() => {
-                    // setEditPackage({ ...p, index: i });
                     handleDelete(p._id);
                   }}
-                  className="w-full text-black outline outline-1 hover:outline-red-400 rounded-full py-0.5 font-bold transition-all hover:outline-4 duration-150 active:outline-4 hover:shadow-md"
+                  className="inline-flex items-center px-4 py-2 text-white bg-red-600 rounded-full hover:bg-red-700 focus:ring-4 focus:ring-red-500 focus:outline-none shadow-md font-medium transition"
                 >
                   Delete
                 </button>
@@ -166,3 +172,8 @@ export default function CreatePackage({ packages }: any) {
     </>
   );
 }
+
+{
+  /* <p>{p.individual ? "Single person package" : " Group package"}</p> */
+}
+// setEditPackage({ ...p, index: i });

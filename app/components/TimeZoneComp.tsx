@@ -27,7 +27,7 @@ export default function TimeZoneComp() {
     useEffect(() => {
 
         updateTimes()
-    }, [])
+    }, [updateTimes])
     
 
     setInterval(() => {

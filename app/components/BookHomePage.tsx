@@ -58,12 +58,12 @@ export default function BookHomePage({ pricePackages }: any) {
 
             <WhatMakesDifferent
               mainText="Proficiency"
-              emoji={["✏️", "👨‍🏫"]}
+              emoji={[ "🖥️", "✏️",]}
               bottomText="Native German Speaker"
             />
             <WhatMakesDifferent
               mainText="Dedicated"
-              emoji={["📕", "🎓"]}
+              emoji={["👨🏻‍🏫"]}
               bottomText={
                 "Your own personal teacher, following you each step of the way"
               }
@@ -74,16 +74,17 @@ export default function BookHomePage({ pricePackages }: any) {
             {/* <p className=" h-[100%]">hey</p> */}
             <WhatMakesDifferent
               mainText="Expertise"
-              emoji={["🏫", "🎩"]}
+              emoji={["🎓", "🏫", ]}
               bottomText="You Teacher Has a University Degree in German Language"
               flex={true}
             />
+            
           </div>
           <div className="bg-[#F5F5F5] h-full w-full md:w-1/5 items-stretch rounded-xl">
             {/* <p className=" h-[100%]">hey</p> */}
             <WhatMakesDifferent
               mainText="Preperation"
-              emoji={["🅰️", "💡"]}
+              emoji={["🅰️"]}
               bottomText="Up to date on exam preparation A1-C2"
               flex={true}
             />
@@ -92,12 +93,12 @@ export default function BookHomePage({ pricePackages }: any) {
           <div className=" flex flex-col md:grid grid-rows-2 w-full md:w-2/5 h-full  gap-2">
             <WhatMakesDifferent
               mainText="Personal"
-              emoji={["💝"]}
+              emoji={["💛"]}
               bottomText="We are a small team of experts, but we are big on personal touch"
             />
             <WhatMakesDifferent
               mainText="Flexible"
-              emoji={["📅"]}
+              emoji={["🗓️"]}
               bottomText="From our reschedule/cancel policy to anything you need, your SprachGeist is there for you"
             />
             {/* <p className="bg-[#F5F5F5] rounded-xl">hey</p>
@@ -178,9 +179,9 @@ export default function BookHomePage({ pricePackages }: any) {
         </div>
       </div>
 
-      <div className="bg-[#313131] pt-32 pb-16 text-white font-semibold text-center">
+      {/* <div className="bg-[#313131] pt-32 pb-16 text-white font-semibold text-center">
           <WhatWeStandFor />
-      </div>
+      </div> */}
 
       <div className="flex gap-20 justify-center items-center pt-32 bg-[#313131] text-white">
         <Link href={''} className=" opacity-50">Home</Link>

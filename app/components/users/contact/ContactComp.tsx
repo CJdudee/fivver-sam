@@ -7,34 +7,33 @@ import TimeZoneComp from "../../TimeZoneComp";
 
 export default function ContactComp() {
   return (
-    <div className="flex flex-col h-[92vh] min-h-[800px] justify-evenly items-center text-white font-semibold">
-      <div className="text-4xl text-white text-center font-semibold">
+    <div className=" flex flex-col h-[92vh] min-h-[800px] justify-evenly items-center text-white font-semibold">
+      <div className="text-4xl flex items-center flex-col">
         <p>Want to Contact Us?</p>
-        <p className="text-lg mt-2">All of our Infomation is here</p>
-        <div className="mt-4">
-
-        <TimeZoneComp />
+        <p className="text-lg mt-2">{`Here's`} how you can reach us!</p>
+        <div className="mt-4 animate-fadeIn text-center">
+          <TimeZoneComp />
         </div>
       </div>
 
       <div className="flex flex-col items-center gap-8">
         <p className="text-3xl font-bold">Contact Us by:</p>
         <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
-          <IoLocation className="w-7 h-7" />
+          <IoLocation className="w-7 h-7 " />
           <p>Raiffeisenstraße 22, 34121 Kassel, Germany</p>
         </div>
-        <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2">
-          <MdEmail className="w-7 h-7" />
+        <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
+          <MdEmail className="w-7 h-7 " />
           <p>random@random.com</p>
         </div>
-        <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2">
-          <HiClock className="w-7 h-7" />
+        <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
+          <HiClock className="w-7 h-7 " />
           <p>8am-10pm CET, 7 days a week</p>
         </div>
-        {/* <div className="flex gap-2 border-b-2 rounded-xl px-2 pb-1">
+        <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 hover:bg-gray-100 hover:text-[#D9643A]">
           <CgPhone className="w-7 h-7" />
           <p>Number: 000-000-0000</p>
-        </div> */}
+        </div>
       </div>
 
       <div className="flex gap-1">
@@ -44,3 +43,8 @@ export default function ContactComp() {
     </div>
   );
 }
+
+        {/* <div className="flex gap-2 border-b-2 rounded-xl px-2 pb-1">
+          <CgPhone className="w-7 h-7" />
+          <p>Number: 000-000-0000</p>
+        </div> */}

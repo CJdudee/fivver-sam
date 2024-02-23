@@ -11,7 +11,7 @@ import React from "react";
 export default async function Page() {
   const user = await serverUser();
 
-  if(!user) redirect('/')
+  if (!user) redirect("/");
 
   if (user) {
     const foundAssigned = await AssignTeacher.findOne({ user: user.id });
@@ -35,8 +35,8 @@ export default async function Page() {
   const teachersWeekJson = simpleJson(teachersWeeks);
   // console.log(teachers);
   return (
-    <div className="bg-gradient-to-b h-full min-h-[800px] from-[#242424] via-[#3D3D3D] to-[#3D3D3D]">
-      <div className="w-full text-center flex flex-col gap-10 py-4  ">
+    <div className=" min-h-[800px]">
+      <div className="grid grid-cols-1  gap-4 py-4 px-4  ">
         {teachersJson?.map((t: any) => {
           const { username, email } = t.user;
 
@@ -45,21 +45,29 @@ export default async function Page() {
               return w.teacher == t._id;
             }
           )?.weekdays;
+
+          const teacherWeek = getTeacherSchedule(t, teachersWeekJson)
+
+          console.log(teacherWeek)
           console.log(foundSch, "found week");
           return (
             <div
               key={t._id}
               className="bg-white outline outline-2 outline-[#3D3D3D] w-full md:w-4/5 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl  min-h-[12rem] h-full flex flex-col justify-evenly  "
             >
-              {/* <p>{t._id}</p> */}
-              {/* <p className={`font-bold`}>{email}</p> */}
-              <p className={`font-bold text-2xl mb-2`}>{capitalize(username)}</p>
+             
+              <div className="flex items-center justify-between mb-4">
+                <p className="font-bold text-xl pr-4">
+                  {capitalize(username)}
+                </p>
+                {/* {foundSch != undefined && foundSch.length != 0 && (
+                  <span className="text-sm bg-green-500 text-white rounded-full px-2 py-1">
+                    Schedule Available
+                  </span>
+                )} */}
+              </div>
 
-              {foundSch == undefined && (
-                <div className="h-2/3 flex items-center justify-center text-4xl font-extrabold">
-                  <p>No schedule was found</p>
-                </div>
-              )}
+              
 
               {foundSch != undefined && foundSch.length != 0 && (
                 <div className="h-2/3 flex items-center justify-center  font-extrabold">
@@ -71,7 +79,7 @@ export default async function Page() {
                       }
                     }
                   >
-                    {foundSch.map((f: any) => {
+                    {teacherWeek.map((f: any) => {
                       // console.log(f)
                       // {foundSch.map((f: Record<string , unknown>) => {
                       if (f.isOpen == false || f.openTime.length == 0)
@@ -79,7 +87,7 @@ export default async function Page() {
                           <li
                             className={`${
                               f.isOpen == false && " bg-[#585757] text-white"
-                            } rounded-xl w-full px-2 py-1 text-sm flex flex-col  items-center h-4/5`}
+                            } rounded-xl w-full px-2 py-1 text-sm flex flex-col  items-center h-4/5 justify-center`}
                             key={`${f.name} ${f.index}`}
                           >
                             <p className="h-[40%] ">
@@ -91,12 +99,14 @@ export default async function Page() {
 
                       return (
                         <li
-                          className={`${
-                            f.isOpen == false && " bg-[#585757] text-white"
-                          } bg-[#F5F5F5] rounded-xl flex flex-col justify-between py-1 w-full px-2 text-sm hover:w-[125%] transition-all duration-500 h-[95px] hover:h-[130px] overflow-y-auto my-auto`}
+                        className={`
+                        rounded-lg p-4 bg-gray-100 hover:bg-gray-200
+                        ${f.isOpen === false ? 'bg-gray-400 text-white' : ''}
+                        flex flex-col items-center justify-between w-full
+                      `}
                           key={`${f.name} ${f.index}`}
                         >
-                          <p>{capitalize(f.name as string)}</p>
+                          <p className="font-bold text-lg">{capitalize(f.name as string)}</p>
 
                           {f.openTime.length > 0 &&
                             f.openTime.map((o: any, i: number) => {
@@ -131,3 +141,23 @@ export default async function Page() {
     </div>
   );
 }
+
+
+function getTeacherSchedule(teacher: any, teacherWeek: any) {
+ return  teacherWeek.find(
+    (w: Record<string, unknown>) => {
+      return w.teacher == teacher._id;
+    }
+  )?.weekdays;
+}
+
+
+const ScheduleDetails = ({schedule}: any) => [
+
+]
+
+// {foundSch == undefined && (
+//   <div className="h-2/3 flex items-center justify-center text-4xl font-extrabold">
+//     <p>No schedule was found</p>
+//   </div>
+// )}

@@ -7,7 +7,7 @@ export default async function page() {
   await decodeUserAndCheckAdmin()
 
   return (
-    <div className=' min-h-[620px]  h-[92vh]'>
+    <div className=' min-h-[800px]  h-[92vh]'>
         <CreateTeacher/>
     </div>
   )
