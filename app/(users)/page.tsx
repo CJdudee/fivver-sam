@@ -1,52 +1,20 @@
-import { auth } from "@/auth";
-import Image from "next/image";
-import { redirect } from "next/navigation";
-import HomePageComp from "../components/HomePageComp";
-import BookHomePage from "../components/BookHomePage";
 import Packages from "@/models/Packages";
 import { simpleJson } from "@/utils/helpers";
+import BookHomePage from "../components/BookHomePage";
 
 export default async function Home() {
-  // const session = await auth();
-
-  
-  // if (!session) redirect("/api/auth/signin");
-
-  const pricePackages = await Packages.find().limit(5).exec()
-  
-  // console.log(pricePackages, 'het theere')
-  
+  const pricePackages = await Packages.find().limit(5).exec();
 
   return (
     <main className="h-full">
-    {/* <main className="flex min-h-full flex-col items-center justify-start bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 w-full overflow-hidden "> */}
-      {/* <HomePageComp /> */}
       <BookHomePage pricePackages={simpleJson(pricePackages)} />
     </main>
-    
   );
 }
 
 {
-  /* <div className='greatGrad from-slate-400 to-gray-700 w-full text-center h-40 p-8 '>
-        <h2>Why Us?</h2>
-        <p>We believe</p>
-      </div>
-      <div className='bg-blue-400 w-full text-center h-40'>
-        <h2>
-        We believe in high quiltay
-        </h2>
-      </div>
-      <div className='bg-yellow-400 w-full text-center h-40'>
-        <p>what else</p>
-      </div>
-      <div className='bg-gray-400 w-full text-center h-40'>
-        <p>Something else</p>
-      </div>
-      <div className='bg-rose-400 w-full text-center h-40'>
-        <p>this is yet again some more css</p>
-      </div>
-      <div className='horizontal '>
-        <button >Sign in</button>
-      </div> */
+  /* <main className="flex min-h-full flex-col items-center justify-start bg-gradient-to-bl from-indigo-900 via-indigo-400 to-indigo-900 w-full overflow-hidden "> */
+}
+{
+  /* <HomePageComp /> */
 }

@@ -26,15 +26,19 @@ export default function BookHomePage({ pricePackages }: any) {
       <div
         className={`h-[450px] md:h-[850px] bg-gradient-to-b relative px-2 md:px-6 pt-4 md:pt-12 pb-8  lg:p-24 lg:px-8 lg:pt-12 lg:pb-24 from-[#202020] via-[#202020] to-[#202020] overflow-hidden  `}
       >
-
-{/* teacherTest44 */}
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}
-        <Image src={'/homePageBg6.svg'} draggable={false} alt="" className=" absolute  right-0 bottom-0 top-0 opacity-20" fill />
+        <Image
+          priority
+          src={"/homePageBg6.svg"}
+          draggable={false}
+          alt=""
+          className=" absolute  right-0 bottom-0 top-0 opacity-20"
+          fill
+        />
         {/* <div className=" absolute  bottom-0 h-full w-3/5 left-0 -right-24 top-52  border-[40px] ml-auto rounded-full rounded-b-full border-opacity-80 border-fuchsia-400 z-0 "></div> */}
         {/* <BackgroundTest /> */}
         {/* <div className=" h-5/6 my-auto top-0 bottom-0 rounded-full w-[7%] bg-orange-300 absolute" /> */}
-
       </div>
 
       <div className=" text-center bg-white h-full w-full pt-32 ">
@@ -47,18 +51,9 @@ export default function BookHomePage({ pricePackages }: any) {
 
         <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
           <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
-            {/* <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-4">
-              <p className="font-bold text-2xl">Proficiency</p>
-              <p className="text-5xl h-full "> ✏️👨‍🏫 </p>
-              <p className="text-sm h-full w-4/5 mx-auto text-center font-bold ">
-                {" "}
-                Native German Speaker
-              </p>
-            </div> */}
-
             <WhatMakesDifferent
               mainText="Proficiency"
-              emoji={[ "🖥️", "✏️",]}
+              emoji={["🖥️", "✏️"]}
               bottomText="Native German Speaker"
             />
             <WhatMakesDifferent
@@ -74,11 +69,10 @@ export default function BookHomePage({ pricePackages }: any) {
             {/* <p className=" h-[100%]">hey</p> */}
             <WhatMakesDifferent
               mainText="Expertise"
-              emoji={["🎓", "🏫", ]}
+              emoji={["🎓", "🏫"]}
               bottomText="You Teacher Has a University Degree in German Language"
               flex={true}
             />
-            
           </div>
           <div className="bg-[#F5F5F5] h-full w-full md:w-1/5 items-stretch rounded-xl">
             {/* <p className=" h-[100%]">hey</p> */}
@@ -104,11 +98,6 @@ export default function BookHomePage({ pricePackages }: any) {
             {/* <p className="bg-[#F5F5F5] rounded-xl">hey</p>
                 <p className="bg-[#F5F5F5] rounded-xl">hey</p> */}
           </div>
-
-          {/* <p className="bg-slate-400">hey</p>
-            <p className="bg-purple-400 h-20">hey</p>
-            <p>hey</p>
-            <p>hey</p> */}
         </div>
       </div>
 
@@ -184,13 +173,17 @@ export default function BookHomePage({ pricePackages }: any) {
       </div> */}
 
       <div className="flex gap-20 justify-center items-center pt-32 bg-[#313131] text-white">
-        <Link href={''} className=" opacity-50">Home</Link>
-        <Link href={'/about'} className=" opacity-50">About Us</Link>
-        <Link href={''} className=" opacity-50">Contact Us</Link>
+        <Link href={""} className=" opacity-50">
+          Home
+        </Link>
+        <Link href={"/about"} className=" opacity-50">
+          About Us
+        </Link>
+        <Link href={""} className=" opacity-50">
+          Contact Us
+        </Link>
         {/* <p>Home</p> */}
       </div>
-
-      
 
       <div className="bg-[#313131]">
         <div className=" py-4 flex justify-center gap-4 w-1/2 mx-auto">

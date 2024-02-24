@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema({
     customerId: {
         type: String,
         default: null
+    },
+    trial: {
+        type: Boolean,
     }
 })
 

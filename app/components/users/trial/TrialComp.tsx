@@ -1,6 +1,9 @@
 "use client";
 
+import { makeTrialUser } from "@/actions/createTrialUser";
+import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const initWeekDay = {
@@ -24,106 +27,145 @@ const weekDayArray = [
 ];
 
 export default function TrialComp() {
+  const [username, setUsername] = useState("");
+
+  const [email, setEmail] = useState("");
+
   const [weekDayState, setWeekDayState] = useState<any>(initWeekDay);
 
   const [descDay, setDescDay] = useState("");
 
+  const [error, setError] = useState<null | string>();
+
+  const [success, setSuccess] = useState<null | string>(null);
+
+  const router = useRouter();
+
+  const makeTrialAccount = async () => {
+    if (!email || !username) return setError("Please fill all fields");
+
+    if (success) return;
+
+    const userData = {
+      username,
+      email,
+    };
+
+    const dateInfo = {
+      weekArray: weekDayState,
+      info: descDay,
+    };
+
+    const madeUser = await makeTrialUser(userData, dateInfo);
+
+    if (!madeUser) return errorToast();
+
+    if (madeUser.error) return errorToast(madeUser.error);
+
+    susToast(madeUser.msg as string);
+    setSuccess("Please Check your Email for your password");
+    setError(null);
+  };
+
   return (
-    <div className="flex justify-center items-center flex-col">
-      <p className="text-white text-xl md:text-3xl w-full md:w-1/2 text-center mb-8 font-semibold  px-2">
-        This is All the infomation we need to begin to process your trial.
-        Please make sure to use a vaild email so we can contact you if needed
-      </p>
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-4xl font-semibold text-center mb-8 text-orange-500">
+        Sign Up for Your Trial
+      </h2>
+      {success && <p className="text-green-500 text-2xl mb-2">{success}</p>}
+      <div className="bg-white rounded-lg shadow-md p-8 text-center relative">
+        <p className="text-lg mb-4 w-full md:w-1/2 mx-auto font-bold">
+          Please provide the following information to start your trial. We'll
+          use your email to contact you if needed.
+        </p>
 
-      <div className=" text-white w-full md:w-2/3 text-center mt-4 py-4 pb-8 rounded-xl">
-        {/* <p className="font-semibold text-2xl">Info</p> */}
-
-        <div className="flex justify-evenly mb-2 gap-4 px-4">
-          <div className="flex flex-col text-white w-full md:w-1/4 ">
-            <label className="text-2xl font-bold" htmlFor="firstName">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="mb-4">
+            <label
+              htmlFor="firstName"
+              className="block text-lg font-medium mb-2"
+            >
               First Name
             </label>
             <input
-              className="rounded-full pl-2 text-black w-full py-0.5"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
               id="firstName"
-            ></input>
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
-          <div className="flex flex-col text-white w-full md:w-1/4 ">
-            <label className="text-2xl font-bold" htmlFor="lastName">
-              Last Name
+
+          {/* Other input fields ... */}
+
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-lg font-medium mb-2">
+              Email
             </label>
             <input
-              className="rounded-full pl-2 text-black w-full py-0.5"
-              id="lastName"
-            ></input>
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
+              id="email"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
         </div>
-        <div className="flex flex-col text-white w-4/5 md:w-2/4 mx-auto">
-          <label className="text-2xl font-bold" htmlFor="email">
-            Email
-          </label>
-          <input
-            className="rounded-full pl-2 text-black w-full py-0.5"
-            id="email"
-          ></input>
-        </div>
-      </div>
 
-      <div className=" text-white w-full md:w-2/3 text-center mt-4 py-4 pb-8 rounded-xl">
-        <p className="font-semibold mb-4 text-2xl">
-          Please Choose days that fit your schdule
+        <p className="font-semibold text-2xl mb-4">
+          Please Choose days that fit your schedule
         </p>
         <ul className="grid grid-cols-2 gap-4">
-          {weekDayArray.map((w: any, i: number) => {
-            return (
-              <li
-                className="flex mx-auto gap-4 items-center underline underline-offset-4"
-                key={i}
-              >
-                <p className="text-xl font-bold">{capitalize(w.name)}</p>
-                <input
-                  className="mt-1"
-                  onChange={() => {
-                    const result = !weekDayState[w.name];
+          {weekDayArray.map((w) => (
+            <li key={w.name} className="flex flex-col border-b-black border-b md:border-b-0 w-full pb-2 md:flex-row mx-auto gap-4 items-center justify-center">
+              <p className="text-xl font-bold">{capitalize(w.name)}</p>
+              <input
+                type="checkbox"
+                name={w.name}
+                checked={weekDayState[w.name]}
+                onChange={() => {
+                  const result = !weekDayState[w.name];
 
-                    console.log(result);
+                  console.log(result);
 
-                    setWeekDayState((prev: any) => {
-                      console.log(prev);
-                      return { ...prev, [w.name]: result };
-                    });
-                  }}
-                  type="checkbox"
-                  checked={weekDayState[w.name]}
-                ></input>
-              </li>
-            );
-          })}
+                  setWeekDayState((prev: any) => {
+                    console.log(prev);
+                    return { ...prev, [w.name]: result };
+                  });
+                }}
+                className="md:ml-4 mt-1" // Adjust margin and alignment
+              />
+            </li>
+          ))}
         </ul>
-      </div>
 
-      <div className="mt-4  mx-auto  w-full md:w-2/3 py-4 rounded-xl">
-        <p className="text-2xl text-white font-bold text-center">
-          Please explain further, Times that you are available
-        </p>
-
-        <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-center justify-center mt-1 mx-auto mb-4 md:mb-2 w-full">
-          <p className="text-sm text-white font-bold  flex justify-center items-center ">
-            For example
+        <div className="mt-4 mx-auto w-full md:w-2/3 py-4 rounded-xl">
+          <p className="text-2xl font-semibold text-center mb-4">
+            Please explain further, Times that you are available
           </p>
 
-          <q className="text-xs text-white font-bold  flex justify-center items-center text-center ">
-            I am free in the morning and wednesdays evenings
-          </q>
+          <div className="flex flex-col md:flex-row gap-2 items-center justify-center mt-1 mx-auto mb-4 w-full">
+            <p className="text-sm font-semibold">For example:</p>
+            <q className="text-sm font-semibold">
+              I am free in the morning and Wednesdays evenings
+            </q>
+          </div>
+
+          <p className="text-sm font-semibold mb-2">
+            This will help us book you classes
+          </p>
+          <textarea
+            value={descDay}
+            onChange={(e) => setDescDay(e.target.value)}
+            className="w-full rounded-lg px-2 py-2 h-[200px] resize-none outline outline-1"
+          />
         </div>
-        <p className="text-sm text-white font-semibold mb-1 flex justify-center items-center">
-          This will help us book you classes
-        </p>
-        <textarea
-          value={descDay}
-          onChange={(e) => setDescDay(e.target.value)}
-          className="w-3/4 mx-auto flex rounded-xl px-2 py-1 font-semibold h-[200px] resize-none"
-        ></textarea>
+        <button
+          className="w-1/2 bg-gradient-to-r from-[#D9643A] to-[#E35D5B] text-white hover:text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-500"
+          onClick={() => makeTrialAccount()}
+        >
+          Save
+        </button>
       </div>
     </div>
   );

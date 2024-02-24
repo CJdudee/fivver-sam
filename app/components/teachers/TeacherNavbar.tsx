@@ -1,5 +1,3 @@
-
-
 import { serverUser } from "@/app/lib/serverAuth";
 import { auth } from "@/auth";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -25,19 +23,25 @@ import LogoLink from "../users/navbar/LogoLink";
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
 export default async function TeacherNavbar() {
-
   // const session = await auth()
 
-  const session: any = await serverUser()
+  const session: any = await serverUser();
 
   // console.log(session)
 
-  if(!session ||!session.roles || !session.roles.includes('teacher')) redirect('/')
+  if (!session || !session.roles || !session.roles.includes("teacher"))
+    redirect("/");
+
+  const linkArray = [
+    { link: "/teachers/dashboard", text: "Dashboard" },
+    { link: "/teachers/dashboard/booked", text: "Booking" },
+    { link: "/teachers/dashboard/schedule", text: "Schedule" },
+    { link: "/teachers/dashboard/old", text: "Old Classes" },
+  ];
 
   // console.log(session, 'where is thsi')
 
-
-  const tokensJson = null
+  const tokensJson = null;
   return (
     <nav className=" sticky top-0 z-40 h-full ">
       <div className="hidden border-b-1  border-black min-h-[8vh] md:flex items-center justify-between md:px-8  w-full  pb-1  gap-4  bg-[#242424] h-full">
@@ -62,6 +66,12 @@ export default async function TeacherNavbar() {
           >
             Schedule
           </Link>
+          <Link
+            href={"/teachers/dashboard/old"}
+            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
+          >
+            Old Classes
+          </Link>
         </div>
 
         {/* <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800"> */}
@@ -75,12 +85,9 @@ export default async function TeacherNavbar() {
       </div>
 
       <div className="border-b-1 border-black min-h-[8vh] flex items-center justify-start  w-full  pb-0.5   gap-4  bg-[#242424] md:hidden px-2">
-       
-
         {/* <NavBarHam /> */}
 
-        <PhoneNav session={session} tokensJson={tokensJson} linkArray={[{link: '/teachers/dashboard', text: 'Dashboard'}, {link: "/teachers/dashboard/booked", text: 'Booking'}, {link: "/teachers/dashboard/schedule", text: "Schedule"}]} />
-        
+        <PhoneNav session={session} tokensJson={tokensJson} linkArray={linkArray} />
       </div>
     </nav>
   );

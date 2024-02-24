@@ -1,5 +1,3 @@
-
-
 import { serverUser } from "@/app/lib/serverAuth";
 import { auth } from "@/auth";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -27,13 +25,19 @@ import LogoLink from "./users/navbar/LogoLink";
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
 export default async function AdminNavBar() {
-
   // const session = await auth()
 
-  const session = await serverUser()
+  const session = await serverUser();
+
+  const linkArray = [
+    { text: "Dashboard", link: "/dashboard" },
+    { text: "Create", link: "/dashboard/create" },
+    { text: "View Teachers", link: "/dashboard/viewteachers" },
+    { text: "View User", link: "/dashboard/viewusers" },
+    { text: "Pricing", link: "/dashboard/changeprice" },
+  ];
 
   // console.log(session, 'where is thsi')
-
 
   return (
     <nav className=" sticky top-0 z-40 ">
@@ -78,10 +82,7 @@ export default async function AdminNavBar() {
       </div>
 
       <div className="border-b-1  border-black min-h-[8vh] flex items-center justify-start md:px-8  w-full  pb-1   gap-4  bg-[#242424] md:hidden">
-       
-
-        <PhoneNav session={session} tokensJson={null} linkArray={[{text: "Dashboard", link: "/dashboard"}, {text: 'Create', link: '/dashboard/create'}]} />
-        
+        <PhoneNav session={session} tokensJson={null} linkArray={linkArray} />
       </div>
     </nav>
   );

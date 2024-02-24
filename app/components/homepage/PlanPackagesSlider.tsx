@@ -3,9 +3,21 @@ import React, { useEffect, useState } from "react";
 import SinglePlanPackage from "./SinglePlanPackage";
 import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
 import PricePlanPackage from "../pricing/PricePlanPackage";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCards, Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/effect-cards";
+import "swiper/css/navigation";
+import SwiperButtonNav from "../users/pricing/SwiperButtonNav";
 
 export default function PlanPackagesSlider({ pricePackages }: any) {
   const [tran, setTran] = useState(0);
+
+  const isOverFour = pricePackages.length > 3;
+
+  console.log(isOverFour);
 
   // useEffect(() => {
 
@@ -14,7 +26,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
 
   return (
     <div className="z-50 relative">
-      <div className="z-50  flex justify-start gap-4 px-4 lg:hidden absolute -top-8">
+      {/* <div className="z-50  flex justify-start gap-4 px-4 lg:hidden absolute -top-8">
         <button
           onClick={() => {
             if (tran == 0) return null;
@@ -33,65 +45,68 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
         >
           <CgArrowRight className="text-2xl hover:text-gray-600" />
         </button>
-      </div>
+      </div> */}
       <div
-        className="  flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 lg:hidden   "
+        className="  flex gap-2 px-2 lg:px-12 h-full md:justify-center  md:overflow-visible  lg:w-fit transition-all duration-500 lg:hidden items-center justify-center relative    "
         style={{
           transform: `translateX(-${tran}dvh)`,
         }}
       >
-        {pricePackages.slice(0,3).map((p: any, i: number) => {
-          const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
-          // console.log(index);
-          const onBuy = () => {}
-          return (
-            <PricePlanPackage
-              key={i}
-              price={p.price}
-              hours={p.tokens}
-              onBuy={onBuy}
-              packageId={p._id}
-              priceArray={priceArray}
-              userId={null}
-            />
-          );
-        })}
-
-        {pricePackages.length > 3 && (
-          <div
-          className={`   bg-white w-fit md:w-max h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col justify-stretch items-stretch  pt-8 pb-8 px-8 z-20 min-h-max my-auto`}
+        {isOverFour && (
+            <div className=" absolute z-40 -top-10 ">
+              <Link href={'/pricing'} className="text-black hover:text-gray-700 font-extrabold">View All Packages</Link>
+            </div>
+          )}
+        <Swiper
+          effect={"cards"}
+          grabCursor={true}
+          modules={[EffectCards, Navigation]}
+          className="mySwipers relative "
+          loop={true}
+          navigation={false}
         >
+          <SwiperButtonNav />
+          {pricePackages.slice(0, 3).map((p: any, i: number) => {
+            const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
+            // console.log(index);
+            const onBuy = () => {};
+            return (
+              <SwiperSlide className="" key={i}>
+                <PricePlanPackage
+                  // key={i}
+                  price={p.price}
+                  hours={p.tokens}
+                  onBuy={onBuy}
+                  packageId={p._id}
+                  priceArray={priceArray}
+                  userId={null}
+                  linkPrice={true}
+                />
+              </SwiperSlide>
+            );
+          })}
+
           
-         <p>View More Packages</p>
-        </div>
-        )}
-        {/* <SinglePlanPackage price={10} hours={2} />
 
-        <SinglePlanPackage price={50} hours={5} />
-
-        <SinglePlanPackage price={100} hours={10} dark={true} value={true} />
-
-        <SinglePlanPackage price={150} hours={15} /> */}
-
-        {/* <SinglePlanPackage price={300} hours={30} /> */}
+          {/* {isOverFour && (
+            <SwiperSlide className="  ">
+              <div
+                className={`   bg-black text-white  outline-[#C5C5C5] outline-1 outline rounded-xl pt-8 pb-8 px-8 z-20 min-h-max font-semibold h-full  `}
+              >
+                <p className=" w-full flex items-center justify-center ">View More Packages</p>
+              </div>
+            </SwiperSlide>
+          )} */}
+        </Swiper>
       </div>
       <div
-        className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-[220dvh] lg:w-fit transition-all duration-500 hidden mx-auto   "
+        className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-full transition-all duration-500 hidden mx-auto   "
         style={{}}
       >
-        {/* <SinglePlanPackage price={10} hours={2} />
-
-        <SinglePlanPackage price={50} hours={5} />
-
-        <SinglePlanPackage price={100} hours={10} dark={true} value={true} />
-
-        <SinglePlanPackage price={150} hours={15} />
-
-        <SinglePlanPackage price={300} hours={30} /> */}
-        {pricePackages.slice(0,4).map((p: any, i: number) => {
+        {pricePackages.slice(0, 4).map((p: any, i: number) => {
           const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
           // console.log(index);
-          const onBuy = () => {}
+          const onBuy = () => {};
           return (
             <PricePlanPackage
               key={i}
@@ -101,9 +116,20 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
               packageId={p._id}
               priceArray={priceArray}
               userId={null}
+              linkPrice={true}
             />
           );
         })}
+        {isOverFour && (
+          <div className="bg-white outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col px-8  pt-8 pb-4 z-20 min-h-max  w-1/5">
+            <Link
+              className="font-bold text-orange-500 w-full h-full flex justify-center items-center"
+              href={"/pricing"}
+            >
+              View All Packages
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

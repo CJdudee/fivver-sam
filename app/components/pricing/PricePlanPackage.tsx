@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { CgCheck } from "react-icons/cg";
 
@@ -12,6 +13,7 @@ export default function PricePlanPackage({
   userId,
   dark,
   value,
+  linkPrice
 }: {
   price: number;
   hours: number;
@@ -21,15 +23,18 @@ export default function PricePlanPackage({
   userId: string | null
   dark?: boolean;
   value?: boolean;
+  linkPrice? : boolean
 }) {
 
   const [size, setSize ] = useState(1)
+
+  const router = useRouter()
 
   return (
     <div
       className={` ${value && "relative"} ${
         dark && "bg-gradient-to-b from-black  to-[#626262] text-white"
-      } bg-white w-fit md:w-max h-full outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col  pt-8 pb-4 z-20 min-h-max`}
+      } bg-white w-full md:w-fit h-fit outline-[#C5C5C5] outline-2 md:outline-1 outline rounded-2xl flex flex-col  pt-8 pb-4 z-20 min-h-max`}
     >
       {value && (
         <div className="w-[58%]  h-[6%] absolute top-2 right-2 bg-[#D9643A] flex justify-center items-center rounded-full">
@@ -98,9 +103,12 @@ export default function PricePlanPackage({
 
       <div className="h-full  w-full flex justify-center items-center pt-5">
         <button
-          disabled={!userId}
+          // disabled={!userId}
             onClick={() => {
-              if(!userId) return 
+
+              if(linkPrice) return router.push(`${process.env.HOSTNAME}/pricing`)
+
+              if(!userId) return router.push(`${process.env.HOSTNAME}/api/auth/signin`)
               onBuy(packageId, size)
             }
             }
@@ -108,7 +116,7 @@ export default function PricePlanPackage({
             dark && "text-gray-800 bg-white"
           } w-3/4 outline-[#C5C5C5] outline outline-1 text-gray-500 text-sm h-2/3 rounded-full font-[1000] bg-white`}
         >
-          Choose plan
+          {userId ? "Choose plan" : "Sign in"}
         </button>
       </div>
     </div>

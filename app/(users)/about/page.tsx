@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Page() {
   return (
-    <div className='min-h-[800px] h-full overflow-hidden overflow-y-hidden flex flex-col w-full '>
+    <div className='min-h-[800px] overflow-hidden flex flex-col justify-center items-center w-full h-[92.8vh] '>
         <WhatWeStandFor />
     </div>
   )

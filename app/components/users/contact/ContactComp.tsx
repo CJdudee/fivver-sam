@@ -20,11 +20,11 @@ export default function ContactComp() {
         <p className="text-3xl font-bold">Contact Us by:</p>
         <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
           <IoLocation className="w-7 h-7 " />
-          <p>Raiffeisenstraße 22, 34121 Kassel, Germany</p>
+          <p>Staatsrat-Schwamb-Straße 18, 55278 Undenheim</p>
         </div>
         <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
           <MdEmail className="w-7 h-7 " />
-          <p>random@random.com</p>
+          <p>info@sprachgeist.com</p>
         </div>
         <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 justify-center text-center">
           <HiClock className="w-7 h-7 " />
@@ -32,7 +32,7 @@ export default function ContactComp() {
         </div>
         <div className="flex gap-2 border-b-2 rounded-xl px-4 pb-2 hover:bg-gray-100 hover:text-[#D9643A]">
           <CgPhone className="w-7 h-7" />
-          <p>Number: 000-000-0000</p>
+          <p>Number: +49 1573 4789628</p>
         </div>
       </div>
 

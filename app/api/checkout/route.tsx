@@ -43,8 +43,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
         const foundUser = await User.findOne({_id: userId})
 
         if(!foundUser) return NextResponse.json('No user was found with that id')
-
-        if(!foundUser.emailVerified) return NextResponse.json({emailUrl: `${process.env.HOSTNAME}/email`})
+        //this is IMPORTANT TO CHECK
+        // if(!foundUser.emailVerified) return NextResponse.json({emailUrl: `${process.env.HOSTNAME}/email`})
 
         let tokensGained = 0
 

@@ -57,7 +57,7 @@ export default async function NewNavBar() {
   if(!session) {
     linkArray = [
       { text: "Pricing", link: "/pricing" },
-      { text: "trial", link: '/trial'},
+      { text: "Trial", link: '/trial'},
       { text: 'Contact', link : "/contact"},
       { text: 'About Us', link: "/about"},
     ]

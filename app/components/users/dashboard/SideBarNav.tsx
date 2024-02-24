@@ -1,70 +1,83 @@
 import React, { useState } from "react";
-import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
+import { CgArrowLeft, CgArrowRight, CgCheck } from "react-icons/cg";
 
 export default function SideBarNav({ setTab, tab }: any) {
-  const [hide, setHide] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
     <>
-      <div
-        className={`${
-          hide && "hidden"
-        } w-1/4  h-full min-h-[88vh] bg-gray-100 flex flex-col md:gap-8 justify-between md:py-24 text-xs md:px-2 sticky  top-0 md:hidden  `}
+      <button
+        type="button"
+        className={`
+          fixed top-16 left-0 z-50 flex items-center justify-center p-2 rounded-full
+          bg-gray-900 text-white hover:bg-gray-800 transition-all duration-200
+          focus:outline-none focus:ring-2 focus:ring-offset-gray-700 focus:ring-white
+          ${isOpen ? "hidden" : ""}
+        `}
+        onClick={toggleSidebar}
       >
-        
-        <div className="  fixed left-16 ">
-          <button onClick={() => setHide(!hide)}>
-            <CgArrowLeft className="pl-2 h-7 w-7 text-white" />
+        <CgArrowRight className="h-6 w-6" />
+      </button>
+
+      <div
+        className={`
+          fixed top-16 left-0 z-40 w-64 overflow-y-auto bg-white shadow-md
+          transition-all duration-200 ${isOpen ? "block" : "hidden"}
+        `}
+      >
+        <div className="flex items-center justify-between p-4">
+          <h2 className="text-lg font-semibold text-gray-700">Navigation</h2>
+          <button
+            type="button"
+            className="
+              focus:outline-none focus:ring-2 focus:ring-offset-gray-200 focus:ring-white
+              hover:bg-gray-200 rounded-full p-2
+            "
+            onClick={toggleSidebar}
+          >
+            <CgArrowLeft className="h-6 w-6 text-gray-500" />
           </button>
         </div>
-      
-        <button
-          onClick={() => setTab("")}
-          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
-        >
-          Previous Classes
-        </button>
-        <button
-          onClick={() => setTab("token")}
-          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
-        >
-          Purchase History
-        </button>
-        <button
-          onClick={() => setTab("")}
-          className=" active:bg-gray-800 rounded-2xl font-extrabold w-full h-full active:text-white transition-all duration-500"
-        >
-          Expired Tokens
-        </button>
-      </div>
-
-      {hide && (
-        <div className="  fixed md:hidden ">
-          <button onClick={() => setHide(!hide)}>
-            <CgArrowRight className="pl-2 h-7 w-7 text-white" />
+        <nav className="flex flex-col space-y-2 px-4 py-4">
+          <button
+            type="button"
+            className={`
+              flex items-center justify-between w-full px-4 py-2 rounded-md
+              font-medium text-gray-700 hover:bg-gray-200 hover:text-orange-600
+              ${tab === "" ? "text-orange-600" : ""}
+            `}
+            onClick={() => setTab("")}
+          >
+            <span>Previous Classes</span>
+            {tab === "" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
           </button>
-        </div>
-      )}
-
-      <div className="w-1/5 h-full min-h-[88vh] bg-gray-100 md:flex flex-col md:gap-8 justify-between md:py-24 text-xs px-2 sticky  top-0 hidden rounded-r-xl my-4 ">
-        <button
-          onClick={() => setTab("")}
-          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
-        >
-          Previous Classes
-        </button>
-        <button
-          onClick={() => setTab("token")}
-          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
-        >
-          Purchase History
-        </button>
-        <button
-          onClick={() => setTab("")}
-          className=" hover:bg-gray-800 rounded-2xl font-extrabold w-full h-full hover:text-white transition-all duration-500 text-xl"
-        >
-          Expired Tokens
-        </button>
+          <button
+            type="button"
+            className={`
+              flex items-center justify-between w-full px-4 py-2 rounded-md
+              font-medium text-gray-700 hover:bg-gray-200 hover:text-orange-600
+              ${tab === "token" ? "text-orange-600" : ""}
+            `}
+            onClick={() => setTab("token")}
+          >
+            <span>Purchase History</span>
+            {tab === "token" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
+          </button>
+          <button
+            type="button"
+            className={`
+              flex items-center justify-between w-full px-4 py-2 rounded-md
+              font-medium text-gray-700 hover:bg-gray-200 hover:text-orange-600
+              ${tab === "expired" ? "text-orange-600" : ""}
+            `}
+            onClick={() => setTab("expired")}
+          >
+            <span>Expired Tokens</span>
+            {tab === "expired" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
+          </button>
+        </nav>
       </div>
     </>
   );

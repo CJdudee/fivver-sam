@@ -1,13 +1,14 @@
 import React from "react";
 import SwiperWord from "./SwiperWord";
 import TextType from "./TextType";
+import Link from "next/link";
 
 export default function WhatWeStandFor() {
   return (
     <>
-      <div className="  relative w-full mx-auto">
+      <div className="  relative w-full mx-auto  ">
         {/* Hero Section with Background Image */}
-        <div className="bg-cover bg-gradient-to-r from-[#D9643A] to-[#E35D5B] bg-no-repeat bg-center h-full md:h-52 w-full rounded-b-[3rem] ">
+        {/* <div className="bg-cover bg-gradient-to-r from-[#D9643A] to-[#E35D5B] bg-no-repeat bg-center h-full md:h-52 w-full rounded-b-[3rem] ">
           <div className="container mx-auto px-4 flex items-center justify-center h-full">
             <div className="text-center md:bg-black opacity-70 md:opacity-50 rounded-lg py-8 px-12 relative">
               <h1 className="text-4xl font-bold text-white text-shadow-md">
@@ -18,13 +19,13 @@ export default function WhatWeStandFor() {
               </h6>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Content Sections with Animations and Accents */}
         <ol className="text-lg font-medium text-slate-200  mx-auto px-4 md:px-24 mt-8 container">
           <div className="mb-20 border-b border-slate-100 pb-8">
             <p className="text-2xl font-bold text-orange-400 mb-4 animate-fade-up">
-              Our Beginnings
+              Who we are
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <p className="">
@@ -63,11 +64,13 @@ export default function WhatWeStandFor() {
           </div>
 
           {/* Add more sections with animations and accents */}
+          <div className="text-center">
 
-          <p className="text-center mb-20 text-lg  text-orange-400 animate-fade-up hover:text-orange-500 hover:underline font-semibold ">
+          <Link href={`/trial`} className=" text-lg  text-orange-400 animate-fade-up hover:text-orange-500 hover:underline font-semibold ">
             Ready to start your German language journey? Book your free
             consultation today!
-          </p>
+          </Link>
+          </div>
         </ol>
       </div>
     </>

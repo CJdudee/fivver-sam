@@ -10,7 +10,7 @@ const protest = PT_Serif({ subsets: ['latin'] , weight: '700'})
 export default function BookText() {
   return (
     <>
-    <p className={`${protest.className} text-xl md:text-5xl text-[#C04000] md:mb-4 font-extrabold text-center w-full`}>Online school for German language</p>
+    <p className={`${protest.className} text-3xl md:text-4xl text-[#C04000] md:mb-4 font-extrabold text-center w-full`}>Online school for German language</p>
       <div className="w-full  flex justify-evenly flex-col h-fit md:py-0 ">
         <div  className={`${robot.className} flex flex-col gap-2`} >
           <div  className={`${robot.className}`}>
