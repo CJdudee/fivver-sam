@@ -23,7 +23,7 @@ export default async function Page() {
 
   return (
     <div className=" container mx-auto px-4 py-8 min-h-[800px] h-full ">
-      <div className=" flex flex-col justify-center items-center  min-h-full h-[92vh]  pb-4 px-2 w-full ">
+      <div className=" flex flex-col justify-center items-center  min-h-full h-full  pb-4 px-2 w-full ">
         <h1 className="text-3xl font-bold text-orange-500 text-center mb-6">
           Pricing and Packages
         </h1>
@@ -39,7 +39,7 @@ export default async function Page() {
             Contact Us Here
           </Link>
         </div>
-        <div className="hidden md:flex grid-cols-3 justify-center gap-y-32 mt-6 w-full h-max   min-h-[375px] gap-4 ">
+        <div className="hidden md:grid grid-cols-3 justify-center gap-y-6 mt-6 w-full h-full   min-h-[375px] gap-4 ">
           <PricingPack
             // packages={gotPackages}
             packages={gotPackagesJson}

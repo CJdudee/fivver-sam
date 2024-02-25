@@ -68,13 +68,13 @@ export default function TrialComp() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h2 className="text-4xl font-semibold text-center mb-8 text-orange-500">
+    <div className="container mx-auto px-8 py-4">
+      <h2 className="text-4xl font-bold text-center mb-8 text-orange-500">
         Sign Up for Your Trial
       </h2>
       {success && <p className="text-green-500 text-2xl mb-2">{success}</p>}
-      <div className="bg-white rounded-lg shadow-md p-8 text-center relative">
-        <p className="text-lg mb-4 w-full md:w-1/2 mx-auto font-bold">
+      <div className="bg-white rounded-lg shadow-md p-8 text-center relative ring-orange-500 ring-4 ring-offset-4 ring-offset-slate-200">
+        <p className="text-lg font-bold mb-6 text-center md:w-1/2 mx-auto">
           Please provide the following information to start your trial. We'll
           use your email to contact you if needed.
         </p>
@@ -92,7 +92,7 @@ export default function TrialComp() {
               onChange={(e) => setUsername(e.target.value)}
               type="text"
               id="firstName"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-orange-500  focus:ring-1"
             />
           </div>
 
@@ -107,7 +107,7 @@ export default function TrialComp() {
               onChange={(e) => setEmail(e.target.value)}
               type="email"
               id="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-orange-500  focus:ring-1"
             />
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function TrialComp() {
                     return { ...prev, [w.name]: result };
                   });
                 }}
-                className="md:ml-4 mt-1" // Adjust margin and alignment
+                className="md:ml-4 mt-1 accent-orange-300 " // Adjust margin and alignment
               />
             </li>
           ))}
@@ -157,7 +157,7 @@ export default function TrialComp() {
           <textarea
             value={descDay}
             onChange={(e) => setDescDay(e.target.value)}
-            className="w-full rounded-lg px-2 py-2 h-[200px] resize-none outline outline-1"
+            className="w-full rounded-lg px-2 py-2 h-[200px] resize-none outline outline-1 focus:outline-orange-500  "
           />
         </div>
         <button

@@ -49,7 +49,7 @@ export default function BookHomePage({ pricePackages }: any) {
           }
         </p>
 
-        <div className="flex flex-col md:flex-row  gap-2 w-4/5 mx-auto items-center h-full   mt-8 md:h-[400px]">
+        <div className="flex flex-col md:flex-row  gap-2 w-4/5 md:w-5/6 mx-auto items-center h-full   mt-8 md:h-[425px]">
           <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
             <WhatMakesDifferent
               mainText="Proficiency"
@@ -93,7 +93,8 @@ export default function BookHomePage({ pricePackages }: any) {
             <WhatMakesDifferent
               mainText="Flexible"
               emoji={["🗓️"]}
-              bottomText="From our reschedule/cancel policy to anything you need, your SprachGeist is there for you"
+              bottomText="Reschedule, cancel, or anything in between – SprachGeist has you covered"
+              // bottomText="From our reschedule/cancel policy to anything you need, your SprachGeist is there for you"
             />
             {/* <p className="bg-[#F5F5F5] rounded-xl">hey</p>
                 <p className="bg-[#F5F5F5] rounded-xl">hey</p> */}
@@ -103,7 +104,7 @@ export default function BookHomePage({ pricePackages }: any) {
 
       <div className="text-center bg-white pt-32">
         <p className="text-3xl font-bold">Why choose us?</p>
-        <p className="mx-auto w-4/5 md:w-1/5 mt-1 text-sm">
+        <p className="mx-auto w-4/5 md:w-3/5 lg:w-2/5 mt-1 text-sm">
           {" "}
           We believe in comfort all the way through your learning process
         </p>
@@ -132,9 +133,9 @@ export default function BookHomePage({ pricePackages }: any) {
             </div>
             <div className="h-1/2 w-full bg-[#F5F5F5] rounded-xl p-4">
               <p className="font-bold text-2xl h-1/3 ">Adaptable</p>
-              <div className=" w-full h-2/3 flex flex-col md:flex-row gap-4 md:gap-0 mt-4 ">
+              <div className=" w-full h-2/3 flex flex-col md:flex-row gap-4 md:gap-4 mt-4 ">
                 <div className=" w-full md:w-1/4 h-full flex justify-center items-center">
-                  <p className=" text-7xl">🤹‍♂️</p>
+                  <p className=" text-7xl">🤹🏻‍♂️</p>
                 </div>
                 <div className="h-full w-full md:w-3/4 text-center font-bold text-sm md:pl-1 ">
                   <p>
@@ -150,7 +151,7 @@ export default function BookHomePage({ pricePackages }: any) {
             <p className="font-bold text-2xl h-1/5">English</p>
             <p className=" text-6xl  h-3/5 flex items-center justify-center  ">
               {" "}
-              🌎 ✍️
+              🌎 ✍🏻
             </p>
             <p className="text-sm  w-4/5 mx-auto text-center  h-1/5 font-bold">
               {" "}
@@ -179,7 +180,7 @@ export default function BookHomePage({ pricePackages }: any) {
         <Link href={"/about"} className=" opacity-50">
           About Us
         </Link>
-        <Link href={""} className=" opacity-50">
+        <Link href={"/contact"} className=" opacity-50">
           Contact Us
         </Link>
         {/* <p>Home</p> */}

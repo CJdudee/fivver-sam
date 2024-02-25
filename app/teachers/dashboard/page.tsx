@@ -116,10 +116,10 @@ export default async function Page({ searchParams }: any) {
           )}
         </div>
       </div> */}
-      <div className="dashboard flex flex-col items-center w-fit rounded-xl bg-gray-100 shadow-md">
+      <div className="dashboard flex flex-col items-center w-full md:w-fit rounded-xl bg-gray-100 shadow-md">
         <div className="header bg-gradient-to-r to-[#D9643A] from-[#E35D5B] py-4 rounded-t-xl text-white w-full">
           <h1 className="text-3xl font-bold text-center">Teacher Dashboard</h1>
-          <p className="text-lg text-center">
+          <p className="text-lg text-center px-2">
             See your orders and manage your schedule
           </p>
         </div>

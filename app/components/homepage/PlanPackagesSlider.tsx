@@ -121,9 +121,9 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
           );
         })}
         {isOverFour && (
-          <div className="bg-white outline-[#C5C5C5] outline-1 outline rounded-xl flex flex-col px-8  pt-8 pb-4 z-20 min-h-max  w-1/5">
+          <div className="bg-white outline-[#C5C5C5] outline-1 outline rounded-xl  z-20 min-h-max  w-1/5">
             <Link
-              className="font-bold text-orange-500 w-full h-full flex justify-center items-center"
+              className="font-bold text-orange-500 w-full h-full flex justify-center items-center text-center"
               href={"/pricing"}
             >
               View All Packages
