@@ -12,6 +12,7 @@ export default function PhoneNavTest({ linkArray, hamDrop  }: any) {
 
   useEffect(() => {
     if (!openNav) return;
+    if(!hamDrop) return 
 
     const handleClick = (e: any) => {
       if (hamDrop.current && !hamDrop.current.contains(e.target)) {
@@ -24,7 +25,7 @@ export default function PhoneNavTest({ linkArray, hamDrop  }: any) {
     return () => {
       window.removeEventListener("mousedown", handleClick);
     };
-  }, [openNav]);
+  }, [openNav, hamDrop]);
 
   return (
     <div ref={hamDrop} className="w-1/2 relative">

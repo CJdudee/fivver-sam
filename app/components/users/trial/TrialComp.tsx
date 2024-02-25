@@ -75,7 +75,7 @@ export default function TrialComp() {
       {success && <p className="text-green-500 text-2xl mb-2">{success}</p>}
       <div className="bg-white rounded-lg shadow-md p-8 text-center relative ring-orange-500 ring-4 ring-offset-4 ring-offset-slate-200">
         <p className="text-lg font-bold mb-6 text-center md:w-1/2 mx-auto">
-          Please provide the following information to start your trial. We'll
+          Please provide the following information to start your trial. {`We'll`}
           use your email to contact you if needed.
         </p>
 

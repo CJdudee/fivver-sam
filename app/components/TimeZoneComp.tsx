@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { DateTime } from 'luxon'
 
 export default function TimeZoneComp() {
@@ -7,20 +7,20 @@ export default function TimeZoneComp() {
     const [testTime, setTestTime ] = useState<string | null>(null)
     const [testTime2, setTestTime2 ] = useState<string | null>(null)
 
-    let formatedTime = null
+    // let formatedTime = null
 
     
-    const updateTimes = () => {
+    const updateTimes = useCallback(() => {
         const gerTime = DateTime.now().setZone('Europe/Berlin')
         const time = DateTime.now()
 
-         formatedTime = gerTime.toFormat("HH:mm:ss a").toLowerCase()
+         const formatedTime = gerTime.toFormat("HH:mm:ss a").toLowerCase()
 
          const timeFormattedAgain = time.toFormat("HH:mm:ss a")
 
          setTestTime(formatedTime)
          setTestTime2(timeFormattedAgain)
-    }
+    }, [])
 
     // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
