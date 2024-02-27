@@ -30,7 +30,22 @@ export default function PhoneNav({ session, tokensJson, linkArray }: any) {
 
   return (
     <div className="w-full flex justify-between items-center">
-      {/* <div ref={hamDrop} className="w-1/2 relative">
+     
+      <HeadlessDrop linkArray={linkArray} />
+
+      <div className="w-1/2  ">
+        {session && <Profile user={session} tokens={tokensJson} />}
+
+        <div className="flex gap-4 items-center justify-center">
+          {!session && <AuthButtons session={session} />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+ {/* <div ref={hamDrop} className="w-1/2 relative">
         <button onClick={() => setOpenNav(!openNav)}>
           <RxHamburgerMenu className="h-8 w-8 text-white" />
         </button>
@@ -46,15 +61,3 @@ export default function PhoneNav({ session, tokensJson, linkArray }: any) {
         )}
       </div> */}
       {/* <PhoneNavTest linkArray={linkArray} hamDrop={hamDrop} /> */}
-      <HeadlessDrop linkArray={linkArray} />
-
-      <div className="w-1/2  ">
-        {session && <Profile user={session} tokens={tokensJson} />}
-
-        <div className="flex gap-4 items-center justify-center">
-          {!session && <AuthButtons session={session} />}
-        </div>
-      </div>
-    </div>
-  );
-}

@@ -9,7 +9,7 @@ export default function ViewAll({teachersJson, userJson} : any) {
         <div className="flex flex-col">
           {teachersJson.map((j: any, index: number) => (
             <div key={j._id} className="h-1/5 rounded-xl border-b border-gray-300 p-2">
-              <p className=" truncate">{j.user.username}</p>
+              <p className=" truncate">{j.user?.firstName}</p>
             </div>
           ))}
         </div>
@@ -19,7 +19,7 @@ export default function ViewAll({teachersJson, userJson} : any) {
         <div className="flex flex-col">
           {userJson.map((u: any, index: number) => (
             <div key={u._id} className="h-1/5 rounded-xl border-b border-gray-300 p-2">
-              <p className=" truncate">{u.username}</p>
+              <p className=" truncate">{u.firstName}</p>
               <div className="flex items-center text-sm mt-2">
                 <p className="mr-2">Email:</p>
                 {u.email ? <p className=" truncate">{u.email}</p> : <p>N/A</p>}

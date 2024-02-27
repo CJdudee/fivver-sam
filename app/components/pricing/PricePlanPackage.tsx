@@ -28,7 +28,7 @@ export default function PricePlanPackage({
   const [size, setSize] = useState(1);
 
   const router = useRouter();
-
+  console.log(hours, typeof hours)
   return (
     <div
       className={` ${value && "relative"} ${
@@ -44,7 +44,7 @@ export default function PricePlanPackage({
         <div className="flex justify-between w-full ">
           <div className="w-full text-xl">
             <p className=" font-[800] ">{hours}</p>
-            <p className=" font-[800] ">Hours</p>
+            <p className=" font-[800] ">{hours != 1 ? "Hours" : 'Hour'}</p>
           </div>
           <p className="w-min text-end font-[800] text-xl ">
             €{priceArray[size - 1].price}

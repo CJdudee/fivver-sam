@@ -48,6 +48,7 @@ export default async function NewNavBar() {
   console.log(tokensJson, "this is tokesn");
 
   let linkArray = [
+    {text: 'Home', link: '/'},
     { text: "Pricing", link: "/pricing" },
     { text: "Booking", link: "/teach" },
     { text: 'Contact', link : "/contact"},
@@ -56,6 +57,7 @@ export default async function NewNavBar() {
 
   if(!session) {
     linkArray = [
+      {text: 'Home', link: '/'},
       { text: "Pricing", link: "/pricing" },
       { text: "Trial", link: '/trial'},
       { text: 'Contact', link : "/contact"},
@@ -91,44 +93,7 @@ export default async function NewNavBar() {
           </Link>
             )
           })}
-          {/* <Link
-            href={"/pricing"}
-            className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-          >
-            Pricing
-          </Link>
-          {session && (
-            <Link
-              href={"/teach"}
-              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-            >
-              Booking
-            </Link>
-          )}
-          {session && (
-            <Link
-              href={"/booking"}
-              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-            >
-              Booked
-            </Link>
-          )}
-          {
-            <Link
-              href={"/contact"}
-              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-            >
-              Contact
-            </Link>
-          }
-          {!session && (
-            <Link
-              href={"/trial"}
-              className="text-[1.1rem] text-[#D0D0D0]  hover:text-[#858585] transition-all duration-500"
-            >
-              Trial
-            </Link>
-          )} */}
+          
         </div>
 
         {/* <div className="gap-4 flex items-center justify-end w-1/3 bg-slate-800"> */}

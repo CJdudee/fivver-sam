@@ -36,7 +36,7 @@ export default function UserBooking({
   }, [groupSize]);
   // console.log(teacher, "yo");
 
-  const teachName = teacher.user.username;
+  const teachName = teacher.user.firstName;
 
   const router = useRouter();
 

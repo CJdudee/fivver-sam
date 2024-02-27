@@ -7,10 +7,14 @@ import TeacherWeek from '@/models/TeacherWeek'
 
 export const newTeacher = async(userData: any) => {
 
-    console.log(userData)
-    let {username, password, email, roles } = userData
+    // console.log(userData)
+    let {firstName, lastName, password, email, roles } = userData
 
-    if(!username || !password) return {error: 'Username and password are required'}
+    if(!firstName || !lastName || !password || !email) return {error: 'Username and password are required'}
+
+    const emailTaken = await User.findOne({email})
+
+    if(emailTaken) return {error: 'Email is already taken'}
 
     if(roles.length == 0) roles = undefined
 
@@ -25,7 +29,8 @@ export const newTeacher = async(userData: any) => {
     // }
 
     const createdUser = await User.create({
-        username,
+        firstName,
+        lastName,
         password: hashedPwd,
         email,
         roles: ['teacher']
@@ -43,5 +48,5 @@ export const newTeacher = async(userData: any) => {
 
     console.log(createdTeacher)
 
-    return `Teacher ${createdUser.username} has been made`
+    return `Teacher ${createdUser.firstName} has been made`
 }

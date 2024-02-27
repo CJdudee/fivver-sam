@@ -3,6 +3,7 @@
 import {
   assignTeacherToUser,
   disableUser,
+  enableUser,
   removeTeacherFromUser,
 } from "@/actions/adminAllUsers";
 import { getAllTeacher } from "@/actions/teacherQuery";
@@ -42,7 +43,12 @@ const styleForSelect = {
 export default function ViewAllUsers({
   foundUserJson,
   foundAssignedJson,
+  disabledUser,
 }: any) {
+
+  const [disableArray, setDisableArray] = useState(disabledUser)
+  console.log(disabledUser)
+
   const [msg, setMsg] = useState("");
   const [turnDialog, setTurnDialog] = useState(false);
   const [idUser, setIdUser] = useState<any>(null);
@@ -90,7 +96,7 @@ export default function ViewAllUsers({
     // if(u.roles?.includes(filter)) return true
 
     if (nameFilter != "") {
-      const lowerName = u.username.toLowerCase();
+      const lowerName = u.firstName.toLowerCase();
 
       // if(nameFilter != u.username) trueArray.push(false)
       if (!lowerName.includes(nameFilter.toLowerCase())) trueArray.push(false);
@@ -125,12 +131,39 @@ export default function ViewAllUsers({
   const handleDisable = async (userId: string) => {
     const result = await disableUser(userId);
 
+    if(!result) return errorToast()
+
+    if(result.error) return errorToast(result.error)
+
     console.log(result);
 
-    if (result.msg) {
-      setMsg(result.msg);
-    }
+
+    setDisableArray((prev: any) => {
+      return [...prev, result.data]
+    })
+    susToast(result.msg as string)
+
+    // if (result.msg) {
+    //   setMsg(result.msg);
+    // }
   };
+
+  const handleEnable = async(userId: string) => {
+    const result = await enableUser(userId)
+
+    if(!result) return errorToast()
+
+    if(result.error) return errorToast(result.error)
+
+    setDisableArray((prev: any) => {
+
+      // return prev._id != result.data._id
+      return prev.map((p: any) => p._id != result.data._id)
+    })
+
+    susToast(result.msg as string)
+
+  }
 
   const handleAssignTeacher = async () => {
     // console.log(idUser, teacherId)
@@ -271,6 +304,7 @@ export default function ViewAllUsers({
                 placeholder: () => "text-black text-md",
                 singleValue: () => "",
               }}
+              instanceId={8000}
               isMulti
               unstyled
               isSearchable={false}
@@ -287,6 +321,8 @@ export default function ViewAllUsers({
         {asssignTeacherDialog}
         {filterUser.map((f: any, i: number) => {
           const foundAss = foundAssigned.find((c: any) => c.user == f._id);
+
+          const foundDisable = disableArray.find((d: any) => d.userId == f._id)
           // console.log(f, "what the");
           if (!f.roles) return;
           return (
@@ -300,7 +336,7 @@ export default function ViewAllUsers({
                   href={`/dashboard/viewusers/${f._id}`}
                   className="text-lg hover:text-gray-200"
                 >
-                  User: {capitalize(f.username)}
+                  User: {capitalize(f.firstName)} {capitalize(f.lastName)}
                 </Link>
               </div>
 
@@ -319,7 +355,7 @@ export default function ViewAllUsers({
                 <div className="flex flex-col w-full items-center justify-center">
                   <p>Assigned:</p>
                   <p>
-                    {foundAss?.teacher?.user.username ?? "No Teacher assigned"}
+                    {foundAss?.teacher?.user.firstName ?? "No Teacher assigned"}
                   </p>
                 </div>
                 <div className="flex gap-2 mt-2 md:mt-0">
@@ -333,10 +369,14 @@ export default function ViewAllUsers({
                     Assign Teacher
                   </button>
                   <button
-                    onClick={() => handleDisable(f._id)}
-                    className="px-4 py-2 rounded-md text-lg bg-red-500 hover:bg-red-700 text-white font-bold shadow transition-all"
+                    onClick={() =>{
+                      if(foundDisable) return handleEnable(f._id)
+
+                      handleDisable(f._id)
+                    }}
+                    className={`${foundDisable ? 'bg-green-500 hover:bg-green-700' : 'bg-red-500 hover:bg-red-700 '} px-4 py-2 rounded-md text-lg text-white font-bold shadow transition-all`}
                   >
-                    Disable User
+                    {foundDisable ? "Enable User" : "Disable User"}
                   </button>
                 </div>
               </div>

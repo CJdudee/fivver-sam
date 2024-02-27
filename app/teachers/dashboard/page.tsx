@@ -86,7 +86,7 @@ export default async function Page({ searchParams }: any) {
   );
 
   return (
-    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[600px] h-full ">
+    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[800px] h-screen ">
       {/* {!googCode && !teacherJson.googleCode && <GoogleClient />}
       {(googCode || teacherJson.googleCode) && (
         <div className="text-2xl text-white font-bold">
@@ -116,7 +116,7 @@ export default async function Page({ searchParams }: any) {
           )}
         </div>
       </div> */}
-      <div className="dashboard flex flex-col items-center w-full md:w-fit rounded-xl bg-gray-100 shadow-md">
+      <div className="dashboard flex flex-col items-center w-full md:w-fit rounded-xl bg-gray-100 shadow-md h-fit">
         <div className="header bg-gradient-to-r to-[#D9643A] from-[#E35D5B] py-4 rounded-t-xl text-white w-full">
           <h1 className="text-3xl font-bold text-center">Teacher Dashboard</h1>
           <p className="text-lg text-center px-2">
@@ -124,7 +124,7 @@ export default async function Page({ searchParams }: any) {
           </p>
         </div>
 
-        <div className="body flex flex-col justify-between gap-4 px-4 py-8">
+        <div className="body w-full flex flex-col justify-between gap-4 px-4 py-8">
           <div className="orders-summary flex flex-col gap-4">
             <div className="flex items-center justify-between text-lg font-bold">
               <p>Total Orders</p>

@@ -11,18 +11,58 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 import "swiper/css/navigation";
 import SwiperButtonNav from "../users/pricing/SwiperButtonNav";
+import { useRouter } from "next/navigation";
 
-export default function PlanPackagesSlider({ pricePackages }: any) {
+export default function PlanPackagesSlider({ pricePackages, user }: any) {
+  const [stripeUrl, setStripeUrl] = useState<{ url: string,  emailUrl: string } | null>();
+  const [pickedPackage, setPickedPackage] = useState({});
   const [tran, setTran] = useState(0);
+
+  const router = useRouter()
 
   const isOverFour = pricePackages.length > 3;
 
   console.log(isOverFour);
 
-  // useEffect(() => {
+  const onBuy = async (packageId: string, groupSize: number) => {
 
-  //   console.log(window.innerWidth)
-  // }, [window.innerWidth])
+    if(!user) return
+    // console.log(groupSize) 
+    // return 
+
+    const stripe = await fetch(`${process.env.HOSTNAME}/api/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ packageId: packageId, userId: user.id, groupSize }),
+    });
+
+    const stripeJson = await stripe.json();
+
+    if (!stripe) return null;
+
+    console.log(stripeJson);
+
+    setPickedPackage({packageId, groupSize})
+    setStripeUrl(stripeJson);
+  };
+
+  useEffect(() => {
+    if(!router || !stripeUrl) return 
+
+    if(stripeUrl?.emailUrl) return router.push(stripeUrl.emailUrl)
+
+    if (!stripeUrl?.url) return;
+
+    localStorage.setItem("package", JSON.stringify(pickedPackage));
+
+    console.log(stripeUrl);
+
+    router.push(stripeUrl.url);
+  }, [stripeUrl, router, pickedPackage]);
+
+  
 
   return (
     <div className="z-50 relative">
@@ -47,7 +87,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
         </button>
       </div> */}
       <div
-        className="  flex gap-2 px-2 lg:px-12 h-full md:justify-center  md:overflow-visible  lg:w-fit transition-all duration-500 lg:hidden items-center justify-center relative    "
+        className="  flex flex-col gap-2 px-2 lg:px-12 h-full md:justify-center  md:overflow-visible  lg:w-fit transition-all duration-500 lg:hidden items-center justify-center relative    "
         style={{
           transform: `translateX(-${tran}dvh)`,
         }}
@@ -57,7 +97,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
               <Link href={'/pricing'} className="text-black hover:text-gray-700 font-extrabold">View All Packages</Link>
             </div>
           )}
-        <Swiper
+        {/* <Swiper
           effect={"cards"}
           grabCursor={true}
           modules={[EffectCards, Navigation]}
@@ -65,39 +105,31 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
           loop={true}
           navigation={false}
         >
-          <SwiperButtonNav />
-          {pricePackages.slice(0, 3).map((p: any, i: number) => {
+          <SwiperButtonNav /> */}
+          {pricePackages.slice(0, 4).map((p: any, i: number) => {
             const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
             // console.log(index);
-            const onBuy = () => {};
+            // const onBuy = () => {};
             return (
-              <SwiperSlide className="" key={i}>
+              // <SwiperSlide className="" key={i}>
                 <PricePlanPackage
-                  // key={i}
+                  key={i}
                   price={p.price}
                   hours={p.tokens}
                   onBuy={onBuy}
                   packageId={p._id}
                   priceArray={priceArray}
-                  userId={null}
-                  linkPrice={true}
+                  userId={user}
+                  // linkPrice={true}
                 />
-              </SwiperSlide>
+              // </SwiperSlide>
             );
           })}
 
           
 
-          {/* {isOverFour && (
-            <SwiperSlide className="  ">
-              <div
-                className={`   bg-black text-white  outline-[#C5C5C5] outline-1 outline rounded-xl pt-8 pb-8 px-8 z-20 min-h-max font-semibold h-full  `}
-              >
-                <p className=" w-full flex items-center justify-center ">View More Packages</p>
-              </div>
-            </SwiperSlide>
-          )} */}
-        </Swiper>
+          
+        {/* </Swiper> */}
       </div>
       <div
         className="  lg:flex gap-2 px-2 lg:px-12 h-fit md:justify-center overflow-hidden md:overflow-visible w-full transition-all duration-500 hidden mx-auto   "
@@ -106,7 +138,7 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
         {pricePackages.slice(0, 4).map((p: any, i: number) => {
           const priceArray = [p.priceOne, p.priceTwo, p.priceThree];
           // console.log(index);
-          const onBuy = () => {};
+          // const onBuy = () => {};
           return (
             <PricePlanPackage
               key={i}
@@ -115,8 +147,8 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
               onBuy={onBuy}
               packageId={p._id}
               priceArray={priceArray}
-              userId={null}
-              linkPrice={true}
+              userId={user}
+              // linkPrice={true}
             />
           );
         })}
@@ -186,3 +218,14 @@ export default function PlanPackagesSlider({ pricePackages }: any) {
         </div>
       </div> */
 }
+
+
+{/* {isOverFour && (
+<SwiperSlide className="  ">
+  <div
+    className={`   bg-black text-white  outline-[#C5C5C5] outline-1 outline rounded-xl pt-8 pb-8 px-8 z-20 min-h-max font-semibold h-full  `}
+  >
+    <p className=" w-full flex items-center justify-center ">View More Packages</p>
+  </div>
+</SwiperSlide>
+)} */}

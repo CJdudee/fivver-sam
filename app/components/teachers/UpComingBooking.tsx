@@ -151,7 +151,7 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
         <h3 className="text-xl font-bold text-black mb-2">Student:</h3>
         <div className="flex flex-col gap-2">
           <p className="text-base font-medium text-black">
-            Username: {capitalize(booking.student.username)}
+            Username: {capitalize(booking.student.firstName)}
           </p>
           <p className="text-base text-gray-500 truncate">
             Email: {booking.student.email || "No Email"}

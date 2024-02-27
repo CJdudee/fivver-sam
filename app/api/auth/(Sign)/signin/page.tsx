@@ -6,7 +6,7 @@ import LogoLink from "@/app/components/users/navbar/LogoLink";
 export default function Page() {
   // redirect('/', )
   return (
-    <div className="   h-full w-full p-4 flex items-center justify-center flex-col ">
+    <div className=" min-h-[900px] h-[100vh] w-full p-4 flex items-center justify-center flex-col ">
       <div className="flex justify-start w-1/4 mr-auto">
 
       <LogoLink />

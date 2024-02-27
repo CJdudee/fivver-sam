@@ -6,13 +6,18 @@ import { FcCheckmark } from "react-icons/fc";
 import { errorToast, susToast } from "../lib/react-toast";
 
 export default function UserProfile({ user }: any) {
-  const [username, setUsername] = useState(user.username);
+  // const [username, setUsername] = useState(user.username);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
   const [password, setPassword] = useState("");
 
   const saveUser = async () => {
+    if(!firstName) return 
+
     const userData = {
-      username,
+      firstName,
+      lastName,
       email,
       _id: user._id,
     };
@@ -21,7 +26,13 @@ export default function UserProfile({ user }: any) {
 
     if (!saved) return errorToast();
 
-    susToast(saved.msg);
+    if(saved.error) {
+       errorToast(saved.error)
+       setEmail(user.email)
+       return
+    }
+
+    susToast(saved.msg as string);
 
     console.log("save");
   };
@@ -29,16 +40,37 @@ export default function UserProfile({ user }: any) {
   return (
     <div className="text-center w-1/2 flex flex-col justify-center items-center gap-8 outline-1 outline outline-[#c5c5c523] rounded-xl py-8 h-2/3  ">
       <div className="flex flex-col  justify-center items-center">
-        <label htmlFor="name" className="text-2xl font-bold text-white mb-1">
-          Username
+        <label
+          htmlFor="firstName"
+          className="text-2xl font-bold text-white mb-1"
+        >
+          First Name
         </label>
         <input
-          id="name"
+          required
+          id="firstName"
           className="rounded-full  text-center py-1 text-lg"
           onChange={(e) => {
-            setUsername(e.target.value);
+            setFirstName(e.target.value);
           }}
-          value={username}
+          value={firstName}
+        />
+      </div>
+      <div className="flex flex-col  justify-center items-center">
+        <label
+          htmlFor="lastName"
+          className="text-2xl font-bold text-white mb-1"
+        >
+          Surname
+        </label>
+        <input
+          required
+          id="lastName"
+          className="rounded-full  text-center py-1 text-lg"
+          onChange={(e) => {
+            setLastName(e.target.value);
+          }}
+          value={lastName}
         />
       </div>
 
@@ -60,6 +92,7 @@ export default function UserProfile({ user }: any) {
           </p>
         </div>
         <input
+          required
           id="email"
           className="rounded-full  text-center py-1 text-lg"
           onChange={(e) => {
@@ -82,7 +115,7 @@ export default function UserProfile({ user }: any) {
 
       <button
         onClick={saveUser}
-        className="bg-white px-4 py-0.5 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-lg hover:shadow-green-100"
+        className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:text-white font-medium px-4 py-0.5 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-lg hover:shadow-green-100"
       >
         Save
       </button>

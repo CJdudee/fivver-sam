@@ -38,7 +38,7 @@ export default async function Page({ params, searchParams }: any) {
           </Link>
         </div>
         <p className="text-center text-4xl font-bold text-white float-none mx-auto">
-          {capitalize(studentJson.username)}
+          {capitalize(studentJson.firstName)}
         </p>
       </div>
 

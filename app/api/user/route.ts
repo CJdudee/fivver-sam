@@ -11,13 +11,25 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const data = await req.json()
 
-    const {username, password, email } = data
+    const {username, password, email, firstName, lastName } = data
 
-    if(!username || !password && !email) return NextResponse.json("Every field is required")
+    console.log(data)
+
+    // if(!username || !password && !email) return NextResponse.json("Every field is required")
+    if (!password || !email || !firstName || !lastName) return NextResponse.json("Every field is required")
+    await connectingMongoose()
+
+    const isTaken = await User.findOne({email}).exec()
+
+    if(isTaken) {
+        console.log('hite')
+        return NextResponse.json({error: 'Email Already taken'}, {
+            status: 400
+        })
+    }
 
     let hashedPwd = null
 
-    await connectingMongoose()
 
     if(password) {
         hashedPwd = await bcrypt.hash(password, 10)
@@ -28,8 +40,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if(hashedPwd) {
 
          newData = {
-            username,
-            password: hashedPwd
+            // username,
+            firstName, 
+            lastName,
+            password: hashedPwd,
+            email,
         }
     } else {
         newData = {
@@ -40,7 +55,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
 
     try {
-        await User.create(newData)
+        const createdUser = await User.create(newData)
+        console.log(createdUser)
         // return NextResponse.json("woo")
 
         return new NextResponse(JSON.stringify("woo"), {

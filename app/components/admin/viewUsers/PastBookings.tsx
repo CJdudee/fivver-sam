@@ -66,7 +66,7 @@ export default function PastBookings({ userData, data, isTeacher }: any) {
               }
               className="text-xl hover:text-gray-600"
             >
-              {capitalize(userData.username)}
+              {capitalize(userData.firstName)}
             </Link>
           </div>
           <div>

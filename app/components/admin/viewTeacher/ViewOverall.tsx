@@ -94,7 +94,7 @@ export default function ViewOverall({
             <div className="flex flex-col justify-between items-center">
               <div className="mb-2">
                 <p className="text-black font-bold">Name:</p>
-                <p className="text-xl font-semibold">{capitalize(t.user.username)}</p>
+                <p className="text-xl font-semibold">{capitalize(t.user.firstName)}</p>
               </div>
               <div className="md:flex justify-evenly w-full md:ml-8 font-semibold">
                 <div>
@@ -175,7 +175,7 @@ export default function ViewOverall({
             >
               <div className="flex justify-between items-center mb-2">
                 <p className="text-xl font-bold">
-                  {capitalize(t.user.username)}
+                  {capitalize(t.user.firstName)}
                 </p>
                 {isPast && (
                   <button

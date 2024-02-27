@@ -5,9 +5,14 @@ import bcrypt from 'bcrypt'
 export const newUser = async(userData: any) => {
 
     console.log(userData)
-    let {username, password, email, roles } = userData
+    let {firstName, lastName, password, email, roles } = userData
 
-    if(!username || !password) return {error: 'Username and password are required'}
+    if(!firstName || !lastName || !password || !email) return {error: 'Names and password are required'}
+
+
+    const emailTaken = await User.findOne({email})
+
+    if(emailTaken) return {error: 'Email is already taken'}
 
     if(roles.length == 0) roles = undefined
 
@@ -22,7 +27,8 @@ export const newUser = async(userData: any) => {
     }
 
     const createdUser = await User.create({
-        username,
+        firstName,
+        lastName,
         password: hashedPwd,
         email,
         roles
@@ -30,14 +36,18 @@ export const newUser = async(userData: any) => {
 
     if(!createdUser) return null
 
-    return `User ${createdUser.username} has been created`
+    return `User ${createdUser.firstName} has been created`
 }
 
 export const newAdmin = async(userData: any) => {
     console.log(userData)
-    let {username, password, email } = userData
+    let {firstName, lastName, password, email } = userData
 
-    if(!username || !password) return {error: 'Username and password are required'}
+    if(!firstName || !lastName || !password || !email) return {error: 'Username and password are required'}
+
+    const emailTaken = await User.findOne({email})
+
+    if(emailTaken) return {error: 'Email is already taken'}
 
     // if(roles.length == 0) roles = undefined
 
@@ -52,7 +62,8 @@ export const newAdmin = async(userData: any) => {
     }
 
     const createdUser = await User.create({
-        username,
+        firstName,
+        lastName,
         password: hashedPwd,
         email,
         roles: ['admin']
@@ -60,5 +71,5 @@ export const newAdmin = async(userData: any) => {
 
     if(!createdUser) return null
 
-    return `Admin ${createdUser.username} has been created`
+    return `Admin ${createdUser.firstName} has been created`
 }

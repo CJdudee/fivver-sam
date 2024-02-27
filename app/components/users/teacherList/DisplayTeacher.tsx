@@ -11,9 +11,9 @@ export default function DisplayTeacher({
   const [openSch, setOpenSch] = useState<null | number>(null);
   const [dayOpen, setDayOpen] = useState<null | number>(null);
   return (
-    <div className="grid grid-cols-1  gap-4 py-4 px-4  ">
+    <div className="grid grid-cols-1  gap-4 py-4 px-4 h-full  ">
       {teachersJson?.map((t: any, teacherIndex: number) => {
-        const { username, email } = t.user;
+        const { firstName, lastName, email } = t.user;
 
         const foundSch = teachersWeekJson.find((w: Record<string, unknown>) => {
           return w.teacher == t._id;
@@ -29,7 +29,7 @@ export default function DisplayTeacher({
             className="bg-white outline outline-2 outline-[#3D3D3D] w-full md:w-4/5 mx-auto rounded-xl p-2 pt-2 pb-2 drop-shadow-xl  min-h-[12rem] h-full flex flex-col justify-evenly  "
           >
             <div className="flex items-center justify-between mb-4">
-              <p className="font-bold text-xl pr-4">{capitalize(username)}</p>
+              <p className="font-bold text-xl pr-4">{capitalize(firstName)} {capitalize(lastName)}</p>
               {/* {foundSch != undefined && foundSch.length != 0 && (
                   <span className="text-sm bg-green-500 text-white rounded-full px-2 py-1">
                     Schedule Available

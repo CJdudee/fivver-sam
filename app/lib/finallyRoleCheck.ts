@@ -6,7 +6,7 @@ export const decodeUserAndCheckAdmin = async () => {
 
     const sessionUser = await serverUser();
 
-    roleChecker(sessionUser, ['admin', 'teacher']);
+    roleChecker(sessionUser, ['admin']);
 
 }
 export const decodeUserAndCheckTeacher = async () => {

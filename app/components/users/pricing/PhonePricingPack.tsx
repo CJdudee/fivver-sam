@@ -65,7 +65,7 @@ export default function PhonePricingPack({ packages, userId }: any) {
   return (
     <>
     
-      <Swiper
+      {/* <Swiper
         effect={"cards"}
         grabCursor={true}
         
@@ -75,7 +75,7 @@ export default function PhonePricingPack({ packages, userId }: any) {
         loop={true}
         navigation={false}
       >
-        <SwiperButtonNav />
+        <SwiperButtonNav /> */}
 
         {packages &&
           packages.map((p: any, index: number) => {
@@ -83,9 +83,9 @@ export default function PhonePricingPack({ packages, userId }: any) {
             console.log(index);
             return (
               
-                <SwiperSlide key={index}>
+                // <SwiperSlide key={index}>
                   <PricePlanPackage
-                    
+                    key={index}
                     price={p.price}
                     hours={p.tokens}
                     onBuy={onBuy}
@@ -93,12 +93,12 @@ export default function PhonePricingPack({ packages, userId }: any) {
                     priceArray={priceArray}
                     userId={userId}
                   />
-                </SwiperSlide>
+                // {/* </SwiperSlide> */}
               
             );
           })}
           
-      </Swiper>
+      {/* </Swiper> */}
     </>
   );
 }

@@ -46,7 +46,7 @@ export default function AllBooking({booked, bookingLength, onCancelBook} : any) 
           <div className="border-b border-gray-200 py-4">
             <div className="flex justify-center gap-8 items-center">
               <p className="text-lg font-medium">Student:</p>
-              <p className="text-lg font-medium">{capitalize(b.student.username)}</p>
+              <p className="text-lg font-medium">{capitalize(b.student.firstName)}</p>
             </div>
             <div className="flex justify-center gap-8 items-center">
               <p className="text-lg font-medium">Email:</p>

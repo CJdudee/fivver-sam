@@ -1,5 +1,6 @@
 import CreateTeacher from "@/app/components/admin/CreateTeacher";
 import ViewAll from "@/app/components/admin/dashboard/ViewAll";
+import { decodeUserAndCheckAdmin } from "@/app/lib/finallyRoleCheck";
 import { roleChecker } from "@/app/lib/roleCheck";
 import { serverUser } from "@/app/lib/serverAuth";
 import Teacher from "@/models/Teacher";
@@ -12,7 +13,8 @@ import React from "react";
 export default async function Page() {
   const sessionUser = await serverUser();
 
-  roleChecker(sessionUser, ['admin', 'teacher']);
+  // roleChecker(sessionUser, ['admin', 'teacher']);
+  await decodeUserAndCheckAdmin()
   console.log(sessionUser);
 
   if (!sessionUser) redirect("/");

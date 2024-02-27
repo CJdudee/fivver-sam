@@ -20,11 +20,13 @@ export default function SignInForm() {
 
     const target = e.currentTarget;
 
-    const username = target.elements.namedItem("username") as HTMLInputElement;
+    // const username = target.elements.namedItem("username") as HTMLInputElement;
+    const email = target.elements.namedItem("email") as HTMLInputElement;
     const password = target.elements.namedItem("password") as HTMLInputElement;
 
     const data = {
-      username: username.value,
+      // username: username.value,
+      email: email.value,
       password: password.value,
       redirect: true,
       callbackUrl: "/",
@@ -37,16 +39,16 @@ export default function SignInForm() {
     <>
       <form onSubmit={handleSubmit} className=" outline outline-1 outline-[#c5c5c5] rounded-xl py-20 sm:w-1/2 px-4 sm:px-0 xl:px-8 flex flex-col gap-1 ">
         <div className="mb-4 flex flex-col font-bold text-[#f5f5f5] w-full ">
-          <label className="text-2xl  text-start w-full sm:w-1/2 mx-auto pl-0.5  " htmlFor="username">
-            Username
+          <label className="text-2xl  text-start w-full sm:w-1/2 mx-auto pl-0.5  " htmlFor="email">
+            Email
           </label>
 
           <div className="mt-2 mx-auto flex w-full sm:w-1/2">
             <input
               className="rounded-md pl-2 py-0.5 w-full bg-[#b4b4b465]  "
-              id="username"
+              id="email"
               type="text"
-              name="username"
+              name="email"
               required
               minLength={3}
             />

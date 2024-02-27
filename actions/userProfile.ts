@@ -7,13 +7,17 @@ import User from "@/models/User"
 
 export const updateUser = async (userDate: any ) => {
 
-    const {username, email, _id } = userDate
+    const {firstName, lastName, email, _id } = userDate
 
     const foundUser = await User.findOne({_id}).exec()
 
     if(!foundUser) throw new Error("User was not found")
 
     if(foundUser.email != email) {
+
+        const isTaken = await User.findOne({email}).exec()
+
+        if(isTaken) return {error: 'Email is already taken'}
 
         const vericationToken = await generateVericationToken(email, foundUser._id)
         if(!vericationToken) return 
@@ -24,11 +28,13 @@ export const updateUser = async (userDate: any ) => {
         await sendVerificationEmail(vericationToken.email, vericationToken.token)
     }
 
-    foundUser.username = username
+    // foundUser.username = username
+    foundUser.firstName = firstName
+    foundUser.lastName = lastName
 
     const saved = await foundUser.save()
 
     if(!saved) return null
 
-    return {msg: `${username} has been updated`}
+    return {msg: `${firstName} has been updated`}
 }

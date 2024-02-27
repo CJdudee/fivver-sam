@@ -10,6 +10,7 @@ import Credentials from "next-auth/providers/credentials";
 import _stripe from 'stripe'
 import { connectingMongoose } from "./app/lib/connectMongo";
 import bcrypt from 'bcrypt'
+import DisableUser from "./models/DisableUser";
 
 const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2023-10-16'
@@ -53,26 +54,32 @@ export const {
         Credentials({
             name: 'credentials',
             credentials: {
-                username: { label: "Username"},
+                // username: { label: "Username"},
+                email: { label: "Email"},
                 password: { label: 'Password', type: 'password'}
             },
             async authorize(credentials) {
 
                 // console.log(credentials)
-                const { username, password } = credentials
+                // const { username, password } = credentials
+                const { email, password } = credentials
 
-                if(!username || !password) return null
+                if(!email || !password) return null
 
                 await connectingMongoose()
 
-                const foundUser = await User.findOne({ username })
-                console.log(foundUser, 'yoyo')
+                const foundUser = await User.findOne({ email })
+
+                const isDisable = await DisableUser.findOne({userId: foundUser._id})
+
+                if(isDisable) return null
+                // console.log(foundUser, 'yoyo')
 
                 if(!foundUser) throw new Error("User was not found")
 
                 const rightPwd = await bcrypt.compare(password as string, foundUser.password)
                 
-                console.log(rightPwd, 'hit')
+                // console.log(rightPwd, 'hit')
 
                 if(rightPwd) {
                     const user = {
@@ -161,7 +168,9 @@ export const {
             // console.log(account, 'this is the what we are looking ata')
             // console.log(profile, 'this is the what we are looking ata 22')
 
-            console.log(account)
+            console.log(account, 'account')
+            console.log(user, 'user')
+            console.log(profile, 'profile')
 
             if(account?.provider === 'google') {
 

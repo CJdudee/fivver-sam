@@ -58,7 +58,7 @@ export default function OldBookingMap({ userData, data, isTeacher }: any) {
           {!isTeacher ? "For Student:" : "Teacher:"}
         </p>
         <p className="text-base font-semibold ml-2">
-          {capitalize(userData.username)}
+          {capitalize(userData.firstName)}
         </p>
       </div>
       <p className="text-base mt-2 text-center font-[600]">

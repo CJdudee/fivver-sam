@@ -36,7 +36,7 @@ export default function SwiperPhonePrice({ packages, user }: any) {
         </button>
       </div> */}
       <div
-        className="md:hidden flex justify-start items-center  gap-8 mt-4 w-full md:w-full h-2/3 transition-all duration-300  "
+        className="md:hidden flex flex-col justify-start items-center  gap-8 mt-4 w-full md:w-full h-2/3 transition-all duration-300  "
         style={{
           transform: `translateX(-${tran}dvh)`,
         }}

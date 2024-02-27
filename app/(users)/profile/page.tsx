@@ -18,7 +18,7 @@ export default async function Page() {
     console.log(foundUserJson)
 
   return (
-    <div className='h-[92dvh] min-h-[650px] flex items-center justify-center'>
+    <div className='h-[92dvh] min-h-[800px] flex items-center justify-center'>
         <UserProfile user={foundUserJson} />
     </div>
   )

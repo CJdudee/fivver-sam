@@ -4,14 +4,15 @@ import { generateVericationToken } from "@/data/tokens";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
 import TrialUser from "@/models/TrialUser";
+import { simpleJson } from "@/utils/helpers";
 
 export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
   console.log(userInfo, dateInfo);
 
-  if (!userInfo.username || !userInfo.email) return;
+  if (!userInfo.firstName || !userInfo.lastName || !userInfo.email) return;
   if (!dateInfo.weekArray || !dateInfo.info) return;
 
-  const { username, email } = userInfo;
+  const { email, firstName, lastName } = userInfo;
 
   const { weekArray, info } = dateInfo;
 
@@ -19,34 +20,49 @@ export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
 
   const hashedPwd = await bcrypt.hash(randomPassword, 10);
 
-  const createdUser = await User.create({
-    username,
-    email,
-    password: hashedPwd,
-    trial: true,
-  });
+  const checkEmail = await User.findOne({email})
 
-  if (!createdUser) return { error: "Failed to Create New User" };
+  if(checkEmail) return {error: 'Email is Already Taken'}
 
-  const createdTrial = await TrialUser.create({
-    weekArray,
-    info,
-    user: createdUser._id,
-  });
+  // try {
+    const createdUser = await User.create({
+      // username,
+      email,
+      firstName,
+      lastName,
+      password: hashedPwd,
+      trial: true,
+    });
 
-  if (!createdTrial) return { error: "Failed to Create Trail" };
+    if (!createdUser) return { error: "Failed to Create New User" };
 
-  const verficationToken = await generateVericationToken(
-    email,
-    createdUser._id
-  );
+    const createdTrial = await TrialUser.create({
+      weekArray,
+      info,
+      user: createdUser._id,
+    });
 
-  if (!verficationToken) return;
+    if (!createdTrial) return { error: "Failed to Create Trail" };
 
-  await sendTrialAccountEmail(verficationToken.email, verficationToken.token, createdUser.username, randomPassword);
+    const verficationToken = await generateVericationToken(
+      email,
+      createdUser._id
+    );
 
-  return {
-    msg: "Trial User has been Created. Check your Email for password",
-    url: `${process.env.HOSTNAME}/api/auth/signin`,
-  };
+    if (!verficationToken) return;
+
+    await sendTrialAccountEmail(
+      verficationToken.email,
+      verficationToken.token,
+      createdUser.username,
+      randomPassword
+    );
+
+    return {
+      msg: "Trial User has been Created. Check your Email for password",
+      url: `${process.env.HOSTNAME}/api/auth/signin`,
+    };
+  // } catch (error) {
+  //   return { error: simpleJson(error) };
+  // }
 };

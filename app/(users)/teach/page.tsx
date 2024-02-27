@@ -35,7 +35,7 @@ export default async function Page() {
   const teachersWeekJson = simpleJson(teachersWeeks);
   // console.log(teachers);
   return (
-    <div className=" min-h-[800px]">
+    <div className=" min-h-[1000px] h-full">
       <DisplayTeacher teachersJson={teachersJson} teachersWeekJson={teachersWeekJson} />
     </div>
   );

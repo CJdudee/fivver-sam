@@ -5,17 +5,34 @@ import AssignTeacher from '@/models/AssignTeacher'
 
 export const disableUser = async (userId: string) => {
 
-    const foundDisableUser = await DisableUser.findOneAndDelete({userId})
+    const foundDisableUser = await DisableUser.findOne({userId})
+    // const foundDisableUser = await DisableUser.findOneAndDelete({userId})
+
+    if(foundDisableUser) return {error: 'User has already been disabled'}
     
     if(!foundDisableUser) {
 
         const disabledUser = await DisableUser.create({userId})
-        return simpleJson(disabledUser)
+        return {data: simpleJson(disabledUser), msg: 'User has been Disabled'}
     }
 
     // const deletedUser = await foundDisableUser
 
-    return {data: simpleJson(foundDisableUser), msg: 'User is no longer disable'}
+    // return {data: simpleJson(foundDisableUser), msg: 'User is no longer disable'}
+}
+
+export const enableUser = async(userId: string) => {
+
+    const foundDisableUser = await DisableUser.findOne({userId})
+
+    if(!foundDisableUser) return {error: 'No User was found'}
+
+    const deleted = await DisableUser.deleteOne({userId})
+
+    if(!deleted) return { error: 'Enable Failed'}
+
+    return {data: simpleJson(deleted), msg: 'User has been Enabled'}
+
 }
 
 export const assignTeacherToUser = async (userId: string, teacherId: string) => {

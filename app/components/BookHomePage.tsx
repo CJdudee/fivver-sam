@@ -17,10 +17,16 @@ import BackgroundTest from "./homepage/BackgroundTest";
 import Image from "next/image";
 import WhatWeStandFor from "./homepage/WhatWeStandFor";
 import Link from "next/link";
+import { serverUser } from "../lib/serverAuth";
+import LineBg from "./homepage/TopHomeBg/LineBg";
+import DifferentLine from "./homepage/TopHomeBg/DifferentLine";
 
 const k2 = K2D({ subsets: ["latin"], weight: "800" });
 
-export default function BookHomePage({ pricePackages }: any) {
+export default async function BookHomePage({ pricePackages }: any) {
+
+  const user = await serverUser()
+
   return (
     <main className="h-full">
       <div
@@ -28,16 +34,11 @@ export default function BookHomePage({ pricePackages }: any) {
       >
         <HomePageTop />
         {/* <div className=' bg-slate-400 h-full rounded-full absolute top-0 left-0 right-0' /> */}
-        <Image
-          priority
-          src={"/homePageBg6.svg"}
-          draggable={false}
-          alt=""
-          className=" absolute  right-0 bottom-0 top-0 opacity-20"
-          fill
-        />
-        {/* <div className=" absolute  bottom-0 h-full w-3/5 left-0 -right-24 top-52  border-[40px] ml-auto rounded-full rounded-b-full border-opacity-80 border-fuchsia-400 z-0 "></div> */}
+        
+        
         {/* <BackgroundTest /> */}
+        <LineBg />
+        {/* <DifferentLine /> */}
         {/* <div className=" h-5/6 my-auto top-0 bottom-0 rounded-full w-[7%] bg-orange-300 absolute" /> */}
       </div>
 
@@ -49,11 +50,11 @@ export default function BookHomePage({ pricePackages }: any) {
           }
         </p>
 
-        <div className="flex flex-col md:flex-row  gap-2 w-4/5 md:w-5/6 mx-auto items-center h-full   mt-8 md:h-[425px]">
+        <div className="flex flex-col md:flex-row  gap-2 w-4/5 md:w-[95%] lg:w-5/6 mx-auto items-center h-full   mt-8 md:h-[425px]">
           <div className="flex flex-col md:grid grid-rows-2 md:w-2/5  gap-2 h-full w-full">
             <WhatMakesDifferent
               mainText="Proficiency"
-              emoji={["🖥️", "✏️"]}
+              emoji={["🖥️", "📝"]}
               bottomText="Native German Speaker"
             />
             <WhatMakesDifferent
@@ -77,7 +78,7 @@ export default function BookHomePage({ pricePackages }: any) {
           <div className="bg-[#F5F5F5] h-full w-full md:w-1/5 items-stretch rounded-xl">
             {/* <p className=" h-[100%]">hey</p> */}
             <WhatMakesDifferent
-              mainText="Preperation"
+              mainText="Certification"
               emoji={["🅰️"]}
               bottomText="Up to date on exam preparation A1-C2"
               flex={true}
@@ -161,11 +162,11 @@ export default function BookHomePage({ pricePackages }: any) {
         </div>
       </div>
 
-      <div className=" h-max w-full pt-32 relative overflow-hidden ">
+      <div className=" h-max w-full pt-32 relative overflow-hidden z-0 ">
         <div className="w-full h-3/4 absolute bg-white top-0 -z-[0]" />
         <div className="w-full h-1/4 absolute bg-[#313131] bottom-0 -z-0" />
         <div className="z-40">
-          <PlanPackagesSlider pricePackages={pricePackages} />
+          <PlanPackagesSlider pricePackages={pricePackages} user={user} />
         </div>
       </div>
 

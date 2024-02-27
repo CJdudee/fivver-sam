@@ -8,7 +8,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${process.env.HOSTNAME}/api/auth/verification?token=${token}`
 
     await resend.emails.send({
-        from: 'info@sprachgeist.com',
+        from: 'noreply@sprachgeist.com',
         to: email,
         subject: "Verified your email",
         html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
@@ -23,9 +23,9 @@ export const sendTrialAccountEmail = async(email: string, token: string, usernam
 
     await resend.emails.send({
         // from: 'onboarding@resend.dev',
-        from: 'info@sprachgeist.com',
+        from: 'noreply@sprachgeist.com',
         to: email,
-        subject: "Verified your email",
+        subject: "Verified your Trial Account",
         html: `<div>
         <p>For Trial Account: ${username}</p>
         <p>Password: ${password}</p>
