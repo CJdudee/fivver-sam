@@ -10,7 +10,7 @@ import { getAllTeacher } from "@/actions/teacherQuery";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Select from "react-select";
 import "react-select";
 import AsyncSelect from "react-select/async";
@@ -44,10 +44,10 @@ export default function ViewAllUsers({
   foundUserJson,
   foundAssignedJson,
   disabledUser,
+  foundTeacher,
 }: any) {
-
-  const [disableArray, setDisableArray] = useState(disabledUser)
-  console.log(disabledUser)
+  const [disableArray, setDisableArray] = useState(disabledUser);
+  console.log(disabledUser);
 
   const [msg, setMsg] = useState("");
   const [turnDialog, setTurnDialog] = useState(false);
@@ -66,6 +66,22 @@ export default function ViewAllUsers({
     { value: "teacher", label: "teacher" },
     { value: "admin", label: "admin" },
   ];
+
+  useMemo(() => {
+    console.log(foundTeacher);
+  }, []);
+
+  const teacherSelect = useMemo(() => {
+    return foundTeacher.map((f: any) => {
+        return f;
+      })
+    // return foundTeacher.map((f: any) => {
+    //     return { value: f.user.firstName, label: f.user.firstName };
+    //   })
+    
+  }, []);
+
+  console.log(teacherSelect, foundTeacher)
 
   const handleRole = (selectedOption: any) => {
     console.log(filter);
@@ -96,7 +112,7 @@ export default function ViewAllUsers({
     // if(u.roles?.includes(filter)) return true
 
     if (nameFilter != "") {
-      const lowerName = u.firstName.toLowerCase();
+      const lowerName = u.firstName?.toLowerCase();
 
       // if(nameFilter != u.username) trueArray.push(false)
       if (!lowerName.includes(nameFilter.toLowerCase())) trueArray.push(false);
@@ -119,7 +135,7 @@ export default function ViewAllUsers({
     console.log(allTeachersJson);
 
     const filterTeachers = await allTeachersJson.filter((option: any) =>
-      option.user.username.toLowerCase().includes(searchValue.toLowerCase())
+      option.user.firstName.toLowerCase().includes(searchValue.toLowerCase())
     );
 
     console.log(filterTeachers);
@@ -131,39 +147,36 @@ export default function ViewAllUsers({
   const handleDisable = async (userId: string) => {
     const result = await disableUser(userId);
 
-    if(!result) return errorToast()
+    if (!result) return errorToast();
 
-    if(result.error) return errorToast(result.error)
+    if (result.error) return errorToast(result.error);
 
     console.log(result);
 
-
     setDisableArray((prev: any) => {
-      return [...prev, result.data]
-    })
-    susToast(result.msg as string)
+      return [...prev, result.data];
+    });
+    susToast(result.msg as string);
 
     // if (result.msg) {
     //   setMsg(result.msg);
     // }
   };
 
-  const handleEnable = async(userId: string) => {
-    const result = await enableUser(userId)
+  const handleEnable = async (userId: string) => {
+    const result = await enableUser(userId);
 
-    if(!result) return errorToast()
+    if (!result) return errorToast();
 
-    if(result.error) return errorToast(result.error)
+    if (result.error) return errorToast(result.error);
 
     setDisableArray((prev: any) => {
-
       // return prev._id != result.data._id
-      return prev.map((p: any) => p._id != result.data._id)
-    })
+      return prev.map((p: any) => p._id != result.data._id);
+    });
 
-    susToast(result.msg as string)
-
-  }
+    susToast(result.msg as string);
+  };
 
   const handleAssignTeacher = async () => {
     // console.log(idUser, teacherId)
@@ -204,7 +217,7 @@ export default function ViewAllUsers({
   };
 
   const handleSelect = (selectedOption: any) => {
-    console.log(selectedOption);
+    console.log(selectedOption, 'selce');
     console.log(selectedOption._id);
     setTeacherId(selectedOption);
   };
@@ -237,8 +250,11 @@ export default function ViewAllUsers({
             // styles={{
             //   valueContainer: (styles) => ({...styles, color: '#000', backgroundColor: '#0000'})
             // }}
-            getOptionLabel={(option) => option.user.username}
-            getOptionValue={(option) => option.user.username}
+            defaultOptions={teacherSelect}
+            getOptionLabel={(option) => {
+              return option.user.firstName;
+            }}
+            getOptionValue={(option) => option.user.firstName}
             placeholder="Please Type Teacher Username"
             // noOptionsMessage={"hey"}
             // noOptionsMessage={{msg: 'f'}}
@@ -272,7 +288,7 @@ export default function ViewAllUsers({
     <div>
       <div className="mb-2 sticky top-[8vh] bg-[#242424]  flex flex-col md:flex-row justify-evenly gap-2 pb-2 pt-2 ">
         <div className="text-lg md:text-2xl flex flex-col md:flex-row items-center justify-center gap-4">
-          <p className="md:w-1/2">Find By Name</p>
+          <p className="md:w-1/2">Find By First Name</p>
           <input
             className="rounded-full text-sm md:text-lg w-4/5 md:w-1/2 text-black pl-2 font-bold"
             onChange={(e) => {
@@ -289,8 +305,7 @@ export default function ViewAllUsers({
             <Select
               classNames={{
                 clearIndicator: () => "",
-                container: () =>
-                  "text-black  w-full lg:w-full text-center   ",
+                container: () => "text-black  w-full lg:w-full text-center   ",
                 indicatorsContainer: () => " ",
                 control: () => "bg-white flex p-1 rounded-lg gap-4 pl-2   ",
                 menu: () => " ",
@@ -311,7 +326,7 @@ export default function ViewAllUsers({
               options={roleSelect}
               onChange={handleRole}
               className=" text-sm "
-              placeholder={"Pick User's Roles"}
+              placeholder={"Filter Roles"}
               classNamePrefix="unstyled"
             />
           </div>
@@ -322,13 +337,13 @@ export default function ViewAllUsers({
         {filterUser.map((f: any, i: number) => {
           const foundAss = foundAssigned.find((c: any) => c.user == f._id);
 
-          const foundDisable = disableArray.find((d: any) => d.userId == f._id)
+          const foundDisable = disableArray.find((d: any) => d.userId == f._id);
           // console.log(f, "what the");
           if (!f.roles) return;
           return (
             <div
               key={i}
-              className="bg-white p-4 rounded-xl text-black font-bold"
+              className="bg-white p-4 rounded-xl text-black font-bold w-full"
             >
               {/* User info */}
               <div className="mb-2.5 flex items-center ml-2">
@@ -336,7 +351,7 @@ export default function ViewAllUsers({
                   href={`/dashboard/viewusers/${f._id}`}
                   className="text-lg hover:text-gray-200"
                 >
-                  User: {capitalize(f.firstName)} {capitalize(f.lastName)}
+                  Name: {capitalize(f?.firstName)} {capitalize(f?.lastName)}
                 </Link>
               </div>
 
@@ -352,29 +367,38 @@ export default function ViewAllUsers({
 
               {/* Assigned teacher */}
               <div className="flex flex-col md:flex-row items-center justify-between mt-4">
-                <div className="flex flex-col w-full items-center justify-center">
-                  <p>Assigned:</p>
-                  <p>
-                    {foundAss?.teacher?.user.firstName ?? "No Teacher assigned"}
-                  </p>
-                </div>
+                {f.roles.includes("user") && (
+                  <div className="flex flex-col w-full items-center justify-center">
+                    <p>Assigned:</p>
+                    <p>
+                      {foundAss?.teacher?.user?.firstName ??
+                        "No Teacher assigned"}
+                    </p>
+                  </div>
+                )}
                 <div className="flex gap-2 mt-2 md:mt-0">
+                  {f.roles.includes("user") && (
+                    <button
+                      onClick={() => {
+                        setTurnDialog(true);
+                        setIdUser(f);
+                      }}
+                      className="px-4 py-2 rounded-md text-lg bg-blue-500 hover:bg-blue-700 text-white font-bold shadow transition-all"
+                    >
+                      Assign Teacher
+                    </button>
+                  )}
                   <button
                     onClick={() => {
-                      setTurnDialog(true);
-                      setIdUser(f);
-                    }}
-                    className="px-4 py-2 rounded-md text-lg bg-blue-500 hover:bg-blue-700 text-white font-bold shadow transition-all"
-                  >
-                    Assign Teacher
-                  </button>
-                  <button
-                    onClick={() =>{
-                      if(foundDisable) return handleEnable(f._id)
+                      if (foundDisable) return handleEnable(f._id);
 
-                      handleDisable(f._id)
+                      handleDisable(f._id);
                     }}
-                    className={`${foundDisable ? 'bg-green-500 hover:bg-green-700' : 'bg-red-500 hover:bg-red-700 '} px-4 py-2 rounded-md text-lg text-white font-bold shadow transition-all`}
+                    className={`${
+                      foundDisable
+                        ? "bg-green-500 hover:bg-green-700"
+                        : "bg-red-500 hover:bg-red-700 "
+                    } px-4 py-2 rounded-md text-lg text-white font-bold shadow transition-all`}
                   >
                     {foundDisable ? "Enable User" : "Disable User"}
                   </button>

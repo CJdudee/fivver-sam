@@ -62,31 +62,34 @@ export default function SuccessClient({}: any) {
 
   return (
     <main className="min-h-[92vh] h-[92vh] flex justify-center items-center">
-      <div className="text-center flex items-center justify-around flex-col  min-h-[500px] w-full md:w-1/2 mx-auto bg-white py-4 rounded-xl my-auto">
-        <p className="text-3xl font-extrabold underline underline-offset-8 mb-4">
-          Thank you for your purchase
-        </p>
+  <div className="text-center mx-auto bg-gray-50 py-4 rounded-xl my-auto">
+    <h1 className="text-3xl font-extrabold text-black mb-4">Purchase Confirmation</h1>
 
-        <p className="text-2xl font-bold">
-          You have bought the package:{" "}
-          <span className="text-3xl font-bold">{(packageDetail?.name)}</span>
-        </p>
+    <section className="mb-4">
+      <h2 className="text-2xl font-medium mb-2">Package Details</h2>
+      <ul>
+        <li className="font-bold">Package name: <span className="font-bold">{capitalize(packageDetail?.name)}</span></li>
+        <li className="font-bold">Price: {packageDetail?.priceOne.price}</li>
+        <li className="font-bold">Classes Gain: {packageDetail?.tokens}</li>
+        <li className="font-bold">Group Size: {packageDetail?.groupSize}</li>
+      </ul>
+    </section>
 
-        {/* <p>{packageDetail?.priceOne.price}</p> */}
-        <div className="flex flex-col text-xl font-bold">
-          <p>Package Details:</p>
-          {packageDetail && <p>Price {array[packageDetail.groupSize - 1]}</p>}
-          {packageDetail && <p>Classes Gain {packageDetail.tokens}</p>}
-          {packageDetail && <p>Group Size {packageDetail.groupSize}</p>}
-        </div>
+    <div className="w-4/5 mx-auto">
 
-        <p className="px-4 text-lg font-semilight text-black">It can take up to an hour for your funds to be processed. While {"you're"} waiting you can have a <Link className="underline text-gray-500 hover:text-black underline-offset-2" href={'/teach'}>look at all our teachers Here</Link></p>
 
-        <div className="flex gap-8">
-          <Link href={'/'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Go Back Home</Link>
-          <Link href={'/user/dashboard'} className="font-semibold px-8 outline outline-1 rounded-full hover:text-gray-600" onClick={() => console.log(packageDetail)}>Dashboard</Link>
-        </div>
-      </div>
-    </main>
+    <p className="px-4 text-base mb-4 font-medium">
+      It can take up to an hour for your funds to be processed.
+      In the meantime, you can explore our 
+      <Link href="/teach" className="underline text-orange-600 hover:text-orange-700"> Teachers</Link>
+    </p>
+
+    </div>
+    <div className="flex justify-center gap-4">
+      <Link href="/" className="btn btn-primary bg-gradient-to-r from-[#D9643A] to-[#E35D5B]  px-4 rounded-full py-1 text-white hover:text-black">Go Back Home</Link>
+      <Link href="/user/dashboard" className="btn btn-primary bg-gradient-to-r from-[#D9643A] to-[#E35D5B] px-4 rounded-full py-1 text-white hover:text-black">View Dashboard</Link>
+    </div>
+  </div>
+</main>
   );
 }

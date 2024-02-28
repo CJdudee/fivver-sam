@@ -17,9 +17,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     // if(!username || !password && !email) return NextResponse.json("Every field is required")
     if (!password || !email || !firstName || !lastName) return NextResponse.json("Every field is required")
+
+    const lowerEmail: string = email.toLowerCase()
+
     await connectingMongoose()
 
-    const isTaken = await User.findOne({email}).exec()
+    const isTaken = await User.findOne({lowerEmail}).exec()
 
     if(isTaken) {
         console.log('hite')
@@ -27,6 +30,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
             status: 400
         })
     }
+
+
+    
 
     let hashedPwd = null
 
@@ -44,12 +50,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
             firstName, 
             lastName,
             password: hashedPwd,
-            email,
+            email: lowerEmail,
         }
     } else {
         newData = {
-            username, 
-            email,
+            firstName, 
+            lastName,
+            email: lowerEmail,
             // whatthefuck: 'yoooo'
         }
     }

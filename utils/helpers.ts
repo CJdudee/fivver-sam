@@ -95,7 +95,10 @@ export const getOpeningTimes = (startDate: Date, dbDays: any) => {
   return times;
 };
 
-export const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+export const capitalize = (s: string) => {
+  if(!s) return 
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 export const timeConvert = (time: any) => {
   const formatedKk = Number(format(time, "kk"));
@@ -147,7 +150,7 @@ export const getOpeningTimeFrame = (startDate: Date, dbDays: any) => {
 
     const times: any[] = [];
 
-    const interval = 60;
+    const interval = 15;
 
     timeFrameArray.map((t) => {
 

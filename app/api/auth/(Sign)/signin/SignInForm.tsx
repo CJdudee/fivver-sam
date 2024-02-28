@@ -2,7 +2,7 @@
 
 import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
@@ -14,6 +14,12 @@ export default function SignInForm() {
   if (status === "authenticated") {
     router.push('/');
   }
+
+  const searchParams = useSearchParams()
+
+  const errorParams = searchParams.get('error')
+
+  console.log(searchParams, errorParams)
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -38,6 +44,8 @@ export default function SignInForm() {
   return (
     <>
       <form onSubmit={handleSubmit} className=" outline outline-1 outline-[#c5c5c5] rounded-xl py-20 sm:w-1/2 px-4 sm:px-0 xl:px-8 flex flex-col gap-1 ">
+      {errorParams == 'CredentialsSignin' && <p className="text-center mb-2 text-red-500 text-xs">Password does not match this email</p>}
+        {errorParams == 'AuthorizedCallbackError' && <p className="text-center mb-2 text-red-500 text-xs">Account Disabled</p>}
         <div className="mb-4 flex flex-col font-bold text-[#f5f5f5] w-full ">
           <label className="text-2xl  text-start w-full sm:w-1/2 mx-auto pl-0.5  " htmlFor="email">
             Email
@@ -68,6 +76,8 @@ export default function SignInForm() {
             />
           </div>
         </div>
+
+       
 
         <div className="flex justify-center mb-4 text-[#f5f5f5]">
           <button

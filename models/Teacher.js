@@ -32,6 +32,9 @@ const TeacherSehema = new mongoose.Schema({
     },
     googleAccess: {
         type: String
+    },
+    googleMeetLink: {
+        type: String
     }
 })
 

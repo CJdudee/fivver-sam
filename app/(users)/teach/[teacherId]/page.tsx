@@ -59,7 +59,7 @@ export default async function Page(req: NextRequest | any, res: NextResponse) {
 
   // console.log(teacherWeek)
   return (
-    <div className={` h-full min-h-[750px] md:px-24 text-white`}>
+    <div className={` h-full min-h-[880px] md:px-24 text-white`}>
       <UserBooking
         teacher={simpleJson(teacher)}
         teacherWeek={simpleJson(teacherWeek)}

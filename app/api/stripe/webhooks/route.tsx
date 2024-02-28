@@ -1,3 +1,5 @@
+import { sendEmailFromResend } from "@/actions/nodemail";
+import { sendBoughtEmail, sendVerificationEmail } from "@/app/lib/mail";
 import Token from "@/models/Token";
 import User from "@/models/User";
 import { addYears } from "date-fns";
@@ -106,6 +108,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
               // const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum}, expire}, {upsert: true, new: true, setDefaultsOnInsert: true})
 
               const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor, tokens: stringNum, expire})
+
+              const sendEmail = await sendBoughtEmail(foundUser.email, stringNum, stringFor, expire)
 
               // foundUser.tokens += stringNum
               

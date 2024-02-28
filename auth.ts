@@ -26,6 +26,7 @@ export const {
 
     pages: {
         signIn: '/api/auth/signin',
+        error: '/api/auth/signin'
         // newUser: ''  // New users will be directed here on first sign in (leave the property out if not of interest)
     },
 
@@ -42,7 +43,8 @@ export const {
                 // console.log(profile)
                 return {
                     id: profile.sub,
-                    username: profile.name,
+                    firstName: profile.given_name,
+                    lastName: profile.family_name,
                     email: profile.email,
                     roles: ["user"],
                     emailVerified: null,
@@ -62,13 +64,17 @@ export const {
 
                 // console.log(credentials)
                 // const { username, password } = credentials
-                const { email, password } = credentials
+                const { email, password }: any = credentials
 
                 if(!email || !password) return null
 
                 await connectingMongoose()
 
-                const foundUser = await User.findOne({ email })
+                const lowerEmail = email.toLowerCase() 
+
+                // console.log()
+
+                const foundUser = await User.findOne({ email: lowerEmail })
 
                 const isDisable = await DisableUser.findOne({userId: foundUser._id})
 
@@ -85,7 +91,7 @@ export const {
                     const user = {
                         id: foundUser._id,
                         roles: foundUser.roles,
-                        username: foundUser.username,
+                        firstName: foundUser.firstName,
                         tokens: foundUser.tokens,
                         customerId: foundUser.customerId
                     }
@@ -174,6 +180,14 @@ export const {
 
             if(account?.provider === 'google') {
 
+                const foundUser = await User.findOne({email: user?.email})
+
+                if(!foundUser) return true
+
+                const isDisable = await DisableUser.findOne({userId: foundUser._id})
+
+                if(isDisable) return false
+
                 // const res = await fetch("http://localhost:3000/api/user", {
                 //     method: "POST",
                 //     headers: {
@@ -210,7 +224,7 @@ export const {
     
                 token.roles = user.roles
                 token.id = user.id
-                token.username = user.username
+                token.firstName = user.firstName
                 token.tokens = user.tokens
                 token.customerId = user.customerId
 
@@ -229,7 +243,7 @@ export const {
             // console.log(token)
             if (session?.user) {
                 session.user.roles = token.roles
-                session.user.name = token.username as string ?? 'no name'
+                session.user.firstName = token.firstName as string ?? 'No First Name'
                 session.user.id = token.id as string
                 session.user.tokens = token.tokens
                 session.user.customerId = token.customerId

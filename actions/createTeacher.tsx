@@ -12,7 +12,9 @@ export const newTeacher = async(userData: any) => {
 
     if(!firstName || !lastName || !password || !email) return {error: 'Username and password are required'}
 
-    const emailTaken = await User.findOne({email})
+    const lowerEmail = email.toLowerCase()
+
+    const emailTaken = await User.findOne({email: lowerEmail})
 
     if(emailTaken) return {error: 'Email is already taken'}
 
@@ -32,7 +34,7 @@ export const newTeacher = async(userData: any) => {
         firstName,
         lastName,
         password: hashedPwd,
-        email,
+        email: lowerEmail,
         roles: ['teacher']
     })
 

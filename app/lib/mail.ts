@@ -33,3 +33,20 @@ export const sendTrialAccountEmail = async(email: string, token: string, usernam
         </div>`
     })
 }
+
+export const sendBoughtEmail = async(email: string, classes: number, group: number, expire: Date) => {
+    const emailText = `
+    Thank you for your purchase of ${classes} total classes for a group size of ${group}
+    These classes will expire on ${expire}
+    if any issues or if this wasn't you please contact us at 
+    
+    info@sprachgeist.com`
+
+    await resend.emails.send({
+        from: 'noreply@sprachgeist.com',
+        to: email,
+        subject: "Package Bought",
+        text: emailText
+    })
+
+}

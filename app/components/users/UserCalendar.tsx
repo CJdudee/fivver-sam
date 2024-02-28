@@ -136,6 +136,8 @@ export default function UserCalendar({
 
   // console.log(teacherWeek, now.getDay());
 
+  let futureClose = 0
+
   const times =
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
   // console.log(times, "this is time and shit ");
@@ -166,7 +168,7 @@ export default function UserCalendar({
           </button>
           <Transition
             show={isShowing}
-            className={` flex justify-center items-center h-[400px]`}
+            className={` flex justify-center items-center h-full w-full`}
             // enter="transition-opacity duration-75"
             // enterFrom="opacity-0"
             // enterTo="opacity-100"
@@ -184,16 +186,31 @@ export default function UserCalendar({
             leaveTo="translate-y-full"
           >
             <div className="bg-slate-100 text-black py-8 pt-6 px-2 md:px-8 w-full rounded-t-3xl rounded-b-xl  ">
-              <p className="text-center text-2xl font-bold mb-2">
+              <p className="text-center text-2xl font-bold mb-2 w-full">
                 Selecte A Time
               </p>
               <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4 w-full   ">
                 {times?.map((time: any, i: number) => {
+
+                  let disabledPast = false
+
                   const foundBook = bookedState.find(
                     (b: any) =>
                       b.date == date.justDate.toISOString() &&
                       b.time == format(time.realDate, "kk:mm")
                   );
+
+                  if(foundBook) {
+                    futureClose = 4
+                    
+                  }
+
+                  if(futureClose > 0) {
+                    futureClose -= 1
+                    disabledPast = true
+                  }
+
+                  console.log(futureClose, disabledPast)
 
                   const timeObj = time
                   // console.log(time, 'time time time')
@@ -254,7 +271,7 @@ export default function UserCalendar({
                       } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                     >
                       <button
-                        disabled={foundBook || isUnderDate}
+                        disabled={foundBook || isUnderDate || disabledPast}
                         className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
                         type="button"
                         onClick={() => {
@@ -291,7 +308,7 @@ export default function UserCalendar({
           </Transition>
         </div>
       ) : (
-        <div className=" md:px-20">
+        <div className=" h-full w-full">
           <Calendar
             minDate={addDays(new Date(), 1)}
             tileDisabled={({ date }) => {
@@ -311,7 +328,7 @@ export default function UserCalendar({
               return dateClosed.includes(date.toISOString());
               // return closedDate.includes((c: any) => c.date == date.toISOString() );
             }}
-            className="REACT_CALENDAR p-2"
+            className="REACT_CALENDAR lg:p-2"
             view="month"
             onClickDay={(date) => {
               // var copyDay = new Date("2019-09-06T00:00:00.000Z");

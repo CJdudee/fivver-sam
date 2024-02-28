@@ -38,7 +38,7 @@ export default function UserProfile({ user }: any) {
   };
 
   return (
-    <div className="text-center w-1/2 flex flex-col justify-center items-center gap-8 outline-1 outline outline-[#c5c5c523] rounded-xl py-8 h-2/3  ">
+    <div className="text-center w-full md:w-1/2 flex flex-col justify-center items-center gap-8 outline-1 outline outline-[#c5c5c523] rounded-xl py-8 h-2/3  ">
       <div className="flex flex-col  justify-center items-center">
         <label
           htmlFor="firstName"
@@ -115,7 +115,7 @@ export default function UserProfile({ user }: any) {
 
       <button
         onClick={saveUser}
-        className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:text-white font-medium px-4 py-0.5 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-lg hover:shadow-green-100"
+        className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] text-white hover:text-black font-medium px-4 py-0.5 rounded-xl hover:bg-slate-100 transition-all duration-200 hover:shadow-lg hover:shadow-green-100 w-1/4"
       >
         Save
       </button>

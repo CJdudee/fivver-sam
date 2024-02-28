@@ -1,4 +1,5 @@
 import { Kanit, PT_Serif, Roboto_Serif } from "next/font/google";
+import Link from "next/link";
 import { LuBookOpen } from "react-icons/lu";
 
 const robot = Roboto_Serif({ subsets: ['latin'], weight: '500'})
@@ -39,11 +40,11 @@ export default function BookText() {
         </div>
       </div>
       <div className=" pt-4 pl-8 flex">
-        <button className=" px-10 py-1 md:py-2.5 rounded-xl bg-gradient-to-t from-[#C04000] via-[#C04000] to-[#C04000] text-white flex items-center gap-1.5 justify-center">
+        <Link href={'/trial'} className=" px-10 py-1 md:py-2.5 rounded-xl bg-gradient-to-t from-[#C04000] via-[#C04000] to-[#C04000] text-white flex items-center gap-1.5 justify-center active:to-[#e65f1b]">
           Book a Trial
           {/* <IoBookOutline className="text-md" />{" "} */}
           <LuBookOpen className="" />
-        </button>
+        </Link>
       </div>
     </>
   );

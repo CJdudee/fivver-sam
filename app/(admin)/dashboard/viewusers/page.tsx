@@ -5,6 +5,7 @@ import { roleChecker } from "@/app/lib/roleCheck";
 import { serverUser } from "@/app/lib/serverAuth";
 import AssignTeacher from "@/models/AssignTeacher";
 import DisableUser from "@/models/DisableUser";
+import Teacher from "@/models/Teacher";
 import User from "@/models/User";
 import { simpleJson } from "@/utils/helpers";
 import React from "react";
@@ -19,6 +20,8 @@ export default async function Page() {
     path: 'user'
   }}).exec()
 
+  const foundTeacher = await Teacher.find().populate('user').exec()
+
   const disabledUser = await DisableUser.find({userId: foundUsers.map((f: any) => f._id)})
 
   console.log(foundAssigned);
@@ -29,9 +32,11 @@ export default async function Page() {
 
   const disabledUserJson = simpleJson(disabledUser)
 
+  const foundTeacherJson = simpleJson(foundTeacher)
+
   return (
     <div className="text-2xl text-center text-white h-full min-h-screen   mx-auto">
-      <ViewAllUsers foundUserJson={foundUserJson} foundAssignedJson={foundAssignedJson} disabledUser={disabledUserJson} />
+      <ViewAllUsers foundUserJson={foundUserJson} foundAssignedJson={foundAssignedJson} disabledUser={disabledUserJson} foundTeacher={foundTeacherJson} />
     </div>
   );
 }

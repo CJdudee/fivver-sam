@@ -4,14 +4,9 @@ import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
 import { addMonths, formatDate, parse, subMonths } from "date-fns";
 import Link from "next/link";
-import React, { useState } from "react";
-import { CgArrowDown, CgArrowLeft, CgArrowRight } from "react-icons/cg";
+import { useState } from "react";
+import { CgArrowLeft, CgArrowRight } from "react-icons/cg";
 import { IoArrowDownSharp } from "react-icons/io5";
-import {
-  LuArrowLeft,
-  LuArrowLeftSquare,
-  LuArrowRightSquare,
-} from "react-icons/lu";
 
 export default function ViewOverall({
   teacherJson,
@@ -92,9 +87,15 @@ export default function ViewOverall({
         {teacherJson.map((t: any, i: number) => (
           <div key={t._id} className="rounded-md p-4 shadow-md bg-white text-black">
             <div className="flex flex-col justify-between items-center">
+              <div className="flex justify-between w-full px-8">
               <div className="mb-2">
-                <p className="text-black font-bold">Name:</p>
+                <p className="text-black font-bold text-lg">Name:</p>
                 <p className="text-xl font-semibold">{capitalize(t.user.firstName)}</p>
+              </div>
+              <div className="mb-2">
+                <p className="text-black font-bold text-lg">Email:</p>
+                <p className="text-xl font-semibold">{capitalize(t.user.email)}</p>
+              </div>
               </div>
               <div className="md:flex justify-evenly w-full md:ml-8 font-semibold">
                 <div>
