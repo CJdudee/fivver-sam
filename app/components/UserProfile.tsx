@@ -19,6 +19,7 @@ export default function UserProfile({ user }: any) {
       firstName,
       lastName,
       email,
+      password,
       _id: user._id,
     };
 

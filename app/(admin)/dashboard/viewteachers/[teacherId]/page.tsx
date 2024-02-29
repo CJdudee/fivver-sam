@@ -2,7 +2,9 @@ import OldBookingMap from "@/app/components/teachers/old/OldBookingMap";
 import { decodeUserAndCheckAdmin } from "@/app/lib/finallyRoleCheck";
 import Booking from "@/models/Booking";
 import Teacher from "@/models/Teacher";
+import User from "@/models/User";
 import { capitalize, simpleJson } from "@/utils/helpers";
+import { Lexend_Tera } from "next/font/google";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -14,9 +16,15 @@ export default async function Page({ params, searchParams }: any) {
 
   await decodeUserAndCheckAdmin();
 
-  const teacher = await Teacher.findOne({ _id: params.teacherId })
+  let teacher = await Teacher.findOne({ _id: params.teacherId })
     .populate("user", "-password")
     .exec();
+
+    if(!teacher) {
+      const foundUser = await User.findOne({_id: params.teacherId})
+
+      teacher = await Teacher.findOne({ user: foundUser._id}).populate('user')
+    }
 
   const bookings = await Booking.find({ teacher: teacher._id }).populate(
     "student"
@@ -30,7 +38,7 @@ export default async function Page({ params, searchParams }: any) {
   return (
     <div className="h-full min-h-screen ">
       <div className=" relative">
-        <div className="absolute left-12 underline-offset-1   top-0 bottom-0 my-auto flex items-center justify-center">
+        <div className="absolute left-12 underline-offset-1   top-4 bottom-0 my-auto flex items-center justify-center">
           <Link
             href={"/dashboard/viewteachers"}
             className="text-center text-xs font-bold text-white float-left hover:text-gray-200 hover:underline   "
@@ -39,7 +47,7 @@ export default async function Page({ params, searchParams }: any) {
           </Link>
         </div>
         <p className="text-center text-4xl font-bold text-white float-none mx-auto">
-          {capitalize(teacherJson?.user?.firstName)}
+          Name: {capitalize(teacherJson?.user?.firstName)}
         </p>
       </div>
 

@@ -6,25 +6,29 @@ import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
 import { capitalize, simpleJson } from "@/utils/helpers";
 import { formatDate } from "date-fns";
+import { unstable_noStore } from "next/cache";
+import { cookies, headers } from "next/dist/client/components/headers";
 import React from "react";
+
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export default async function Page() {
 
-  // const sessionUser = await serverUser();
+  // const _cookies = cookies()
 
-  // roleChecker(sessionUser, ['admin', 'teacher']);
+  unstable_noStore()
+
+  const _headers = headers()
 
   await decodeUserAndCheckAdmin()
 
   const teachers = await Teacher.find().populate("user");
 
-
   const format = formatDate(new Date(), "MM/yy");
 
   const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t: any) => t._id)}).exec()
   // const foundMonthlyOrders = await MonthlyOrder.find({teacher: teachers.map((t) => t._id), date: format}).exec()
-
-
   
   console.log(foundMonthlyOrders);
 

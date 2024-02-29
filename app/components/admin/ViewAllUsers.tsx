@@ -67,9 +67,9 @@ export default function ViewAllUsers({
     { value: "admin", label: "admin" },
   ];
 
-  useMemo(() => {
-    console.log(foundTeacher);
-  }, []);
+  // useMemo(() => {
+  //   console.log(foundTeacher);
+  // }, []);
 
   const teacherSelect = useMemo(() => {
     return foundTeacher.map((f: any) => {
@@ -79,7 +79,7 @@ export default function ViewAllUsers({
     //     return { value: f.user.firstName, label: f.user.firstName };
     //   })
     
-  }, []);
+  }, [foundTeacher]);
 
   console.log(teacherSelect, foundTeacher)
 
@@ -338,6 +338,8 @@ export default function ViewAllUsers({
           const foundAss = foundAssigned.find((c: any) => c.user == f._id);
 
           const foundDisable = disableArray.find((d: any) => d.userId == f._id);
+
+          const isTeacher = f.roles.includes('teacher')
           // console.log(f, "what the");
           if (!f.roles) return;
           return (
@@ -348,7 +350,7 @@ export default function ViewAllUsers({
               {/* User info */}
               <div className="mb-2.5 flex items-center ml-2">
                 <Link
-                  href={`/dashboard/viewusers/${f._id}`}
+                  href={`${isTeacher ? `/dashboard/viewteachers/${f._id}` : `/dashboard/viewusers/${f._id}`} `}
                   className="text-lg hover:text-gray-200"
                 >
                   Name: {capitalize(f?.firstName)} {capitalize(f?.lastName)}

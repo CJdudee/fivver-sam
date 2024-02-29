@@ -142,7 +142,7 @@ export default function UserCalendar({
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
   // console.log(times, "this is time and shit ");
   return (
-    <div className=" px-2 overflow-hidden">
+    <div className=" px-2  w-full h-full ">
       <button
         className="font-semibold hover:underline text-2xl"
         onClick={() => {
@@ -152,7 +152,7 @@ export default function UserCalendar({
         {"<"} Group Size: {groupSize}
       </button>
       {date.justDate ? (
-        <div className="">
+        <div className="w-full">
           <button
             className="text-2xl mb-4"
             onClick={() => {
@@ -185,11 +185,11 @@ export default function UserCalendar({
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <div className="bg-slate-100 text-black py-8 pt-6 px-2 md:px-8 w-full rounded-t-3xl rounded-b-xl  ">
+            <div className="bg-slate-100 text-black py-8 pt-6 px-2 md:px-8 w-full md:w-fit rounded-t-3xl rounded-b-xl  ">
               <p className="text-center text-2xl font-bold mb-2 w-full">
                 Selecte A Time
               </p>
-              <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4 w-full   ">
+              <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4  md:w-[80vw]   ">
                 {times?.map((time: any, i: number) => {
 
                   let disabledPast = false
@@ -308,7 +308,7 @@ export default function UserCalendar({
           </Transition>
         </div>
       ) : (
-        <div className=" h-full w-full">
+        <div className=" h-full w-full md:w-fit lg:w-full">
           <Calendar
             minDate={addDays(new Date(), 1)}
             tileDisabled={({ date }) => {
