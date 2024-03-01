@@ -73,7 +73,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
             // },
             metadata: {
                 tokens: `${tokensGained}`,
-                for: `${groupSize}`
+                for: `${groupSize}`,
+                packName: `${packages[0].name}`
             },
             line_items: packages.map((product: any) => ({
                 price_data: {

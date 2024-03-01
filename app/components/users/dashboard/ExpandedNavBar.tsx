@@ -50,19 +50,7 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
             transition-all duration-200 ${isOpen ? "block" : "hidden"}
           `}
         >
-          {/* <div className="flex items-center justify-between p-4 ">
-            <h2 className="text-lg font-semibold text-gray-700">Navigation</h2>
-            <button
-              type="button"
-              className="
-                focus:outline-none focus:ring-2 focus:ring-offset-gray-200 focus:ring-white
-                hover:bg-gray-200 rounded-full p-2
-              "
-              onClick={toggleSidebar}
-            >
-              <CgArrowLeft className="h-6 w-6 text-gray-500" />
-            </button>
-          </div> */}
+         
           <nav className="flex w-full  justify-evenly items-center  px-4 py-4">
             <button
               type="button"
@@ -81,24 +69,24 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
               className={`
                 flex items-center justify-center w-full px-4 py-2 rounded-md
                 font-medium text-gray-700 md:hover:bg-gray-200 active:bg-gray-200 hover:text-orange-600
-                ${tab === "token" ? "text-orange-600" : "text-white"}
+                ${tab === "tokenHistory" ? "text-orange-600" : "text-white"}
               `}
-              onClick={() => setTab("token")}
+              onClick={() => setTab("tokenHistory")}
             >
               <span>Purchase History</span>
-              {tab === "token" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
+              {tab === "tokenHistory" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
             </button>
             <button
               type="button"
               className={`
                 flex items-center justify-center w-full px-4 py-2 rounded-md
                 font-medium text-gray-700 md:hover:bg-gray-200 active:bg-gray-200 hover:text-orange-600
-                ${tab === "expired" ? "text-orange-600" : "text-white"}
+                ${tab === "token" ? "text-orange-600" : "text-white"}
               `}
-              onClick={() => setTab("expired")}
+              onClick={() => setTab("token")}
             >
-              <span>Expired Tokens</span>
-              {tab === "expired" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
+              <span>Current Tokens</span>
+              {tab === "token" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
             </button>
           </nav>
         </div>
@@ -106,3 +94,18 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
     );
   }
   
+
+
+{/* <div className="flex items-center justify-between p-4 ">
+  <h2 className="text-lg font-semibold text-gray-700">Navigation</h2>
+  <button
+    type="button"
+    className="
+      focus:outline-none focus:ring-2 focus:ring-offset-gray-200 focus:ring-white
+      hover:bg-gray-200 rounded-full p-2
+    "
+    onClick={toggleSidebar}
+  >
+    <CgArrowLeft className="h-6 w-6 text-gray-500" />
+  </button>
+</div> */}

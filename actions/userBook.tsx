@@ -1,85 +1,127 @@
-'use server'
-import Booking from '@/models/Booking'
-import MonthlyOrder from '@/models/MonthlyOrder'
-import Teacher from '@/models/Teacher'
-import Token from '@/models/Token'
-import User from '@/models/User'
-import { simpleJson } from '@/utils/helpers'
-import { formatDate } from 'date-fns'
-import { DateTime } from 'luxon'
-export const bookAppt = async (date: any, teacherId: string, userId: string, groupSize: number) => {
-    // console.log(date)
-    // console.log(teacherId)
-    // console.log(userId)
+"use server";
+import { bookingEmail } from "@/app/lib/mail";
+import Booking from "@/models/Booking";
+import MonthlyOrder from "@/models/MonthlyOrder";
+import Teacher from "@/models/Teacher";
+import Token from "@/models/Token";
+import User from "@/models/User";
+import { simpleJson } from "@/utils/helpers";
+import { formatDate } from "date-fns";
+import { DateTime } from "luxon";
+export const bookAppt = async (
+  date: any,
+  teacherId: string,
+  userId: string,
+  groupSize: number
+) => {
+  // console.log(date)
+  // console.log(teacherId)
+  // console.log(userId)
 
-    const randTest = DateTime.fromJSDate(date.justDate, { zone: 'utc'})
-    // const randTest = DateTime.fromISO("2018-08-25T09:00:40.000-04:00", { zone: 'utc'})
+  const randTest = DateTime.fromJSDate(date.justDate, { zone: "utc" });
 
-    // const result = randTest.setZone('Europe/Berlin')
+  const setDate = randTest.toUTC().toISO();
 
-    const setDate = randTest.toUTC().toISO()
+  const timeSplit = date.dateTime.split(":")
 
-    console.log(randTest.toUTC().toISO(),  'random shit')
+//   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
+  const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
+//   const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('D T z')
+  const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('dd LLLL yyyy T z')
 
-    console.log(typeof date.justDate, date, new Date(date.justDate))
+  console.log(clientSideFormat, date, timeSplit)
+  
 
-    const formated = formatDate(date.justDate, 'MM/yy')
-    console.log(formated)
+  // console.log(randTest.toUTC().toISO(),  'random shit')
 
-// console.log(date, 'datea')
+  // console.log(typeof date.justDate, date, new Date(date.justDate))
 
-const myUtc = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+  const formated = formatDate(date.justDate, "MM/yy");
+  // console.log(formated)
 
-const dateTest = DateTime.fromJSDate(date.justDate, { zone: 'Europe/Berlin'}).toFormat('LLL dd yyyy hh:mm')
-// const dateTest = DateTime.fromISO(`${date.justDate}`).setZone('Europe/Berlin').toFormat('LLL dd yyyy hh:mm')
+  // console.log(date, 'datea')
 
-// console.log(dateTest, DateTime.utc().setZone('Europe/Berlin').toFormat('yyyy LLL dd hh:mm') )
-// const time = DateTime.now()
-// return
-    // MonthlyOrder.updateOne({date: formated}, {orders: })
-    // return
+  const myUtc = new Date().toLocaleString("en-US", {
+    timeZone: "America/New_York",
+  });
 
-    const foundUser = await User.findById(userId).exec()
-    const foundTeacher = await Teacher.findById(teacherId).exec()
+  const dateTest = DateTime.fromJSDate(date.justDate, {
+    zone: "Europe/Berlin",
+  }).toFormat("LLL dd yyyy hh:mm");
+  // const dateTest = DateTime.fromISO(`${date.justDate}`).setZone('Europe/Berlin').toFormat('LLL dd yyyy hh:mm')
 
-    if(!foundUser || !foundTeacher) return { error: 'No user found'}
+  // console.log(dateTest, DateTime.utc().setZone('Europe/Berlin').toFormat('yyyy LLL dd hh:mm') )
+  // const time = DateTime.now()
+  // return
+  // MonthlyOrder.updateOne({date: formated}, {orders: })
+  // return
 
+  const foundUser = await User.findById(userId).exec();
 
-    const foundTokens = await Token.findOne({user: userId, groupSize, expire: {$gt: new Date()}, tokens: {$gt: 0}})
+  const foundTeacher = await Teacher.findById(teacherId).populate('user').exec();
 
-    // console.log(foundTokens)
-    // return 
+  if (!foundUser || !foundTeacher) return { error: "No user found" };
 
-    if(!foundTokens || foundTokens.tokens == 0) return { error: `Not enought Classes for a group size of ${groupSize}` }
+  const foundTokens = await Token.findOne({
+    user: userId,
+    groupSize,
+    expire: { $gt: new Date() },
+    tokens: { $gt: 0 },
+  });
 
-    const createdBooking = await Booking.create({ student: userId, teacher: teacherId, date: setDate, time: date.dateTime, status: 'pending', tokenId: foundTokens._id, groupSize})
+  // console.log(foundTokens)
+  // return
 
-    if(!createdBooking) return null
+  if (!foundTokens || foundTokens.tokens == 0)
+    return { error: `Not enought Classes for a group size of ${groupSize}` };
 
-    // if(!createdBooking) return {error: 'problem with creating booking'}
+  const createdBooking = await Booking.create({
+    student: userId,
+    teacher: teacherId,
+    date: setDate,
+    time: date.dateTime,
+    status: "pending",
+    tokenId: foundTokens._id,
+    groupSize,
+  });
 
-    foundTokens.tokens -= 1
-    await foundTokens.save()
+  if (!createdBooking) return null;
 
-    foundTeacher.orders += 1
+  const teacherFullName = {
+    first: foundTeacher.user.firstName,
+    last: foundTeacher.user.lastName
+  }
 
-    await foundTeacher.save()
+  const emailSent = await bookingEmail(foundUser.email, clientSideFormat, teacherFullName, foundTeacher.user.email, foundTeacher.googleMeetLink)
 
-    console.log(createdBooking)
+  // if(!createdBooking) return {error: 'problem with creating booking'}
 
+  foundTokens.tokens -= 1;
+  await foundTokens.save();
 
-    
-    let month = await MonthlyOrder.findOne({teacher: teacherId, date: formated})
+  foundTeacher.orders += 1;
 
-    if(!month) {
-        month = await MonthlyOrder.create({date: formated, teacher: teacherId})
-    }
+  await foundTeacher.save();
 
-    month.orders += 1
+  console.log(createdBooking);
 
-    await month.save()
+  let month = await MonthlyOrder.findOne({
+    teacher: teacherId,
+    date: formated,
+  });
 
-    console.log(month)
+  if (!month) {
+    month = await MonthlyOrder.create({ date: formated, teacher: teacherId });
+  }
 
-    return {data: simpleJson(createdBooking), msg: 'Appointment has been booked'}
-}
+  month.orders += 1;
+
+  await month.save();
+
+  console.log(month);
+
+  return {
+    data: simpleJson(createdBooking),
+    msg: "Appointment has been booked",
+  };
+};

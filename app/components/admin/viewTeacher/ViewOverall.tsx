@@ -19,7 +19,6 @@ export default function ViewOverall({
   foundMonthJson,
   format,
 }: any) {
-
   // const _headers = headers()
   // const _cookies = cookies()
   const [teacherArray, setTeacherArray] = useState(teacherJson);
@@ -33,7 +32,7 @@ export default function ViewOverall({
 
   const todaySplit = format.split("/");
 
-  const router = useRouter()
+  const router = useRouter();
 
   console.log(todaySplit, Number(todaySplit[0]), Number(todaySplit[1]));
 
@@ -113,8 +112,8 @@ export default function ViewOverall({
 
     susToast(assigningLink.msg as string);
 
-    setIsAddingLink(null)
-    setGoogleLinkString(null)
+    setIsAddingLink(null);
+    setGoogleLinkString(null);
     // window.location.reload();
   };
 
@@ -151,16 +150,26 @@ export default function ViewOverall({
         {teacherArray.map((t: any, i: number) => (
           <div
             key={t._id}
-            className="rounded-md p-4 shadow-md bg-white text-black h-full my-auto"
+            className="rounded-md p-4  bg-gray-50 shadow-2xl drop-shadow-xl outline outline-2 outline-orange-500 text-black h-full flex flex-col items-center justify-center"
           >
-            <div className="">
+            <div className=" w-full  ">
               <div className="flex flex-col justify-between items-center ">
-                <div className="flex flex-col md:flex-row mx-auto justify-between items-center w-full px-8 my-4">
-                  <div className="mb-2 flex gap-2">
-                    <p className="text-black font-bold text-xl">First Name:</p>
-                    <p className="text-xl font-semibold">
-                      {capitalize(t.user.firstName)}
-                    </p>
+                <div className="flex flex-col  mx-auto justify-between items-center w-full px-8 my-4">
+                  <div className="flex flex-col md:flex-row w-full mx-auto justify-between items-center md:mb-4">
+                    <div className="mb-2 flex gap-2">
+                      <p className="text-black font-bold text-xl">
+                        First Name:
+                      </p>
+                      <p className="text-xl font-semibold">
+                        {capitalize(t.user.firstName)}
+                      </p>
+                    </div>
+                    <div className="mb-2 flex gap-2">
+                      <p className="text-black font-bold text-xl">Surname:</p>
+                      <p className="text-xl font-semibold">
+                        {capitalize(t.user?.lastName)}
+                      </p>
+                    </div>
                   </div>
                   <div className="mb-2 flex gap-2">
                     <p className="text-black font-bold text-xl">Email:</p>
@@ -196,7 +205,7 @@ export default function ViewOverall({
 
               {isAddingLink == i && (
                 <div className="w-full sm:w-4/5 mx-auto mt-4">
-                  <p className="font-bold mb-1">Add Google Link</p>
+                  <p className="font-bold mb-1">Add Class Link</p>
                   <input
                     value={googleLinkString ?? ""}
                     onChange={(e) => setGoogleLinkString(e.target.value)}
@@ -242,7 +251,7 @@ export default function ViewOverall({
                     setGoogleLinkString(null);
                   }}
                 >
-                  {isAddingLink != i ? "Add Google Link" : "Cancel"}
+                  {isAddingLink != i ? "Add Class Link" : "Cancel"}
                 </button>
 
                 {t.googleMeetLink && isAddingLink != i && (

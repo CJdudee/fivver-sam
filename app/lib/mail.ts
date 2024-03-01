@@ -50,3 +50,39 @@ export const sendBoughtEmail = async(email: string, classes: number, group: numb
     })
 
 }
+
+export const bookingEmail = async(userEmail: string, formatDate: String, teacherFullName: {first: string, last: string}, teacherEmail: string,  teacherLink? : string ) => {
+
+    let emailText = ``
+
+    if(teacherLink) {
+        emailText = `
+        <div>
+        <p>Thank you for booking with ${teacherFullName.first} ${teacherFullName.last}</p>
+        <p>If any issues or questions for your Teacher contact them at</p>
+        <p>${teacherEmail}</p>
+        <p>Your appointment with your teacher is booked on</p>
+        <p>${formatDate}</p>
+        <a href="${teacherLink}">Link for class here.</a>
+        </div>
+        `
+    } else {
+        emailText = `
+        <div>
+        <p>Thank you for booking with ${teacherFullName.first} ${teacherFullName.last}</p>
+        <p>If any issues or questions for your Teacher contact them at</p>
+        <p>${teacherEmail}</p>
+        <p>Your appointment with your teacher is booked on</p>
+        <p>${formatDate}</p>
+        <p>Your Teacher will contact you with the classroom Link</p>
+        </div>
+        `
+    }
+
+    await resend.emails.send({
+        from: 'noreply@sprachgeist.com',
+        to: userEmail,
+        subject: "Class Booked",
+        html: emailText
+    })
+}

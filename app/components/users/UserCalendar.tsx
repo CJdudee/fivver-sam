@@ -136,7 +136,7 @@ export default function UserCalendar({
 
   // console.log(teacherWeek, now.getDay());
 
-  let futureClose = 0
+  let futureClose = 0;
 
   const times =
     date.justDate && getOpeningTimeFrame(date.justDate, teacherWeek.weekdays);
@@ -190,119 +190,148 @@ export default function UserCalendar({
                 Selecte A Time
               </p>
               <div className="grid grid-cols-2 lg:grid-cols-3 row-auto flex-col gap-4  md:w-[80vw]   ">
-                {times?.map((time: any, i: number) => {
+                {times?.map(
+                  (
+                    time: { clientDate: Date; realDate: Date } | any,
+                    i: number
+                  ) => {
+                    let disabledPast = false;
 
-                  let disabledPast = false
+                    const compareDateFuture = DateTime.fromJSDate(time.realDate)
+                      .plus({ minutes: 45 })
+                      .toJSDate();
 
-                  const foundBook = bookedState.find(
-                    (b: any) =>
-                      b.date == date.justDate.toISOString() &&
-                      b.time == format(time.realDate, "kk:mm")
-                  );
-
-                  if(foundBook) {
-                    futureClose = 4
-                    
-                  }
-
-                  if(futureClose > 0) {
-                    futureClose -= 1
-                    disabledPast = true
-                  }
-
-                  console.log(futureClose, disabledPast)
-
-                  const timeObj = time
-                  // console.log(time, 'time time time')
-                  // time = DateTime.fromJSDate(time).setZone('Europe/Berlin')
-                  // time = new Date(time).toLocaleString('SJ', { timeZone: 'Europe/Berlin' })
-                  time = DateTime.fromJSDate(time.clientDate, {
-                    zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                  }).toJSDate();
-                  // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                  // console.log(time, "after edit");
-
-                  let formatedKk = Number(format(time, "kk"));
-                  const formatedMin = Number(format(time, "mm"));
-
-                  const isUnderDate =
-                    now >
-                    addMinutes(
-                      addHours(date.justDate, formatedKk),
-                      formatedMin
+                    const futureFoundBook = bookedState.find(
+                      (b: any) =>
+                        b.date == date.justDate.toISOString() &&
+                        b.time == format(compareDateFuture, "kk:mm")
                     );
-                  console.log(formatedKk, "what");
-                  // console.log(booked, 'what')
 
-                  const isPickedTime = format(timeObj.realDate, "kk:mm") == date.dateTime;
+                    console.log(compareDateFuture, "compare");
+                    // console.log(time.realDate.setHours(time.realDate.getHours() + 1), 'time')
 
-                  // console.log(time, 'time')
+                    const foundBook = bookedState.find(
+                      (b: any) =>
+                        b.date == date.justDate.toISOString() &&
+                        b.time == format(time.realDate, "kk:mm")
+                    );
 
-                  // console.log(formatedKk, typeof formatedKk, time);
-                  let pm = false
-
-                  let numb: null | number = null;
-
-                  if (formatedKk > 12) {
-                    numb = formatedKk % 12;
-                    pm = true
-
-                    if(formatedKk == 24) {
-                      formatedKk = 0
-                      pm = false
+                    if (foundBook) {
+                      futureClose = 4;
                     }
-                    // if(numb == 0) {
-                    //   numb = 12
-                    // }
 
-                  }
+                    if (futureFoundBook) {
+                      futureClose = 3;
+                    }
 
-                  if(formatedKk == 12) {
-                    pm = true
-                  }
+                    if (futureClose > 0) {
+                      futureClose -= 1;
+                      disabledPast = true;
+                    }
 
-                  // console.log(time);
+                    console.log(futureClose, disabledPast);
 
-                  return (
-                    <div
-                      key={`time-${i}`}
-                      className={`${
-                        isPickedTime && "bg-black text-white "
-                      } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
-                    >
-                      <button
-                        disabled={foundBook || isUnderDate || disabledPast}
-                        className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
-                        type="button"
-                        onClick={() => {
-                          setDate((prev: any) => ({
-                            ...prev,
-                            dateTime: format(timeObj.realDate, "kk:mm"),
-                          }));
+                    const timeObj = time;
+                    
+                    time = DateTime.fromJSDate(time.clientDate, {
+                      zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    }).toJSDate();
+                    
 
-                          setDisplayDate(() => {
-                            if (numb != null) {
-                              setDisplayDate(
-                                `${numb} : ${format(timeObj.realDate, "mm")} pm`
-                              );
-                            } else {
-                              setDisplayDate(
-                                `${formatedKk} : ${format(timeObj.realDate, "mm")} am`
-                              );
-                            }
-                          });
-                        }}
+                    // time = time.realDate
+
+                    
+                    // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    // console.log(time, "after edit");
+
+                    let formatedKk = Number(format(time, "kk"));
+                    const formatedMin = Number(format(time, "mm"));
+
+                    const isUnderDate =
+                      now >
+                      addMinutes(
+                        addHours(date.justDate, formatedKk),
+                        formatedMin
+                      );
+                    console.log(formatedKk, "what");
+                    // console.log(booked, 'what')
+
+                    const isPickedTime =
+                      format(timeObj.realDate, "kk:mm") == date.dateTime;
+
+                    // console.log(time, 'time')
+
+                    // console.log(formatedKk, typeof formatedKk, time);
+                    let pm = false;
+
+                    let numb: null | number = null;
+
+                    if (formatedKk > 12) {
+                      numb = formatedKk % 12;
+                      pm = true;
+
+                      if (formatedKk == 24) {
+                        formatedKk = 0;
+                        pm = false;
+                      }
+                      // if(numb == 0) {
+                      //   numb = 12
+                      // }
+                    }
+
+                    if (formatedKk == 12) {
+                      pm = true;
+                    }
+
+                    // console.log(time);
+
+                    return (
+                      <div
+                        key={`time-${i}`}
+                        className={`${
+                          isPickedTime && "bg-black text-white "
+                        } rounded-xl bg-[#dfdfdf] text-black p-2 duration-300 transition-all`}
                       >
-                        {/* {format(time, 'kk:mm')} */}
-                        <p>{formatedKk ?? `${format(time, "kk")}`}</p>
-                        <p>:</p>
-                        <p>{format(time, "mm")}</p>
-                        {/* <p>{numb || formatedKk == 12 ? "pm" : "am"}</p> */}
-                        {/* <p>{pm ? "pm" : "am"}</p> */}
-                      </button>
-                    </div>
-                  );
-                })}
+                        <button
+                          disabled={foundBook || isUnderDate || disabledPast}
+                          className=" flex justify-center gap-2  w-full font-bold text-xl disabled:text-gray-400"
+                          type="button"
+                          onClick={() => {
+                            setDate((prev: any) => ({
+                              ...prev,
+                              dateTime: format(timeObj.realDate, "kk:mm"),
+                            }));
+
+                            setDisplayDate(() => {
+                              if (numb != null) {
+                                setDisplayDate(
+                                  `${numb} : ${format(
+                                    timeObj.realDate,
+                                    "mm"
+                                  )} pm`
+                                );
+                              } else {
+                                setDisplayDate(
+                                  `${formatedKk} : ${format(
+                                    timeObj.realDate,
+                                    "mm"
+                                  )} am`
+                                );
+                              }
+                            });
+                          }}
+                        >
+                          {/* {format(time, 'kk:mm')} */}
+                          <p>{formatedKk < 10 ? `0${formatedKk}` : formatedKk ?? `${format(time, "kk")}`}</p>
+                          <p>:</p>
+                          <p>{format(time, "mm")}</p>
+                          {/* <p>{numb || formatedKk == 12 ? "pm" : "am"}</p> */}
+                          {/* <p>{pm ? "pm" : "am"}</p> */}
+                        </button>
+                      </div>
+                    );
+                  }
+                )}
               </div>
             </div>
           </Transition>
@@ -365,26 +394,41 @@ export default function UserCalendar({
 
               // console.log(dateTest, "yo waht thea lf");
 
-              const randTest = DateTime.fromJSDate(date, { zone: "Europe/Berlin" } )
+              const randTest = DateTime.fromJSDate(date, {
+                zone: "Europe/Berlin",
+              });
 
               const result = randTest.setZone("Europe/Berlin");
 
-              const upDated = result.setZone("Europe/Berlin")
+              const upDated = result.setZone("Europe/Berlin");
 
-              const sloved = randTest.setLocale("SJ").toLocal().toJSDate()
+              const sloved = randTest.setLocale("SJ").toLocal().toJSDate();
 
-              console.log(randTest.setLocale("SJ").startOf('day').toJSDate().getDate(), 'space', result, upDated)
+              console.log(
+                randTest.setLocale("SJ").startOf("day").toJSDate().getDate(),
+                "space",
+                result,
+                upDated
+              );
 
-              console.log('try again', randTest.setZone("local", { keepLocalTime: true}).startOf('day').toJSDate())
+              console.log(
+                "try again",
+                randTest
+                  .setZone("local", { keepLocalTime: true })
+                  .startOf("day")
+                  .toJSDate()
+              );
               // console.log(result.setZone("system", { keepLocalTime: true}).startOf('day').toJSDate())
-              console.log(date, upDated.toJSDate())
-              console.log(new Date(date).toLocaleString("SJ", {
-                timeZone: "Europe/Berlin"
-              } ))
+              console.log(date, upDated.toJSDate());
+              console.log(
+                new Date(date).toLocaleString("SJ", {
+                  timeZone: "Europe/Berlin",
+                })
+              );
 
               const bullshit = new Date(date).toLocaleDateString("SJ", {
-                timeZone: "Europe/Berlin"
-              } )
+                timeZone: "Europe/Berlin",
+              });
 
               // console.log(date, 'this is on clikc',  dateTest, subHours(dateTest, 8 ), DateTime.fromISO(dateTest).setZone('Europe/Berlin').toISO())
               // setDate((prev: any) => ({ ...prev, justDate: sloved }));
@@ -409,7 +453,7 @@ export default function UserCalendar({
             >
               Book lesson
             </button>
-            <div className="flex flex-col w-full md:w-2/3 mx-auto gap-1 text-white rounded-full ">
+            <div className="flex flex-col w-full md:w-2/3 mx-auto gap-1 text-white rounded-full pb-10 ">
               <p className="text-bold md:w-1/2 text-center font-bold text-xl mx-auto">
                 Time selected {displayDate}
               </p>

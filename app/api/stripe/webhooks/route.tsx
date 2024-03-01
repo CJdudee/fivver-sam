@@ -6,6 +6,7 @@ import { addYears } from "date-fns";
 import { headers } from "next/dist/client/components/headers";
 import { NextRequest, NextResponse } from "next/server";
 import _stripe from 'stripe'
+import TokenHistory from '@/models/TokenHistory'
 
 const stripe = new _stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2023-10-16'
@@ -100,6 +101,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
               const stringFor = Number(checkoutSession.metadata!.for)
 
+              const packName = checkoutSession.metadata!.packName
+
               const expire = addYears(new Date(), 1)
               console.log(expire)
 
@@ -108,6 +111,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
               // const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor}, { $inc: { tokens: stringNum}, expire}, {upsert: true, new: true, setDefaultsOnInsert: true})
 
               const createdToken = await Token.create({user: foundUser._id, groupSize: stringFor, tokens: stringNum, expire})
+
+              const createdHistroy = await TokenHistory.create({user: foundUser._id, groupSize: stringFor, tokens: stringNum, expire, packageName: packName})
 
               const sendEmail = await sendBoughtEmail(foundUser.email, stringNum, stringFor, expire)
 
