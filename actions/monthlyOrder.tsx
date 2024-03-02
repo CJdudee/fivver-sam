@@ -33,7 +33,7 @@ export const addGoogleLink = async (teacherId: string, googleLink: string) => {
 
   if (!saved) return;
 
-  return { data: simpleJson(saved), msg: `Teacher Google Link has been added` };
+  return { data: simpleJson(saved), msg: ` Class room Link has been added` };
 };
 
 export const removeGoogleLink = async (teacherId: string) => {

@@ -76,7 +76,7 @@ export default function UserBookedLessons({ booked }: any) {
 
   return (
     <>
-      <div className=" sticky top-12 md:top-16 py-2 px-2 z-30 drop-shadow-xl shadow-xl  bg-[#242424] rounded-xl ">
+      <div className=" sticky top-10 md:top-16 py-2 px-2 z-30 drop-shadow-xl shadow-xl  bg-[#242424] rounded-xl ">
         <div className="flex flex-col gap-2 items-center justify-center">
           <label className="text-2xl font-bold text-white" htmlFor="daysAway">
             Set TimeFrame
@@ -97,7 +97,10 @@ export default function UserBookedLessons({ booked }: any) {
           console.log(time, "before edit");
           time = DateTime.fromJSDate(time, {
             zone: "Europe/Berlin",
-          }).setLocale("SJ").startOf("day").toJSDate();
+          })
+            .setLocale("SJ")
+            .startOf("day")
+            .toJSDate();
           const timeTester = DateTime.fromJSDate(time)
             .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
             .toFormat("h:mm");
@@ -115,26 +118,27 @@ export default function UserBookedLessons({ booked }: any) {
 
           const timeArray = b.time.split(":");
 
-          
           // const fullDay = addDays(new Date(), 1) < time
           // const fullDay = addDays(time, 1)
-          
+
           const addedHour = addHours(time, Number(timeArray[0]));
-          
+
           const addedMin = addMinutes(addedHour, Number(timeArray[1]));
-          
+
           const isFullDay = addDays(new Date(), 1) < addedMin;
-          
+
           const distance = formatDistanceToNow(addedMin);
           const distanceStric = formatDistanceToNowStrict(time);
           // const fullDay = addDays(new Date(), 1)
-          
+
           // const addedHour = addHours(fullDay, Number(timeArray[0]))
-          const displayTime = DateTime.fromJSDate(addedMin).toFormat(" HH:mm ").toLocaleLowerCase()
+          const displayTime = DateTime.fromJSDate(addedMin)
+            .toFormat(" HH:mm ")
+            .toLocaleLowerCase();
           const formated = gerFormat(addedMin);
 
-          console.log(addedMin, formated, displayTime)
-          
+          console.log(addedMin, formated, displayTime);
+
           let numberStart = Number(timeArray[0]);
 
           let pm = false;
@@ -172,16 +176,21 @@ export default function UserBookedLessons({ booked }: any) {
                 <p className=" text-center  rounded-tl-xl font-extrabold">
                   Booked With :
                 </p>
-                <p className=" text-center  rounded-tr-xl truncate font-extrabold">
-                  {capitalize(b.teacher.user.username)}
-                </p>
+                <div className="flex justify-center gap-8">
+                  <p className=" text-center  rounded-tr-xl truncate font-extrabold">
+                    {capitalize(b.teacher.user.firstName)}
+                  </p>
+                  <p className=" text-center  rounded-tr-xl truncate font-extrabold">
+                    {capitalize(b.teacher.user.lastName)}
+                  </p>
+                </div>
               </div>
               {/* <p>{b.date}</p> */}
               <div className="flex flex-col gap-2 items-center justify-evenly w-full mb-4">
                 <div className="w-full flex justify-evenly">
                   {/* <p>Date</p> */}
 
-                  <p className="w-fit text-center">{distance} from now</p>
+                  {/* <p className="w-fit text-center">{distance} from now</p> */}
                   {/* <p>{distanceStric}</p> */}
                   <p className=" text-center">Booked for {formated}</p>
                 </div>

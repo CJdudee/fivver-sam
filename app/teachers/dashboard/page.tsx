@@ -11,6 +11,7 @@ import { redirect } from "next/navigation";
 import GoogleClient from "@/app/components/teachers/google/GoogleClient";
 import TimeZoneComp from "@/app/components/TimeZoneComp";
 import CalendarGoogle from "@/app/components/teachers/google/CalendarGoogle";
+import ClassRoomLink from "@/app/components/admin/dashboard/ClassRoomLink";
 
 export default async function Page({ searchParams }: any) {
   console.log(typeof searchParams.code);
@@ -104,18 +105,11 @@ export default async function Page({ searchParams }: any) {
           Profile
         </Link>
       </div>
-      {/* <div className="">
-        <p>These Month Orders</p>
-        <div>
-          {monthlyOrderJson ? (
-            <div></div>
-          ) : (
-            <div>
-              <p>No orders </p>
-            </div>
-          )}
-        </div>
-      </div> */}
+
+      <div>
+        <ClassRoomLink teacherLink={teacherJson?.googleMeetLink} teacherId={teacherJson._id} />
+      </div>
+      
       <div className="dashboard flex flex-col items-center w-full md:w-fit rounded-xl bg-gray-100 shadow-md h-fit">
         <div className="header bg-gradient-to-r to-[#D9643A] from-[#E35D5B] py-4 rounded-t-xl text-white w-full">
           <h1 className="text-3xl font-bold text-center">Teacher Dashboard</h1>
@@ -249,3 +243,17 @@ export default async function Page({ searchParams }: any) {
         </div>
       </div> */
 }
+
+
+{/* <div className="">
+        <p>These Month Orders</p>
+        <div>
+          {monthlyOrderJson ? (
+            <div></div>
+          ) : (
+            <div>
+              <p>No orders </p>
+            </div>
+          )}
+        </div>
+      </div> */}

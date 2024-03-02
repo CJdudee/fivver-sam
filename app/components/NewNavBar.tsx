@@ -53,6 +53,7 @@ export default async function NewNavBar() {
     { text: "Booking", link: "/teach" },
     { text: 'Contact', link : "/contact"},
     { text: 'About Us', link: "/about"},
+    
   ];
 
   if(!session) {

@@ -29,11 +29,14 @@ export default function PhoneNav({ session, tokensJson, linkArray }: any) {
   }, [openNav]);
 
   return (
-    <div className="w-full flex justify-between items-center">
+    <div className={` w-full flex justify-between items-center`}>
      
-      <HeadlessDrop linkArray={linkArray} />
+     <div className={``}>
 
-      <div className="w-1/2  ">
+      <HeadlessDrop linkArray={linkArray} />
+     </div>
+
+      <div  className={`w-1/2`}>
         {session && <Profile user={session} tokens={tokensJson} />}
 
         <div className="flex gap-4 items-center justify-center">

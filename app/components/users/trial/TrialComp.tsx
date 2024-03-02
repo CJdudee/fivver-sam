@@ -1,6 +1,6 @@
 "use client";
 
-import { makeTrialUser } from "@/actions/createTrialUser";
+import { makeTrialUser, makeTrialUserEmail } from "@/actions/createTrialUser";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize } from "@/utils/helpers";
 import { useRouter } from "next/navigation";
@@ -61,7 +61,7 @@ export default function TrialComp() {
       info: descDay,
     };
 
-    const madeUser = await makeTrialUser(userData, dateInfo);
+    const madeUser = await makeTrialUserEmail(userData, dateInfo);
 
     console.log(madeUser);
 

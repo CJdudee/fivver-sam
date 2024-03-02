@@ -1,5 +1,5 @@
 "use server";
-import { sendTrialAccountEmail, sendVerificationEmail } from "@/app/lib/mail";
+import { sendTrialAccountEmail, sendTrialUserDataToMain, sendVerificationEmail } from "@/app/lib/mail";
 import { generateVericationToken } from "@/data/tokens";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
@@ -57,6 +57,44 @@ export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
       createdUser.username,
       randomPassword
     );
+
+    return {
+      msg: "Trial User has been Created. Check your Email for password",
+      url: `${process.env.HOSTNAME}/api/auth/signin`,
+    };
+  // } catch (error) {
+  //   return { error: simpleJson(error) };
+  // }
+};
+
+export const makeTrialUserEmail = async (userInfo: any, dateInfo: any) => {
+  console.log(userInfo, dateInfo);
+
+  if (!userInfo.firstName || !userInfo.lastName || !userInfo.email) return {error: 'All fields are require'};
+  if (!dateInfo.weekArray || !dateInfo.info) return {error: 'All fields are require'};
+
+  const { email, firstName, lastName } = userInfo;
+
+  const { weekArray, info } = dateInfo;
+
+
+  // const testObj = Object.entries(weekArray).map(([key, value]) => {
+  //   console.log(key, value, 'shit')
+  //   return `<p> ${key} </p> <input type="checkbox" checked={${value}} />`
+  // })
+
+  // console.log(testObj.map((t: any) => t))
+  
+  
+
+  const checkEmail = await User.findOne({email})
+
+  if(checkEmail) return {error: 'Email is Already Taken'}
+
+
+    await sendTrialUserDataToMain({email, firstName, lastName}, {weekArray, info})
+
+    
 
     return {
       msg: "Trial User has been Created. Check your Email for password",

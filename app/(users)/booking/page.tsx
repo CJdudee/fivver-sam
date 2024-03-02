@@ -25,7 +25,7 @@ export default async function Page() {
 
   return (
     <div className='min-h-screen h-full '>
-      <p className='text-center text-3xl text-white font-extrabold'>Appointment Page</p>
+      <p className='text-center text-3xl font-extrabold text-orange-600'>Future Booking</p>
         <UserBookedLessons booked={simpleJson(booked)} />
     </div>
   )
