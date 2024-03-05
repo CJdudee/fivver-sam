@@ -45,7 +45,7 @@ export default function OldBookingMap({ userData, data, isTeacher }: any) {
   const result = `${parsedHour}:${splitParsed[1]}`;
 
   return (
-    <div className="bg-white rounded-lg shadow-md px-6 py-4 text-gray-700 w-full">
+    <div className="bg-white rounded-lg shadow-md px-6 py-4 text-gray-700 w-full outline outline-orange-600 outline-2">
       <div className="flex flex-row items-center justify-between md:items-center md:justify-between mb-4 w-full lg:w-2/3 mx-auto">
         <p className="text-lg font-bold">Date: {format}</p>
         <div className="flex items-center gap-2 justify-center">

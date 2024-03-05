@@ -121,3 +121,44 @@ export const bookingEmail = async (
     html: emailText,
   });
 };
+
+export const bookingTeacherEmail = async (
+  userEmail: string,
+  formatDate: String,
+  studentFullName: { first: string; last: string },
+  teacherEmail: string,
+  teacherLink?: string
+) => {
+  let emailText = ``;
+
+  if (teacherLink) {
+    emailText = `
+        <div>
+        <p>Student ${studentFullName.first} ${studentFullName.last} has booked a lesson</p>
+        <p>Class Room Link was provided. Look out for any email from the student</p>
+        <p>${userEmail}</p>
+        <p>Your appointment with your student is booked on</p>
+        <p>${formatDate}</p>
+        
+        </div>
+        `;
+  } else {
+    emailText = `
+        <div>
+        <p>Student ${studentFullName.first} ${studentFullName.last} has booked a lesson</p>
+        <p>No Class Room Link was sent to the email. Contact them at there email</p>
+        <p>${userEmail}</p>
+        <p>Your appointment with your student is booked on</p>
+        <p>${formatDate}</p>
+        
+        </div>
+        `;
+  }
+
+  await resend.emails.send({
+    from: "noreply@sprachgeist.com",
+    to: teacherEmail,
+    subject: "Student has Booked",
+    html: emailText,
+  });
+};

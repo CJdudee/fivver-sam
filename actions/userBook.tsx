@@ -1,5 +1,5 @@
 "use server";
-import { bookingEmail } from "@/app/lib/mail";
+import { bookingEmail, bookingTeacherEmail } from "@/app/lib/mail";
 import Booking from "@/models/Booking";
 import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
@@ -28,6 +28,8 @@ export const bookAppt = async (
   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
 //   const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('D T z')
   const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('dd LLLL yyyy T z')
+
+  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('dd LLLL yyyy T z')
 
   console.log(clientSideFormat, date, timeSplit)
   
@@ -92,7 +94,14 @@ export const bookAppt = async (
     last: foundTeacher.user.lastName
   }
 
+  const userFullName = {
+    first: foundUser.firstName,
+    last: foundUser.lastName,
+  }
+
   const emailSent = await bookingEmail(foundUser.email, clientSideFormat, teacherFullName, foundTeacher.user.email, foundTeacher.googleMeetLink)
+
+  const emailSentToTeacher = await bookingTeacherEmail(foundUser.email, clientTeacherSideTime, userFullName, foundTeacher.user.email, foundTeacher.googleMeetLink)
 
   // if(!createdBooking) return {error: 'problem with creating booking'}
 

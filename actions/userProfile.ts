@@ -1,54 +1,67 @@
-'use server'
+"use server";
 
-import { sendVerificationEmail } from "@/app/lib/mail"
-import { generateVericationToken } from "@/data/tokens"
-import User from "@/models/User"
-import { capitalize } from "@/utils/helpers"
-import bcrypt from 'bcrypt'
+import { sendVerificationEmail } from "@/app/lib/mail";
+import { generateVericationToken } from "@/data/tokens";
+import User from "@/models/User";
+import { capitalize } from "@/utils/helpers";
+import bcrypt from "bcrypt";
 
+export const updateUser = async (userDate: any) => {
+  const { firstName, lastName, email, _id, password } = userDate;
 
-export const updateUser = async (userDate: any ) => {
+  const foundUser = await User.findOne({ _id }).exec();
 
-    const {firstName, lastName, email, _id, password } = userDate
+  if (!foundUser) throw new Error("User was not found");
 
-    const foundUser = await User.findOne({_id}).exec()
+  const lowerEmail = email.toLowerCase();
 
-    if(!foundUser) throw new Error("User was not found")
+  const capFirst = capitalize(firstName);
+  const capLast = capitalize(lastName);
 
-    const lowerEmail = email.toLowerCase()
+  if (foundUser.email != lowerEmail) {
+    const isTaken = await User.findOne({ email }).exec();
 
-    const capFirst = capitalize(firstName)
-    const capLast = capitalize(lastName)
+    if (isTaken) return { error: "Email is already taken" };
 
-    if(foundUser.email != lowerEmail) {
+    const vericationToken = await generateVericationToken(email, foundUser._id);
+    if (!vericationToken) return;
 
-        const isTaken = await User.findOne({email}).exec()
+    // foundUser.emailVerified = null
+    // foundUser.email = email
 
-        if(isTaken) return {error: 'Email is already taken'}
+    await sendVerificationEmail(vericationToken.email, vericationToken.token);
+  }
 
-        const vericationToken = await generateVericationToken(email, foundUser._id)
-        if(!vericationToken) return 
+  if (password) {
+    const hashed = await bcrypt.hash(password, 10);
 
-        // foundUser.emailVerified = null
-        // foundUser.email = email
+    foundUser.password = hashed;
+  }
 
-        await sendVerificationEmail(vericationToken.email, vericationToken.token)
-    }
+  // foundUser.username = username
+  foundUser.firstName = capFirst;
+  foundUser.lastName = capLast;
 
-    if(password) {
-        const hashed = await bcrypt.hash(password, 10)
+  const saved = await foundUser.save();
 
-        foundUser.password = hashed
+  if (!saved) return null;
 
-    }
+  return { msg: `${firstName} has been updated` };
+};
 
-    // foundUser.username = username
-    foundUser.firstName = capFirst
-    foundUser.lastName = capLast
+export const resendValidateEmail = async (userId: string) => {
+  const foundUser = await User.findById(userId).exec();
 
-    const saved = await foundUser.save()
+  if (!foundUser) return;
 
-    if(!saved) return null
+  const vericationToken = await generateVericationToken(foundUser.email, foundUser._id);
 
-    return {msg: `${firstName} has been updated`}
-}
+  if (!vericationToken) return;
+
+  // foundUser.emailVerified = null
+  // foundUser.email = email
+
+  await sendVerificationEmail(vericationToken.email, vericationToken.token);
+
+  return {msg: 'Verification Email has been sent'}
+};

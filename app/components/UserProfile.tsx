@@ -1,5 +1,5 @@
 "use client";
-import { updateUser } from "@/actions/userProfile";
+import { resendValidateEmail, updateUser } from "@/actions/userProfile";
 import React, { useState } from "react";
 import { MdCheckBoxOutlineBlank } from "react-icons/md";
 import { FcCheckmark } from "react-icons/fc";
@@ -13,7 +13,7 @@ export default function UserProfile({ user }: any) {
   const [password, setPassword] = useState("");
 
   const saveUser = async () => {
-    if(!firstName) return 
+    if (!firstName) return;
 
     const userData = {
       firstName,
@@ -27,10 +27,10 @@ export default function UserProfile({ user }: any) {
 
     if (!saved) return errorToast();
 
-    if(saved.error) {
-       errorToast(saved.error)
-       setEmail(user.email)
-       return
+    if (saved.error) {
+      errorToast(saved.error);
+      setEmail(user.email);
+      return;
     }
 
     susToast(saved.msg as string);
@@ -38,8 +38,16 @@ export default function UserProfile({ user }: any) {
     console.log("save");
   };
 
+  const resendEmail = async () => {
+    const emailSent = await resendValidateEmail(user._id);
+
+    if (!emailSent) return errorToast();
+
+    susToast(emailSent.msg);
+  };
+
   return (
-    <div className="text-center w-full md:w-1/2 flex flex-col justify-center items-center gap-8 outline-1 outline outline-[#c5c5c523] rounded-xl py-8 h-2/3  ">
+    <div className="text-center w-full md:w-1/2 flex flex-col justify-center items-center gap-8 outline-1 outline outline-[#c5c5c523] rounded-xl py-8 h-2/3   ">
       <div className="flex flex-col  justify-center items-center">
         <label
           htmlFor="firstName"
@@ -101,6 +109,14 @@ export default function UserProfile({ user }: any) {
           }}
           value={email}
         />
+        {user.emailVerified == null && (
+          <button
+            className="text-white mt-1 hover:text-gray-400 active:text-gray-400 underline-offset-2 underline"
+            onClick={() => resendEmail()}
+          >
+            Resend Verification Email
+          </button>
+        )}
       </div>
 
       <div className="flex flex-col  justify-center items-center">
