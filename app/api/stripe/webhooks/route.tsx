@@ -1,5 +1,5 @@
 import { sendEmailFromResend } from "@/actions/nodemail";
-import { sendBoughtEmail, sendVerificationEmail } from "@/app/lib/mail";
+import { sendBoughtEmail, sendVerificationEmail, userBroughtTokenEmail } from "@/app/lib/mail";
 import Token from "@/models/Token";
 import User from "@/models/User";
 import { addYears } from "date-fns";
@@ -115,6 +115,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
               const createdHistroy = await TokenHistory.create({user: foundUser._id, groupSize: stringFor, tokens: stringNum, expire, packageName: packName})
 
               const sendEmail = await sendBoughtEmail(foundUser.email, stringNum, stringFor, expire)
+
+              const sendInfoEmail = await userBroughtTokenEmail(foundUser.firstName, foundUser.lastName, stringNum, stringFor, foundUser.email)
 
               // foundUser.tokens += stringNum
               

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcrypt'
 import User from '@/models/User'
 import { connectingMongoose } from "@/app/lib/connectMongo";
+import { newUserEmail } from "@/app/lib/mail";
 
 
 
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const data = await req.json()
 
-    const {username, password, email, firstName, lastName } = data
+    const {password, email, firstName, lastName } = data
 
     console.log(data)
 
@@ -31,7 +32,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         })
     }
 
-
+    const newUserMailSent = await newUserEmail(firstName, lastName, email)
     
 
     let hashedPwd = null

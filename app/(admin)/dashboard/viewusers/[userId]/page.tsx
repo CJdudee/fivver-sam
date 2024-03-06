@@ -1,3 +1,4 @@
+import ViewUserClient from "@/app/components/admin/dashboard/user/singleUser/ViewUserClient";
 import PastBookings from "@/app/components/admin/viewUsers/PastBookings";
 import OldBookingMap from "@/app/components/teachers/old/OldBookingMap";
 import { decodeUserAndCheckAdmin } from "@/app/lib/finallyRoleCheck";
@@ -42,17 +43,24 @@ export default async function Page({ params, searchParams }: any) {
         </p>
       </div>
 
-      {bookingJson.length == 0 && (
-        <div className="h-full flex items-center justify-center pb-12 text-3xl font-extrabold text-white drop-shadow-xl shadow-2xl">
-          <p>No Past Bookings</p>
-        </div>
-      )}
+      <div>
+        <ViewUserClient bookingArray={bookingJson} studentInfo={studentJson} />
+      </div>
 
-      <figure className="flex justify-center items-center flex-col gap-8 mt-8">
-        {bookingJson.map((b: any, i: number) => {
-          return <PastBookings key={i} userData={b.teacher.user} data={b} isTeacher={true} />;
-        })}
-      </figure>
     </div>
   );
 }
+
+
+
+// {bookingJson.length == 0 && (
+//   <div className="h-full flex items-center justify-center pb-12 text-3xl font-extrabold text-white drop-shadow-xl shadow-2xl">
+//     <p>No Past Bookings</p>
+//   </div>
+// )}
+
+// <figure className="flex justify-center items-center flex-col gap-8 mt-8">
+//   {bookingJson.map((b: any, i: number) => {
+//     return <PastBookings key={i} userData={b.teacher.user} data={b} isTeacher={true} />;
+//   })}
+// </figure>

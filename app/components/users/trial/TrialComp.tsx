@@ -154,6 +154,7 @@ export default function TrialComp() {
                 type="checkbox"
                 name={w.name}
                 checked={weekDayState[w.name]}
+                
                 onChange={() => {
                   const result = !weekDayState[w.name];
 

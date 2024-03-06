@@ -4,7 +4,7 @@ import { IoBookOutline } from "react-icons/io5";
 import { LuBookOpen } from "react-icons/lu";
 import HomePageTop from "./homepage/HomePageTop";
 import WhatMakesDifferent from "./homepage/WhatMakesDifferent";
-import { SiGoogleclassroom } from "react-icons/si";
+import { SiGoogleclassroom, SiGooglemeet } from "react-icons/si";
 import {
   FaBookmark,
   FaFacebook,
@@ -118,7 +118,8 @@ export default async function BookHomePage({ pricePackages }: any) {
             </p>
             <p className=" text-7xl  h-3/5 flex items-center justify-center  ">
               {" "}
-              👨‍🏫 <SiGoogleclassroom className=" text-yellow-700" />
+              👨🏽‍🏫 <SiGooglemeet className="text-orange-700 w-28 h-24" />
+              {/* <SiGoogleclassroom className=" text-yellow-700" /> */}
             </p>
           </div>
           <div className=" rounded-xl flex flex-col gap-4 h-full w-full md:w-2/4 ">

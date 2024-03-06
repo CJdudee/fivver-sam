@@ -38,11 +38,11 @@ export const sendTrialUserDataToMain = async (
   { email, firstName, lastName }: any,
   { weekArray, info }: any
 ) => {
+  const arrayWeek = Object.entries(weekArray).map(([key, value]) => {
+    return `<p> ${key} - ${value}</p>`;
+  });
 
-    const arrayWeek = Object.entries(weekArray).map(([key, value]) => {
-        
-        return `<p> ${key} </p> <input type="checkbox" checked={${value}} />`
-      })
+  // console.log(arrayWeek)
 
   await resend.emails.send({
     // from: 'onboarding@resend.dev',
@@ -160,5 +160,43 @@ export const bookingTeacherEmail = async (
     to: teacherEmail,
     subject: "Student has Booked",
     html: emailText,
+  });
+};
+
+export const newUserEmail = async (
+  firstName: string,
+  lastName: string,
+  email: string
+) => {
+  await resend.emails.send({
+    from: "noreply@sprachgeist.com",
+    to: "info@sprachgeist.com",
+    subject: "New User",
+    html: `
+    <div>
+    <p>A new user has been made ${firstName} ${lastName} </p>
+    <p>Email: ${email}</p>
+    </div>
+    `,
+  });
+};
+
+export const userBroughtTokenEmail = async (
+  firstName: string,
+  lastName: string,
+  classes: number,
+  groupSize: number,
+  email: string
+) => {
+  await resend.emails.send({
+    from: "noreply@sprachgeist.com",
+    to: "info@sprachgeist.com",
+    subject: "User brought Tokens",
+    html: `
+    <div>
+    <p>User ${firstName} ${lastName} has bought ${classes} classes for a group size of ${groupSize} </p>
+    <p>Email: ${email}</p>
+    </div>
+    `,
   });
 };
