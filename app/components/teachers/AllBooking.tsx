@@ -30,9 +30,10 @@ export default function AllBooking({booked, bookingLength, onCancelBook} : any) 
           numb = sHour % 12
         }
 
-        console.log(split)
+        console.log(b.status)
+        // console.log(split)
 
-        console.log(b.time)
+        // console.log(b.time)
         // console.log(formatted, formattedDay, "yo yo what");
 
         return (
@@ -57,6 +58,7 @@ export default function AllBooking({booked, bookingLength, onCancelBook} : any) 
             <p className="text-lg font-medium">Status:</p>
             <p className={`ml-2 text-black font-bold ${isDayOver && b.status === 'pending' ? 'text-gray-600' : ''}`}>
               {isDayOver && b.status === 'pending' && 'Completed'}
+              {isDayOver && b.status === 'canceled' && 'Canceled'}
               {!isDayOver && capitalize(b.status || 'Completed')}
             </p>
           </div>

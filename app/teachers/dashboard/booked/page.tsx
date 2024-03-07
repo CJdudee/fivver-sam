@@ -24,7 +24,7 @@ export default async function Page() {
 
       await connectingMongoose()
     const teacher = await Teacher.findOne({user: user.id})
-    const booked = await Booking.find({teacher: teacher._id, status: 'pending',}).populate('student', '-password -customerId').sort({date: 1})
+    const booked = await Booking.find({teacher: teacher._id}).populate('student', '-password -customerId').sort({date: 1})
 
     // console.log(booked)
 

@@ -2,10 +2,11 @@
 
 import { connectingMongoose } from "@/app/lib/connectMongo";
 import Booking from "@/models/Booking";
+import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
 import Token from "@/models/Token";
 import User from "@/models/User";
-import { addDays, addHours, addMinutes } from "date-fns";
+import { addDays, addHours, addMinutes, formatDate } from "date-fns";
 
 export const cancelBooking = async (bookingId: string) => {
   // await connectingMongoose()
@@ -82,6 +83,15 @@ export const userCancelBooking = async (bookingId: string) => {
 
   if (!foundUser || !foundTeacher) return { error: "No user found" };
 
+  const format = formatDate(time, "MM/yy");
+
+  const monthlyOrder = await MonthlyOrder.findOne({
+    teacher: foundTeacher._id,
+    date: format,
+  });
+
+  
+
   const foundToken = await Token.findOne({
     _id: foundBooking.tokenId
   });
@@ -94,9 +104,13 @@ export const userCancelBooking = async (bookingId: string) => {
 
   foundTeacher.canceledOrders += 1
 
+  monthlyOrder.canceledOrders += 1
+
   await foundToken.save();
 
   await foundTeacher.save()
+
+  await monthlyOrder.save()
 
   return { success: "Booking was cancelled" };
   // console.log(foundUser)
