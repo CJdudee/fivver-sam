@@ -30,19 +30,7 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
   
     return (
       <div>
-        {/* <button
-          type="button"
-          className={`
-             z-30 flex items-center justify-center p-2 rounded-r-full w-6 absolute  
-            bg-white text-black hover:bg-gray-800 transition-all duration-200
-            focus:outline-none focus:ring-2 focus:ring-offset-gray-700 focus:ring-white
-            ${isOpen ? "hidden" : ""}
-          `}
-          onClick={toggleSidebar}
-        >
-          <CgArrowRight className="h-7 w-7" />
-        </button>
-   */}
+        
         <div
         ref={sideRef}
           className={`
@@ -109,3 +97,18 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
     <CgArrowLeft className="h-6 w-6 text-gray-500" />
   </button>
 </div> */}
+
+
+{/* <button
+    type="button"
+    className={`
+        z-30 flex items-center justify-center p-2 rounded-r-full w-6 absolute  
+      bg-white text-black hover:bg-gray-800 transition-all duration-200
+      focus:outline-none focus:ring-2 focus:ring-offset-gray-700 focus:ring-white
+      ${isOpen ? "hidden" : ""}
+    `}
+    onClick={toggleSidebar}
+  >
+    <CgArrowRight className="h-7 w-7" />
+  </button>
+*/}

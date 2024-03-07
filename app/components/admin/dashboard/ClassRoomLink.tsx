@@ -75,9 +75,9 @@ export default function ClassRoomLink({ teacherLink, teacherId }: any) {
       {classRoomLink != (undefined || "") && (
         <p className="text-center font-bold text-white w-full">
           Class Room Link:{" "}
-          <Link className="hover:text-gray-300" href={classRoomLink}>
+          <a className="hover:text-gray-300" href={`${classRoomLink}`}>
             {classRoomLink}
-          </Link>
+          </a>
         </p>
       )}
       {classRoomLink == (undefined || "") && (

@@ -14,9 +14,9 @@ export default function Maindash({ tokens, prevBooking, tokenHistory }: any) {
 
   const boughtTokens = (
     <div className="mx-auto w-full h-full">
-      <p className="text-center text-3xl text-orange-600 font-semibold">
+      {/* <p className="text-center text-3xl text-orange-600 font-semibold">
         Current Tokens
-      </p>
+      </p> */}
       {tokens.length === 0 && (
         <div className="text-3xl font-semibold w-full h-full flex items-center justify-center  px-8 rounded-full py-2 text-center mt-2">
           <p className="text-white rounded-full  py-2 w-full md:w-1/2 mx-auto">
@@ -60,9 +60,9 @@ export default function Maindash({ tokens, prevBooking, tokenHistory }: any) {
 
   const tokenHistoryJsx = (
     <div className="mx-auto w-full h-full">
-      <p className="text-center text-3xl text-orange-600 font-semibold">
+      {/* <p className="text-center text-3xl text-orange-600 font-semibold">
         Token History
-      </p>
+      </p> */}
       {tokens.length === 0 && (
         <div className="text-3xl font-semibold w-full h-full flex items-center justify-center  px-8 rounded-full py-2 text-center mt-2">
           <p className="text-white rounded-full  py-2 w-full md:w-1/2 mx-auto">
@@ -116,16 +116,16 @@ export default function Maindash({ tokens, prevBooking, tokenHistory }: any) {
 
   const prevBookingJsx = (
     <div className="w-full h-full">
-      <p className="text-center text-3xl text-orange-600 font-semibold">
+      {/* <p className="text-center text-3xl text-orange-600 font-semibold">
         Previous Classes
-      </p>
+      </p> */}
       {prevBooking.length == 0 && (
         <div className="text-3xl font-semibold w-fit h-full flex justify-center items-center   text-[#ffffff] px-8 rounded-full py-2 text-center mx-auto mt-2">
           <p className="">No Previous Bookings</p>
         </div>
       )}
       <ul className="mx-auto w-full">
-        <div className="md:grid grid-cols-2 flex-col justify-center items-center gap-8 pt-4 w-full ">
+        <div className="flex md:grid grid-cols-2 flex-col justify-center items-center gap-4 md:gap-5 pt-4 w-full ">
           {prevBooking.map((p: any, i: number) => {
             return (
               <OldBookingMap

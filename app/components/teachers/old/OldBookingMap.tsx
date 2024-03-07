@@ -30,14 +30,18 @@ export default function OldBookingMap({ userData, data, isTeacher }: any) {
   let parsedHour: number | string = Number(splitParsed[0]);
 
   if (parsedHour == 24) {
-    parsedHour = "00";
+    parsedHour = "0";
   }
 
-  console.log(startDate, data, parsedDate);
-
-  if (startNum == 12) {
-    pm = true;
+  if(Number(parsedHour) < 10) {
+    parsedHour = `0${parsedHour}`
   }
+
+  // console.log(startDate, data, parsedDate);
+
+  // if (startNum == 12) {
+  //   pm = true;
+  // }
 
   const format = gerFormat(data.date);
 
@@ -53,15 +57,25 @@ export default function OldBookingMap({ userData, data, isTeacher }: any) {
           <p className="text-lg font-bold">Time: {result}</p>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-between w-1/2 mx-auto">
-        <p className=" font-bold">
-          {!isTeacher ? "For Student:" : "Teacher:"}
-        </p>
-        <p className="text-base font-semibold ml-2">
-          {capitalize(userData.firstName)}
-        </p>
+      <div className="flex flex-col items-center justify-between md:w-full mx-auto">
+        <p className=" font-bold text-xl mb-2">{!isTeacher ? "For Student:" : "Teacher:"}</p>
+        <div className="flex flex-col bg-gray-700 w-full p-4 rounded-2xl text-white items-center gap-1">
+          {/* <p className="font-bold">Name:</p> */}
+          <div className="flex w-full justify-center gap-4">
+            <p className="text-base font-semibold ml-2">
+              {capitalize(userData.firstName)}
+            </p>
+            <p className="text-base font-semibold ml-2">
+              {capitalize(userData.lastName)}
+            </p>
+          </div>
+          <div className="flex flex-col md:flex-row items-center font-semibold gap-2">
+            <p>Email:</p>
+          <p className=" font-bold">{userData.email}</p>
+          </div>
+        </div>
       </div>
-      <p className="text-base mt-2 text-center font-[600]">
+      <p className="mt-2 text-center font-[600] text-lg">
         Group Size: {data.groupSize}
       </p>
     </div>

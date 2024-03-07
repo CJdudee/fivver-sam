@@ -299,16 +299,19 @@ export default function ViewOverall({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
         {teacherJson.map((t: any, i: number) => {
           const found = monthFilter.find((f: any) => f.teacher == t._id);
+          if (!found) return;
+
 
           const dateSplit = found?.date.split("/");
 
-          console.log(found, dateSplit, "yoy o");
+          const chosenMonth = Number(dateSplit[0])
 
-          if (!found) return;
+          console.log(found, dateSplit, chosenMonth, "yoy o");
+
 
           const isPast =
             Number(dateSplit[1]) < Number(todaySplit[1]) ||
-            (Number(dateSplit[1]) < Number(todaySplit[1]) &&
+            (Number(dateSplit[1]) <= Number(todaySplit[1]) &&
               Number(dateSplit[0]) < Number(todaySplit[0]));
 
           console.log(isPast);
@@ -319,9 +322,9 @@ export default function ViewOverall({
               className="bg-white text-black rounded-lg shadow-md p-4"
             >
               <div className="flex justify-between items-center mb-2">
-                <p className="text-xl font-bold">
+                <Link href={`viewteachers/${t._id}`} className="text-xl font-bold hover:text-gray-600">
                   {capitalize(t.user.firstName)}
-                </p>
+                </Link>
                 {isPast && (
                   <button
                     className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] text-white hover:text-black font-bold px-4 py-2 rounded-md focus:outline-none shadow-md"
@@ -331,14 +334,20 @@ export default function ViewOverall({
                   </button>
                 )}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className={`${isPast ? 'md:grid-cols-3' : 'md:grid-cols-2'} grid grid-cols-1  gap-4 mt-8`}>
                 <div>
-                  <p className="font-bold">This Month Orders:</p>
-                  <p>{found.orders}</p>
+                  <p className="font-bold">This Month Orders</p>
+                  <p className=" font-semibold">{found.orders}</p>
                 </div>
+                {isPast && (
+                  <div>
+                    <p className="font-bold">Completed Orders</p>
+                    <p className=" font-bold">{found.orders - found.canceledOrders}</p>
+                  </div>
+                )}
                 <div>
-                  <p className="font-bold">Canceled Orders:</p>
-                  <p>{found.canceledOrders}</p>
+                  <p className="font-bold">Canceled Orders</p>
+                  <p className=" font-semibold">{found.canceledOrders}</p>
                 </div>
               </div>
             </div>

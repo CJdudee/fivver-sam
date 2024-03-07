@@ -51,14 +51,14 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
   };
 
   const bookingAppointmentJsx = (
-    <div>
+    <div className=" h-full">
       {bookingArray.length == 0 && (
         <div className="h-full flex items-center justify-center pb-12 text-3xl font-extrabold text-white drop-shadow-xl shadow-2xl">
           <p>No Past Bookings</p>
         </div>
       )}
 
-      <figure className="flex justify-center items-center flex-col gap-8 mt-2 px-4  md:grid grid-cols-2">
+      <figure className="flex justify-center items-center flex-col gap-6 mt-2 px-4  md:grid grid-cols-2 h-full">
         {bookingArray.map((b: any, i: number) => {
           return <OldBookingMap key={i} userData={b.student} data={b} />;
         })}
@@ -70,7 +70,7 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
   console.log(editTeacherData);
 
   const teacherInfoJsx = (
-    <div className="flex flex-col items-center justify-center mt-4 w-full md:w-3/4 mx-auto outline py-8 outline-1 rounded-xl">
+    <div className="flex flex-col items-center justify-center mt-4 w-full md:w-3/4 mx-auto outline py-8 outline-1 rounded-xl h-full">
       {!editInfo && (
         <>
           <div className="w-full flex flex-col md:flex-row items-center justify-evenly text-white text-3xl">
@@ -81,8 +81,8 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
             <p>Email: </p>
             <p>{teacherData.email}</p>
           </div>
-          <div className="mt-8 text-white text-2xl  p-4 rounded-xl">
-            <p className="text-center">Roles</p>
+          <div className="mt-6 text-white text-2xl  p-4 rounded-xl">
+            <p className="text-center">{teacherInfo.user.roles.length != 1 ? 'Roles' : 'Role'}</p>
             <div className="flex justify-center">
               {teacherInfo.user.roles.map((r: string, i: number) => {
                 return <p key={i}>{capitalize(r)}</p>;
@@ -119,7 +119,7 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
               />
             </div>
           </div>
-          <div className="md:w-1/2 mx-auto flex flex-col  justify-between mt-8 text-white text-3xl  px-8 rounded-xl py-2 items-center mb-4">
+          <div className="md:w-1/2 mx-auto flex flex-col  justify-between mt-8 text-white text-3xl  px-8 rounded-xl  items-center mb-4">
             <p>Email: </p>
             <input
               className="w-full mt-1 rounded-full px-2 mb-1 text-2xl text-black"
@@ -131,7 +131,7 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
               value={editTeacherData.email}
             />
           </div>
-          <div className="md:w-1/2 mx-auto flex flex-col  justify-between mt-8 text-white text-3xl  px-8 rounded-xl py-2 items-center mb-4">
+          <div className="md:w-1/2 mx-auto flex flex-col  justify-between mt-2 text-white text-3xl  px-8 rounded-xl py-2 items-center mb-4">
             <p>Password: </p>
             <p className="text-xs my-1">Leave blank to keep the same password</p>
             <input
@@ -191,9 +191,9 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
 
   console.log(teacherInfo);
   return (
-    <div className="h-screen">
+    <div className="h-full pb-8">
       <div>
-        <nav className="flex w-full  justify-evenly items-center  md:px-4 mt-2 ">
+        <nav className="flex w-full  justify-evenly items-center  md:px-4 mt-2 pb-2 pt-2 ">
           <button
             type="button"
             className={`
@@ -223,7 +223,10 @@ export default function ViewTeacherClient({ bookingArray, teacherInfo }: any) {
         </nav>
       </div>
       {tab == "booking" && bookingAppointmentJsx}
+      <div className=" pt-12 md:py-24">
+
       {tab == "" && teacherInfoJsx}
+      </div>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default async function Page({ params, searchParams }: any) {
 
   const bookings = await Booking.find({ teacher: teacher._id }).populate(
     "student"
-  );
+  ).sort({date: -1});
 
   const teacherJson = simpleJson(teacher);
 
@@ -38,7 +38,7 @@ export default async function Page({ params, searchParams }: any) {
 
   console.log(bookings, "hey");
   return (
-    <div className="h-full min-h-screen ">
+    <div className="h-full md:min-h-[868px]  ">
       <div className=" relative">
         <div className="absolute left-4 md:left-12 underline-offset-1   -top-5 md:top-4 bottom-0 my-auto flex items-center justify-center">
           <Link
@@ -68,19 +68,7 @@ export default async function Page({ params, searchParams }: any) {
         <ViewTeacherClient bookingArray={bookingJson} teacherInfo={teacherJson} />
       </div>
 
-      {/* {bookingJson.length == 0 && (
-        <div className="h-full flex items-center justify-center pb-12 text-3xl font-extrabold text-white drop-shadow-xl shadow-2xl">
-          <p>No Past Bookings</p>
-        </div>
-      )}
-
-     
-
-      <figure className="flex justify-center items-center flex-col gap-8 mt-8">
-        {bookingJson.map((b: any, i: number) => {
-          return <OldBookingMap key={i} userData={b.student} data={b} />;
-        })}
-      </figure> */}
+      
     </div>
   );
 }
@@ -94,3 +82,20 @@ export default async function Page({ params, searchParams }: any) {
         </figure>
         // <OldBookingMap userData={booking.student}
       )} */}
+
+
+
+
+{/* {bookingJson.length == 0 && (
+<div className="h-full flex items-center justify-center pb-12 text-3xl font-extrabold text-white drop-shadow-xl shadow-2xl">
+  <p>No Past Bookings</p>
+</div>
+)}
+
+
+
+<figure className="flex justify-center items-center flex-col gap-8 mt-8">
+{bookingJson.map((b: any, i: number) => {
+  return <OldBookingMap key={i} userData={b.student} data={b} />;
+})}
+</figure> */}

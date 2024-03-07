@@ -8,7 +8,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   await resend.emails.send({
     from: "noreply@sprachgeist.com",
     to: email,
-    subject: "Verified your email",
+    subject: "Verify your email",
     html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`,
   });
 };

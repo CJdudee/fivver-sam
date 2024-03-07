@@ -83,9 +83,12 @@ export const userCancelBooking = async (bookingId: string) => {
   if (!foundUser || !foundTeacher) return { error: "No user found" };
 
   const foundToken = await Token.findOne({
-    user: foundUser._id,
-    groupSize: foundBooking.groupSize,
+    _id: foundBooking.tokenId
   });
+  // const foundToken = await Token.findOne({
+  //   user: foundUser._id,
+  //   groupSize: foundBooking.groupSize,
+  // });
 
   foundToken.tokens += 1;
 

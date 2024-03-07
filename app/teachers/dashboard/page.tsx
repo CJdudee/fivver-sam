@@ -70,9 +70,9 @@ export default async function Page({ searchParams }: any) {
         </p>
       </div>
       <div className="flex flex-col justify-center items-center md:text-xl font-bold w-full md:w-1/2  shadow-xl px-2 rounded-xl py-2 ">
-        <p className="w-full flex justify-center ">Completed Orders</p>
+        <p className="w-full flex justify-center ">Canceled Orders</p>
         <p className="w-full flex justify-center ">
-          {monthlyOrderJson?.completedOrders}
+          {monthlyOrderJson?.canceledOrders}
         </p>
         {/* <p className="w-full flex justify-center ">{teacherJson.currentOrders}</p> */}
       </div>
@@ -87,7 +87,7 @@ export default async function Page({ searchParams }: any) {
   );
 
   return (
-    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:p-24 pt-4  relative min-h-[800px] h-screen ">
+    <div className="flex flex-col gap-8 justify-evenly w-full items-center md:py-12 pt-4  relative min-h-[800px] h-full ">
       {/* {!googCode && !teacherJson.googleCode && <GoogleClient />}
       {(googCode || teacherJson.googleCode) && (
         <div className="text-2xl text-white font-bold">

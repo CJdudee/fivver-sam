@@ -5,10 +5,13 @@ import Token from '@/models/Token'
 import TokenHistory from '@/models/TokenHistory'
 // import { find } from '@/models/User'
 import { simpleJson } from '@/utils/helpers'
+import { unstable_noStore } from 'next/cache'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
 export default async function Page() {
+
+  unstable_noStore()
 
   const user = await serverUser()
 
@@ -20,7 +23,8 @@ export default async function Page() {
 
   const foundBooking = await Booking.find({student: user.id, date: {$lt: new Date()}}).populate({path: 'teacher', populate: { path: 'user'}})
 
-  console.log(user, foundBooking)
+  // console.log(user, foundBooking)
+  console.log(foundTokens)
 
   const tokensJson = simpleJson(foundTokens)
 
