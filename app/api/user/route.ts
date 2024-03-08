@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import User from '@/models/User'
 import { connectingMongoose } from "@/app/lib/connectMongo";
 import { newUserEmail } from "@/app/lib/mail";
+import AdminSetting from "@/models/AdminSetting";
+import AssignTeacher from "@/models/AssignTeacher";
 
 
 
@@ -62,9 +64,26 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
     }
 
+    const adminSetting = await AdminSetting.findOne()
+
+    // if(adminSetting.isDefault && adminSetting.teacher){
+    //     // newData = {
+    //     //     ...newData,
+
+    //     // }
+    // }
+
     try {
         const createdUser = await User.create(newData)
         console.log(createdUser)
+
+        if(adminSetting.isDefault && adminSetting.teacher){
+            // newData = {
+            //     ...newData,
+    
+            // }
+            const assignTeacher = await AssignTeacher.create({teacher: adminSetting.teacher, user: createdUser._id})
+        }
         // return NextResponse.json("woo")
 
         return new NextResponse(JSON.stringify("woo"), {

@@ -51,6 +51,12 @@ export default async function Page() {
             Change Pricing
           </Link>
         </div>
+        <Link
+            href="/dashboard/settings"
+            className="rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-lg hover:opacity-90 text-black font-extrabold p-2 flex justify-center items-center h-full w-full"
+          >
+            Admin settings
+          </Link>
       </main>
     </div>
   );
