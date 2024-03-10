@@ -61,7 +61,8 @@ export default function TrialComp() {
       info: descDay,
     };
 
-    const madeUser = await makeTrialUserEmail(userData, dateInfo);
+    // const madeUser = await makeTrialUserEmail(userData, dateInfo);
+    const madeUser = await makeTrialUser(userData, dateInfo);
 
     console.log(madeUser);
 
@@ -85,13 +86,13 @@ export default function TrialComp() {
         </p>
       )}
       <div className="bg-white rounded-lg shadow-md p-8 px-2 md:px-8 text-center relative ring-orange-700 md:ring-orange-500 ring-4 ring-offset-4 ring-offset-slate-200">
-        <p className="text-lg font-bold mb-6 text-center md:w-1/2 mx-auto">
+        {/* <p className="text-lg font-bold mb-6 text-center md:w-1/2 mx-auto">
           Please provide the following information to start your trial.{" "}
           {`We'll`} use your email to contact you if needed.
-        </p>
+        </p> */}
 
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 drop-shadow-lg">
             <div className="mb-0">
               <label
                 htmlFor="firstName"
@@ -126,7 +127,7 @@ export default function TrialComp() {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-4 drop-shadow-lg">
             <label htmlFor="email" className="block text-lg font-medium mb-2">
               Email
             </label>
@@ -143,7 +144,7 @@ export default function TrialComp() {
         <p className="font-semibold text-2xl mb-4">
           Please Choose days that fit your schedule
         </p>
-        <ul className="grid grid-cols-2 gap-4">
+        <ul className="grid grid-cols-2 gap-4  shadow-xl rounded-2xl">
           {weekDayArray.map((w) => (
             <li
               key={w.name}
@@ -154,7 +155,6 @@ export default function TrialComp() {
                 type="checkbox"
                 name={w.name}
                 checked={weekDayState[w.name]}
-                
                 onChange={() => {
                   const result = !weekDayState[w.name];
 
@@ -172,11 +172,12 @@ export default function TrialComp() {
         </ul>
 
         <div className="mt-4 mx-auto w-full md:w-2/3 py-4 rounded-xl">
-          <p className="text-2xl font-semibold text-center mb-1 md:mb-4">
-            Please explain further, Times that you are available
+          <p className="text-xl md:text-2xl font-semibold text-center mb-1">
+            Give us more details about times you are available on the days you
+            selected above
           </p>
 
-          <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-center justify-center mt-0 mx-auto mb-1 md:mb-4 w-full">
+          <div className="flex flex-col md:flex-row gap-0 md:gap-2 items-center justify-center mt-0 mx-auto mb-1 w-full">
             <p className="text-sm font-semibold">For example:</p>
             <q className="text-sm font-semibold">
               I am free in the morning and Wednesdays evenings
@@ -196,7 +197,7 @@ export default function TrialComp() {
           className="w-1/2 bg-gradient-to-r from-[#D9643A] to-[#E35D5B] text-white hover:text-black font-bold py-2 px-4 rounded-full focus:outline-none focus:ring-2  transition-all duration-500"
           onClick={() => makeTrialAccount()}
         >
-          Save
+          Send
         </button>
       </div>
     </div>

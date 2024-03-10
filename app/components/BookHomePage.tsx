@@ -43,7 +43,7 @@ export default async function BookHomePage({ pricePackages }: any) {
       </div>
 
       <div className=" text-center bg-white h-full w-full pt-32 ">
-        <p className="text-3xl font-bold">What makes Us different?</p>
+        <p className="text-3xl font-bold">Even more reasons</p>
         <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
           {
             " Here's are reasons that make us special. This is a journey and we will be here along the way "
@@ -55,13 +55,13 @@ export default async function BookHomePage({ pricePackages }: any) {
             <WhatMakesDifferent
               mainText="Proficiency"
               emoji={["🖥️", "📝"]}
-              bottomText="Native German Speaker"
+              bottomText="your teacher is native German speaker"
             />
             <WhatMakesDifferent
               mainText="Dedicated"
               emoji={["👨🏻‍🏫"]}
               bottomText={
-                "Your own personal teacher, following you each step of the way"
+                "your own personal teacher, following you each step of the way"
               }
             />
           </div>
@@ -71,7 +71,7 @@ export default async function BookHomePage({ pricePackages }: any) {
             <WhatMakesDifferent
               mainText="Expertise"
               emoji={["🎓", "🏫"]}
-              bottomText="You Teacher Has a University Degree in German Language"
+              bottomText="your teacher has a university degree in German language"
               flex={true}
             />
           </div>
@@ -80,7 +80,7 @@ export default async function BookHomePage({ pricePackages }: any) {
             <WhatMakesDifferent
               mainText="Certification"
               emoji={["🅰️"]}
-              bottomText="Up to date on exam preparation A1-C2"
+              bottomText="up to date on exam preparation A1-C2"
               flex={true}
             />
           </div>
@@ -89,12 +89,12 @@ export default async function BookHomePage({ pricePackages }: any) {
             <WhatMakesDifferent
               mainText="Personal"
               emoji={["💛"]}
-              bottomText="We are a small team of experts, but we are big on personal touch"
+              bottomText="we are a small team of experts, but we are big on personal touch"
             />
             <WhatMakesDifferent
               mainText="Flexible"
               emoji={["🗓️"]}
-              bottomText="Reschedule, cancel, or anything in between – SprachGeist has you covered"
+              bottomText="reschedule, cancel, or anything in between – available up to 24 hours in advance"
               // bottomText="From our reschedule/cancel policy to anything you need, your SprachGeist is there for you"
             />
             {/* <p className="bg-[#F5F5F5] rounded-xl">hey</p>

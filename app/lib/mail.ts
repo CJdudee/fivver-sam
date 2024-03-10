@@ -66,11 +66,13 @@ export const sendBoughtEmail = async (
   group: number,
   expire: Date
 ) => {
+  const oldText = ` These classes will expire on ${expire}`
   const emailText = `
     Thank you for your purchase of ${classes} total classes for a group size of ${group}
-    These classes will expire on ${expire}
+
+    Once your purchase is processed, you can book a class by simply logging in and visiting “Booking” page (or “Book a Class” link from pop-up window).
+   
     if any issues or if this wasn't you please contact us at 
-    
     info@sprachgeist.com`;
 
   await resend.emails.send({
@@ -200,3 +202,26 @@ export const userBroughtTokenEmail = async (
     `,
   });
 };
+
+export const userCancelBookingEmail = async(firstName: string, lastName: string, email: string) => {
+await resend.emails.send({
+  from: "noreply@sprachgesit.com",
+  to: email,
+  subject: "Class canceled",
+  text: `
+  You can canceled your booking with ${firstName} ${lastName}.
+
+  `
+})
+}
+export const teacherCancelBookingEmail = async(firstName: string, lastName: string, email: string) => {
+await resend.emails.send({
+  from: "noreply@sprachgesit.com",
+  to: email,
+  subject: "Class canceled",
+  text: `
+  Student ${firstName} ${lastName} has canceled his class with you.
+
+  `
+})
+}

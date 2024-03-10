@@ -221,7 +221,7 @@ export default function SettingClient({ adminSetting, foundTeacher }: any) {
             Remove Teacher
           </button>
         )}
-        {adminState.teacher != null &&
+        {adminState && adminState.teacher != null &&
           (adminState?.isDefault == true || adminState?.isDefault == false) && (
             <button
               className={`bg-gradient-to-r ${

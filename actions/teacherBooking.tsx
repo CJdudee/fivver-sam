@@ -1,6 +1,10 @@
 "use server";
 
 import { connectingMongoose } from "@/app/lib/connectMongo";
+import {
+  teacherCancelBookingEmail,
+  userCancelBookingEmail,
+} from "@/app/lib/mail";
 import Booking from "@/models/Booking";
 import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
@@ -14,8 +18,6 @@ export const cancelBooking = async (bookingId: string) => {
 
   if (!foundBooking || foundBooking.status == "canceled")
     return { error: "already cancelled" };
-
-  
 
   console.log(foundBooking);
 
@@ -58,7 +60,7 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const time = new Date(foundBooking.date);
 
-  const splitTime = foundBooking.time.split(':') as string
+  const splitTime = foundBooking.time.split(":") as string;
 
   const addedHour = addHours(time, Number(splitTime[0]));
 
@@ -66,9 +68,9 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const isFullDay = addDays(new Date(), 1) < addedMin;
 
-  if(!isFullDay) return ({error: 'Too late to cancel'})
+  if (!isFullDay) return { error: "Too late to cancel" };
 
-//   return
+  //   return
 
   foundBooking.status = "canceled";
 
@@ -79,7 +81,9 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const foundUser = await User.findById(cancelBooking.student);
 
-  const foundTeacher = await Teacher.findById(foundBooking.teacher)
+  const foundTeacher = await Teacher.findById(foundBooking.teacher).populate(
+    "user"
+  );
 
   if (!foundUser || !foundTeacher) return { error: "No user found" };
 
@@ -90,10 +94,8 @@ export const userCancelBooking = async (bookingId: string) => {
     date: format,
   });
 
-  
-
   const foundToken = await Token.findOne({
-    _id: foundBooking.tokenId
+    _id: foundBooking.tokenId,
   });
   // const foundToken = await Token.findOne({
   //   user: foundUser._id,
@@ -102,15 +104,27 @@ export const userCancelBooking = async (bookingId: string) => {
 
   foundToken.tokens += 1;
 
-  foundTeacher.canceledOrders += 1
+  foundTeacher.canceledOrders += 1;
 
-  monthlyOrder.canceledOrders += 1
+  monthlyOrder.canceledOrders += 1;
 
   await foundToken.save();
 
-  await foundTeacher.save()
+  await foundTeacher.save();
 
-  await monthlyOrder.save()
+  await monthlyOrder.save();
+
+  await userCancelBookingEmail(
+    foundTeacher.user.firstname,
+    foundTeacher.user.lastName,
+    foundUser.email
+  );
+
+  await teacherCancelBookingEmail(
+    foundUser.firstName,
+    foundUser.lastName,
+    foundTeacher.user.email
+  );
 
   return { success: "Booking was cancelled" };
   // console.log(foundUser)

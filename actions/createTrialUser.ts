@@ -36,13 +36,17 @@ export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
 
     if (!createdUser) return { error: "Failed to Create New User" };
 
-    const createdTrial = await TrialUser.create({
-      weekArray,
-      info,
-      user: createdUser._id,
-    });
+    // sending data to info@sg.com
 
-    if (!createdTrial) return { error: "Failed to Create Trail" };
+    await sendTrialUserDataToMain({email, firstName, lastName}, {weekArray, info})
+
+    // const createdTrial = await TrialUser.create({
+    //   weekArray,
+    //   info,
+    //   user: createdUser._id,
+    // });
+
+    // if (!createdTrial) return { error: "Failed to Create Trail" };
 
     const verficationToken = await generateVericationToken(
       email,

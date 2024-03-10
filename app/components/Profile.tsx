@@ -70,6 +70,9 @@ export default function Profile({ user, tokens }: any) {
             {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
               Booked Classes
             </Link>}
+            {user.roles.includes('user') && <Link href={"/teach"} onClick={() => {setOpenProfile(false)}} className="profile">
+              Book a Class
+            </Link>}
             {/* {user.roles.includes('user') && <Link href={"/booking"} onClick={() => {setOpenProfile(false)}} className="profile">
               Booking panel
             </Link>} */}
