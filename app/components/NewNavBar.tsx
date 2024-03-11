@@ -18,9 +18,12 @@ import Token from "@/models/Token";
 import { RxHamburgerMenu } from "react-icons/rx";
 import PhoneNav from "./users/navbar/PhoneNav";
 import LogoLink from "./users/navbar/LogoLink";
+import { connectingMongoose } from "../lib/connectMongo";
 
 export default async function NewNavBar() {
   // const session = await auth()
+
+  await connectingMongoose()
 
   const session = await serverUser();
 
