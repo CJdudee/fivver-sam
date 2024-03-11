@@ -66,7 +66,7 @@ export const sendBoughtEmail = async (
   group: number,
   expire: Date
 ) => {
-  const oldText = ` These classes will expire on ${expire}`
+  const oldText = ` These classes will expire on ${expire}`;
   const emailText = `
     Thank you for your purchase of ${classes} total classes for a group size of ${group}
 
@@ -203,25 +203,33 @@ export const userBroughtTokenEmail = async (
   });
 };
 
-export const userCancelBookingEmail = async(firstName: string, lastName: string, email: string) => {
-await resend.emails.send({
-  from: "noreply@sprachgesit.com",
-  to: email,
-  subject: "Class canceled",
-  text: `
+export const userCancelBookingEmail = async (
+  firstName: string,
+  lastName: string,
+  email: string
+) => {
+  await resend.emails.send({
+    from: "noreply@sprachgesit.com",
+    to: `${email}`,
+    subject: "Class canceled",
+    text: `
   You can canceled your booking with ${firstName} ${lastName}.
 
-  `
-})
-}
-export const teacherCancelBookingEmail = async(firstName: string, lastName: string, email: string) => {
-await resend.emails.send({
-  from: "noreply@sprachgesit.com",
-  to: email,
-  subject: "Class canceled",
-  text: `
+  `,
+  });
+};
+export const teacherCancelBookingEmail = async (
+  firstName: string,
+  lastName: string,
+  email: string
+) => {
+  await resend.emails.send({
+    from: "noreply@sprachgesit.com",
+    to: email,
+    subject: "Class canceled",
+    text: `
   Student ${firstName} ${lastName} has canceled his class with you.
 
-  `
-})
-}
+  `,
+  });
+};

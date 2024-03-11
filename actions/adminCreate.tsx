@@ -1,4 +1,6 @@
 'use server'
+import AdminSetting from '@/models/AdminSetting'
+import AssignTeacher from '@/models/AssignTeacher'
 import User from '@/models/User'
 import bcrypt from 'bcrypt'
 
@@ -37,6 +39,16 @@ export const newUser = async(userData: any) => {
     })
 
     if(!createdUser) return null
+
+    const adminSetting = await AdminSetting.findOne()
+
+    if(adminSetting && adminSetting.isDefault && adminSetting.teacher){
+        // newData = {
+        //     ...newData,
+
+        // }
+        const assignTeacher = await AssignTeacher.create({teacher: adminSetting.teacher, user: createdUser._id})
+    }
 
     return `User ${createdUser.firstName} has been created`
 }

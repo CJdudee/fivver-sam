@@ -126,6 +126,8 @@ export const userCancelBooking = async (bookingId: string) => {
     foundTeacher.user.email
   );
 
+  console.log(foundTeacher, foundUser)
+
   return { success: "Booking was cancelled" };
   // console.log(foundUser)
   // foundUser.tokens += 1

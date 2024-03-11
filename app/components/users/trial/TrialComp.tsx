@@ -73,6 +73,12 @@ export default function TrialComp() {
     susToast(madeUser.msg as string);
     setSuccess("Please Check your Email for your password");
     setError(null);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setDescDay("");
+    setWeekDayState(initWeekDay);
   };
 
   return (
@@ -80,11 +86,7 @@ export default function TrialComp() {
       <h2 className="text-4xl font-bold text-center mb-6 text-orange-500">
         Free Trial
       </h2>
-      {success && (
-        <p className="text-green-500 text-2xl mb-4 text-center font-bold ">
-          {success}
-        </p>
-      )}
+
       <div className="bg-white rounded-lg shadow-md p-8 px-2 md:px-8 text-center relative ring-orange-700 md:ring-orange-500 ring-4 ring-offset-4 ring-offset-slate-200">
         {/* <p className="text-lg font-bold mb-6 text-center md:w-1/2 mx-auto">
           Please provide the following information to start your trial.{" "}
@@ -199,6 +201,11 @@ export default function TrialComp() {
         >
           Send
         </button>
+        {success && (
+          <p className="text-green-600 text-2xl mb-4 text-center font-bold mt-4 shadow-xl drop-shadow-xl w-1/2 mx-auto ">
+            {success}
+          </p>
+        )}
       </div>
     </div>
   );

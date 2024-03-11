@@ -283,16 +283,22 @@ export default function UserBookedLessons({ booked }: any) {
                   <p className="text-end w-full ">{distance} away</p>
                 </div>
                 {b.status == "pending" && (
-                  <button
-                    className="outline outline-1 bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 mt-2 hover:text-black "
-                    onClick={() => {
-                      onCancelBook(b._id);
-                    }}
-                    disabled={!isFullDay}
-                  >
-                    Cancel
-                  </button>
-                )}
+                    <button
+                      className={`${isFullDay ? '' : 'text-gray-400'} outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 hidden md:block bg-gradient-to-r from-[#D9643A] to-[#E35D5B]`}
+                      onClick={() => {
+                        if (!isFullDay) {
+                          setCancelDialog(true);
+                          return;
+                        }
+
+                        onCancelBook(b._id);
+                      }}
+                      // disabled={!isFullDay}
+                    >
+                      Cancel
+                    </button>
+                  )}
+               
               </div>
             );
           })}
@@ -301,3 +307,16 @@ export default function UserBookedLessons({ booked }: any) {
     </>
   );
 }
+
+
+{/* {b.status == "pending" && (
+  <button
+    className="outline outline-1 bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 mt-2 hover:text-black "
+    onClick={() => {
+      onCancelBook(b._id);
+    }}
+    disabled={!isFullDay}
+  >
+    Cancel
+  </button>
+)} */}
