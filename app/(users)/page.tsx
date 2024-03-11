@@ -1,8 +1,10 @@
 import Packages from "@/models/Packages";
 import { simpleJson } from "@/utils/helpers";
 import BookHomePage from "../components/BookHomePage";
+import { connectingMongoose } from "../lib/connectMongo";
 
 export default async function Home() {
+  await connectingMongoose()
   const pricePackages = await Packages.find().limit(5).exec();
 
   return (
