@@ -22,26 +22,35 @@ export const bookAppt = async (
 
   const setDate = randTest.toUTC().toISO();
 
-  const timeSplit = date.dateTime.split(":")
+  const timeSplit = date.dateTime.split(":");
 
-//   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
-  const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
-//   const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('D T z')
-  const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('dd LLLL yyyy T z')
+  //   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
+  const clientSideTime = DateTime.fromJSDate(date.justDate, {
+    zone: "Europe/Berlin",
+  })
+    .startOf("day")
+    .toJSDate();
+  // const offSet = DateTime.fromJSDate(date.justDate, {
+  //   zone: "Europe/Berlin",
+  // }).startOf("day").offset;
+  //   const clientSideFormat = DateTime.fromJSDate(clientSideTime).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('D T z')
+  const clientSideFormat = DateTime.fromJSDate(clientSideTime)
+    .plus({
+      hours: Number(timeSplit[0]),
+      minutes: Number(timeSplit[1]),
+    })
+    .toFormat("dd LLLL yyyy T z");
 
-  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate).plus({hours: Number(timeSplit[0]), minutes: Number(timeSplit[1])}).toFormat('dd LLLL yyyy T z')
+  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate)
+    .plus({ hours: Number(timeSplit[0]), minutes: Number(timeSplit[1]) })
+    .toFormat("dd LLLL yyyy T z");
 
-  console.log(clientSideFormat, date, timeSplit)
-  
+  console.log(clientSideFormat, date, timeSplit);
 
-  // console.log(randTest.toUTC().toISO(),  'random shit')
+  console.log(clientSideFormat, "yoyuyooy");
 
-  // console.log(typeof date.justDate, date, new Date(date.justDate))
 
   const formated = formatDate(date.justDate, "MM/yy");
-  // console.log(formated)
-
-  // console.log(date, 'datea')
 
   const myUtc = new Date().toLocaleString("en-US", {
     timeZone: "America/New_York",
@@ -54,13 +63,12 @@ export const bookAppt = async (
 
   // console.log(dateTest, DateTime.utc().setZone('Europe/Berlin').toFormat('yyyy LLL dd hh:mm') )
   // const time = DateTime.now()
-  // return
-  // MonthlyOrder.updateOne({date: formated}, {orders: })
-  // return
 
   const foundUser = await User.findById(userId).exec();
 
-  const foundTeacher = await Teacher.findById(teacherId).populate('user').exec();
+  const foundTeacher = await Teacher.findById(teacherId)
+    .populate("user")
+    .exec();
 
   if (!foundUser || !foundTeacher) return { error: "No user found" };
 
@@ -91,17 +99,29 @@ export const bookAppt = async (
 
   const teacherFullName = {
     first: foundTeacher.user.firstName,
-    last: foundTeacher.user.lastName
-  }
+    last: foundTeacher.user.lastName,
+  };
 
   const userFullName = {
     first: foundUser.firstName,
     last: foundUser.lastName,
-  }
+  };
 
-  const emailSent = await bookingEmail(foundUser.email, clientSideFormat, teacherFullName, foundTeacher.user.email, foundTeacher.googleMeetLink)
+  const emailSent = await bookingEmail(
+    foundUser.email,
+    clientSideFormat,
+    teacherFullName,
+    foundTeacher.user.email,
+    foundTeacher.googleMeetLink
+  );
 
-  const emailSentToTeacher = await bookingTeacherEmail(foundUser.email, clientTeacherSideTime, userFullName, foundTeacher.user.email, foundTeacher.googleMeetLink)
+  const emailSentToTeacher = await bookingTeacherEmail(
+    foundUser.email,
+    clientTeacherSideTime,
+    userFullName,
+    foundTeacher.user.email,
+    foundTeacher.googleMeetLink
+  );
 
   // if(!createdBooking) return {error: 'problem with creating booking'}
 

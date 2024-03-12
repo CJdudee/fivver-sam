@@ -44,11 +44,7 @@ export default async function BookHomePage({ pricePackages }: any) {
 
       <div className=" text-center bg-white h-full w-full pt-32 ">
         <p className="text-3xl font-bold">Why choose us?</p>
-        <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
-          {
-            "...even more reasons"
-          }
-        </p>
+        
         {/* <p className="mx-auto w-3/4 md:w-1/2 lg:w-1/5 mt-1 text-sm">
           {
             " Here's are reasons that make us special. This is a journey and we will be here along the way "
@@ -109,11 +105,11 @@ export default async function BookHomePage({ pricePackages }: any) {
       </div>
 
       <div className="text-center bg-white pt-32">
-        <p className="text-3xl font-bold">Why choose us?</p>
-        <p className="mx-auto w-4/5 md:w-3/5 lg:w-2/5 mt-1 text-sm">
+        <p className="text-3xl font-bold">...Even more reasons</p>
+        {/* <p className="mx-auto w-4/5 md:w-3/5 lg:w-2/5 mt-1 text-sm">
           {" "}
           We believe in comfort all the way through your learning process
-        </p>
+        </p> */}
         <div className="flex flex-col md:flex-row  gap-4 w-4/5 mx-auto items-center  mt-6 justify-center">
           <div className="bg-[#F5F5F5] rounded-xl flex flex-col p-4 gap-8 h-full w-full md:w-2/4">
             <p className="font-bold text-2xl h-1/5">Easy</p>
@@ -123,7 +119,9 @@ export default async function BookHomePage({ pricePackages }: any) {
             </p>
             <p className=" text-7xl  h-3/5 flex items-center justify-center  ">
               {" "}
-              👨🏽‍🏫 <SiGooglemeet className="text-orange-700 w-28 h-24" />
+              👨🏽‍🏫 
+              {/* <SiGooglemeet className="text-orange-700 w-28 h-24" /> */}
+
               {/* <SiGoogleclassroom className=" text-yellow-700" /> */}
             </p>
           </div>

@@ -1,4 +1,5 @@
 import OldBookingMap from "@/app/components/teachers/old/OldBookingMap";
+import { decodeUserAndCheckAdmin, decodeUserAndCheckTeacher } from "@/app/lib/finallyRoleCheck";
 import { serverUser } from "@/app/lib/serverAuth";
 import Booking from "@/models/Booking";
 import Teacher from "@/models/Teacher";
@@ -11,6 +12,9 @@ export default async function Page() {
   const user = await serverUser();
   if (!user) redirect("/");
 
+  // await decodeUserAndCheckAdmin()
+  await decodeUserAndCheckTeacher()
+
   const foundTeacher = await Teacher.findOne({ user: user.id });
 
   if (!foundTeacher) redirect("/");
@@ -18,6 +22,7 @@ export default async function Page() {
   const foundBooking = await Booking.find({
     teacher: foundTeacher._id,
     date: { $lt: new Date() },
+    status: 'pending'
   }).populate("student", "-password -customerId");
 
   console.log(foundBooking);
@@ -25,7 +30,7 @@ export default async function Page() {
   const oldBooking = simpleJson(foundBooking);
 
   return (
-    <div className="h-full min-h-[800px]">
+    <div className="h-full min-h-[800px] pb-8">
       <p className="text-center text-2xl text-white font-semibold">Past Bookings</p>
       {oldBooking.length == 0 && (
         <div className="text-center text-white text-2xl flex justify-center items-center flex-col h-full pb-8 font-bold">
@@ -39,7 +44,7 @@ export default async function Page() {
         </div>
       )}
 
-      <div className="flex flex-col justify-center items-center gap-8 pt-8 px-2">
+      <div className="flex flex-col md:grid grid-cols-2 justify-center items-center gap-6 pt-8 px-4">
         {oldBooking.map((o: any, i: number) => {
           return <OldBookingMap key={i} userData={o.student} data={o} />;
         })}

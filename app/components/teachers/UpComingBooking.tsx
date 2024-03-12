@@ -23,19 +23,33 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
   const [daysAway, setDaysAway] = useState<string | number>(7);
 
   const filtedBooked = booked.filter((b: any) => {
-    if (!daysAway || daysAway == 0 || typeof daysAway == "string") return true;
+
+    if(b.status == 'canceled') return false 
 
     let time = new Date(b.date);
     const split = b.time.split(":");
+
+
+    const addedHour = addHours(time, Number(split[0]));
+
+    const addedMin = addMinutes(addedHour, Number(split[1]));
+    
+    if (!daysAway || daysAway == 0 || typeof daysAway == "string") {
+
+     if(addedMin < new Date()) return false
+
+      return true
+    };
+
+
+    console.log(time, 'time time')
 
     // time = DateTime.fromJSDate(time, { zone: "Europe/Berlin" })
     //   .setLocale("SJ")
     //   .startOf("day")
     //   .toJSDate();
 
-    const addedHour = addHours(time, Number(split[0]));
-
-    const addedMin = addMinutes(addedHour, Number(split[1]));
+  
 
     console.log(addedMin, new Date());
 
@@ -58,20 +72,7 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
 
   return (
     <>
-      {/* <div
-        className={`${bebas.className} text-center text-3xl text-white mt-2 border-t border-t-slate-600 pt-4 flex w-full justify-center items-center mx-auto`}
-      >
-        <input
-          className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-[90px] bg-transparent text-center pl-2  mr-2 outline rounded-full"
-          value={daysAway}
-          onChange={(e) => {
-            if (Number(e.target.value) == 0) return setDaysAway("");
-            setDaysAway(Number(e.target.value));
-          }}
-          type="number"
-        />
-        <p className={`  `}>Days from now</p>
-      </div> */}
+      
       <div
         className={`${bebas.className} filter text-center text-3xl text-white  border-t-gray-200 pt-6 flex w-full justify-center items-center mx-auto gap-2 py-4`}
       >
@@ -82,6 +83,9 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
           value={daysAway}
           onChange={(e) => setDaysAway(Number(e.target.value))}
         >
+          <option className="text-black" value="0">
+            All
+          </option>
           <option className="text-black" value="3">
             Next 3 days
           </option>
@@ -95,6 +99,9 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
         </select>
       </div>
       
+      <div className="flex flex-grow justify-center items-center text-4xl text-white font-bold pt-24">
+        {filtedBooked.length == 0 && <p>No Bookings {daysAway == 0 ? 'in the future' : `${daysAway} from now`} </p>}
+      </div>
       <div className="flex flex-col gap-6">
         {filtedBooked.map((b: any, i: number) => {
 
@@ -107,6 +114,21 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
   );
 }
 
+{/* <div
+  className={`${bebas.className} text-center text-3xl text-white mt-2 border-t border-t-slate-600 pt-4 flex w-full justify-center items-center mx-auto`}
+>
+  <input
+    className="[&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-[90px] bg-transparent text-center pl-2  mr-2 outline rounded-full"
+    value={daysAway}
+    onChange={(e) => {
+      if (Number(e.target.value) == 0) return setDaysAway("");
+      setDaysAway(Number(e.target.value));
+    }}
+    type="number"
+  />
+  <p className={`  `}>Days from now</p>
+</div> */}
+
 const BookingCard = ({ booking, onCancelBook }: any) => {
   const time = new Date(booking.date);
 
@@ -118,7 +140,9 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
   // const year = getYear(time);
   const formated = gerFormat(time);
 
-  const distance = formatDistanceToNow(time);
+  console.log(addedMin, 'woowwo')
+
+  const distance = formatDistanceToNow(addedMin);
   const stric = formatDistanceStrict(addedMin, new Date());
 
   const sHour = split[0];
@@ -135,7 +159,7 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
     <div className="bg-white rounded-md p-4 shadow-md w-11/12 md:w-5/6 mx-auto  ">
       {/* Information section */}
       <div className="flex flex-col gap-4">
-        <p className="text-2xl font-semibold text-black  text-center">{stric} away</p>
+        <p className="text-2xl font-semibold text-black  text-center">{distance} away</p>
         <div className="flex flex-col md:flex-row justify-between items-center  border-gray-200 py-3 w-full md:w-1/2 mx-auto">
           <p className="text-lg font-medium text-black">
             Booked for: {formated}
@@ -176,14 +200,6 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
           Group Size: {booking.groupSize}
         </p>
       </div>
-
-      {/* Button */}
-      {/* <button
-        className="btn btn-primary mt-4"
-        onClick={() => onCancelBook(booking._id)}
-      >
-        Cancel
-      </button> */}
     </div>
   );
 };

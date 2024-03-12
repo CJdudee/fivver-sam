@@ -209,7 +209,7 @@ export const userCancelBookingEmail = async (
   email: string
 ) => {
   await resend.emails.send({
-    from: "noreply@sprachgesit.com",
+    from: "noreply@sprachgeist.com",
     to: `${email}`,
     subject: "Class canceled",
     text: `
@@ -224,7 +224,7 @@ export const teacherCancelBookingEmail = async (
   email: string
 ) => {
   await resend.emails.send({
-    from: "noreply@sprachgesit.com",
+    from: "noreply@sprachgeist.com",
     to: email,
     subject: "Class canceled",
     text: `
