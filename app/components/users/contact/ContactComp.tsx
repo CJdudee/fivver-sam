@@ -9,7 +9,7 @@ import EmailForm from "./EmailForm";
 export default function ContactComp() {
   return (
     <div className=" flex flex-col h-full min-h-[800px] justify-evenly items-center text-white font-semibold pb-20 relative">
-      <div className="text-4xl flex items-center flex-col">
+      <div className="text-4xl flex items-center flex-col pt-4">
         <p className="">Want to Contact Us?</p>
         {/* <p className="text-lg mt-2">{`Here's`} how you can reach us!</p> */}
         {/* <div className="mt-4 animate-fadeIn text-center ">

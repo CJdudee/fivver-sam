@@ -19,10 +19,16 @@ export default async function Page() {
 
   // const {user} = session
   const gotPackagesJson = simpleJson(gotPackages);
-  console.log(gotPackages);
+  // console.log(gotPackages);
+  // console.log(self.innerHeight)
+  // console.log(innerHeight.toString())
+
+  const packLength = gotPackagesJson.length
+
+  // min-h-[92.8vh]
 
   return (
-    <div className="  mx-auto px-4 py-8 min-h-[800px] h-full ">
+    <div className="  mx-auto px-4 py-8 min-h-[92.8vh] h-full ">
       <div className=" flex flex-col justify-center items-center  min-h-full h-full  pb-4 px-2 w-full  ">
         <div className="md:grid grid-cols-2 w-full mb-4 gap-4  ">
           <div className="  outline-white py-2 px-4  h-full">
@@ -54,7 +60,7 @@ export default async function Page() {
             </p>
           </div>
         </div>
-        <div className="hidden md:grid grid-cols-3 justify-center items-center gap-y-6 lg:gap-y-4 mt-6  h-full   min-h-[375px] gap-4  container w-fit ">
+        <div className={`hidden md:grid ${packLength == 1 && "grid-cols-1"} ${packLength == 2 && "grid-cols-2"} ${packLength >= 3 && "grid-cols-3"} justify-center items-center gap-y-6 lg:gap-y-4 mt-10  h-full  min-h-[375px] gap-4  container w-fit`}>
           <PricingPack
             // packages={gotPackages}
             packages={gotPackagesJson}

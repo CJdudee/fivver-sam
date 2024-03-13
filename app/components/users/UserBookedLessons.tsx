@@ -301,7 +301,7 @@ export default function UserBookedLessons({ booked }: any) {
                   <button
                     className={`${
                       isFullDay ? "" : "text-gray-400"
-                    } outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 hidden md:block bg-gradient-to-r from-[#D9643A] to-[#E35D5B]`}
+                    } outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 bg-gradient-to-r from-[#D9643A] to-[#E35D5B]`}
                     onClick={() => {
                       if (!isFullDay) {
                         setCancelDialog(true);

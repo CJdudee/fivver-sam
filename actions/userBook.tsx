@@ -135,7 +135,8 @@ export const bookAppt = async (
   const emailSent = await bookingEmail(
     foundUser.email,
     // clientSideFormat,
-    clientSideLookTest,
+    // clientSideLookTest,
+    clientTeacherSideTime,
     teacherFullName,
     foundTeacher.user.email,
     foundTeacher.googleMeetLink,
