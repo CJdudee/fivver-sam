@@ -37,6 +37,10 @@ export default async function Page({ searchParams }: any) {
     date: format,
   });
 
+  const totalOrders = await Booking.find({
+    teacher: teacher._id
+  }).countDocuments()
+
   const canBooking = await Booking.find({
     teacher: teacher._id,
     status: "cancel",
@@ -48,16 +52,28 @@ export default async function Page({ searchParams }: any) {
       $gt: new Date(),
     },
   }).countDocuments();
+
+  const completedBooking = await Booking.find({
+    teacher: teacher._id,
+    status: 'pending',
+    date: {
+      $lt: new Date()
+    }
+  }).countDocuments()
   // const canBooking = await Booking.find({teacher: teacher._id, date: {
   //   $gte: new Date()
   // }}).countDocuments()
 
   const teacherJson = simpleJson(teacher);
 
-  const bookingJson = simpleJson(canBooking);
+  const canceledBooking = simpleJson(canBooking);
   const currentJson = simpleJson(currentBooking);
 
   const monthlyOrderJson = simpleJson(mothnlyOrder);
+
+  const completedOrderJson = simpleJson(completedBooking)
+
+  const totalOrdersJson = simpleJson(totalOrders)
 
   const monthlyJsx = (
     <div className="flex  items-center flex-col md:flex-row text-black gap-6 md:gap-8 py-10 px-2 md:p-10 w-full md:w-full rounded-t-xl justify-evenly h-full min-h-[80px]">
@@ -122,7 +138,11 @@ export default async function Page({ searchParams }: any) {
           <div className="orders-summary flex flex-col gap-4">
             <div className="flex items-center justify-between text-lg font-bold">
               <p>Total Orders</p>
-              <span>{teacherJson.orders}</span>
+              <span>{totalOrdersJson}</span>
+            </div>
+            <div className="flex items-center justify-between text-lg font-bold">
+              <p>Completed Orders</p>
+              <span>{completedOrderJson}</span>
             </div>
             <div className="flex items-center justify-between text-lg font-bold">
               <p>Current Orders</p>
@@ -130,7 +150,7 @@ export default async function Page({ searchParams }: any) {
             </div>
             <div className="flex items-center justify-between text-lg font-bold">
               <p>Canceled Orders</p>
-              <span>{teacherJson.canceledOrders}</span>
+              <span>{canceledBooking}</span>
             </div>
           </div>
 

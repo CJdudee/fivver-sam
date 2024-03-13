@@ -7,6 +7,8 @@ import React, { useState } from "react";
 export default function ClassRoomLink({ teacherLink, teacherId }: any) {
   const [classRoomLink, setClassRoomLink] = useState<string>(teacherLink);
 
+  console.log(teacherLink, classRoomLink)
+
   const [newClassRoomLink, setNewClassRoomLink] = useState<string>("");
 
   const [addNewLink, setAddNewLink] = useState<boolean>(false);
@@ -72,7 +74,7 @@ export default function ClassRoomLink({ teacherLink, teacherId }: any) {
 
   return (
     <div>
-      {classRoomLink != (undefined || "") && (
+      {classRoomLink != (undefined || "" || null) && (
         <p className="text-center font-bold text-white w-full">
           Class Room Link:{" "}
           <a className="hover:text-gray-300" href={`${classRoomLink}`}>
@@ -80,7 +82,7 @@ export default function ClassRoomLink({ teacherLink, teacherId }: any) {
           </a>
         </p>
       )}
-      {classRoomLink == (undefined || "") && (
+      {classRoomLink == (undefined || "" || null) && (
         <p className="text-white font-semibold text-2xl">
           Class Room Link has not been set up
         </p>
@@ -97,7 +99,7 @@ export default function ClassRoomLink({ teacherLink, teacherId }: any) {
             Add Class link
           </button>
 
-          {classRoomLink != (undefined || "") && (
+          {classRoomLink != (undefined || "" || null) && (
             <button
               onClick={() => {
                 handleRemoveGoogleLink();

@@ -30,10 +30,10 @@ export default async function Page() {
   const oldBooking = simpleJson(foundBooking);
 
   return (
-    <div className="h-full min-h-[800px] pb-8">
-      <p className="text-center text-2xl text-white font-semibold">Past Bookings</p>
+    <div className="min-h-full h-[88vh] pb-8 ">
+      <p className="text-center text-3xl text-white font-bold pt-5 ">Past Bookings</p>
       {oldBooking.length == 0 && (
-        <div className="text-center text-white text-2xl flex justify-center items-center flex-col h-full pb-8 font-bold">
+        <div className="text-center text-white text-2xl flex justify-center items-center flex-col h-full pb-8 font-bold md:gap-12">
           <p>No Old Bookings</p>
           <Link
             className="underline hover:text-gray-300"

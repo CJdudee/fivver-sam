@@ -23,33 +23,27 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
   const [daysAway, setDaysAway] = useState<string | number>(7);
 
   const filtedBooked = booked.filter((b: any) => {
-
-    if(b.status == 'canceled') return false 
+    if (b.status == "canceled") return false;
 
     let time = new Date(b.date);
     const split = b.time.split(":");
 
-
     const addedHour = addHours(time, Number(split[0]));
 
     const addedMin = addMinutes(addedHour, Number(split[1]));
-    
+
     if (!daysAway || daysAway == 0 || typeof daysAway == "string") {
+      if (addedMin < new Date()) return false;
 
-     if(addedMin < new Date()) return false
+      return true;
+    }
 
-      return true
-    };
-
-
-    console.log(time, 'time time')
+    console.log(time, "time time");
 
     // time = DateTime.fromJSDate(time, { zone: "Europe/Berlin" })
     //   .setLocale("SJ")
     //   .startOf("day")
     //   .toJSDate();
-
-  
 
     console.log(addedMin, new Date());
 
@@ -72,14 +66,13 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
 
   return (
     <>
-      
       <div
         className={`${bebas.className} filter text-center text-3xl text-white  border-t-gray-200 pt-6 flex w-full justify-center items-center mx-auto gap-2 py-4`}
       >
         <label htmlFor="daysAway">Show bookings from </label>
         <select
           id="daysAway"
-          className="text-white  bg-transparent outline rounded-xl pl-3"
+          className="text-white  bg-transparent outline rounded-xl  text-center px-2"
           value={daysAway}
           onChange={(e) => setDaysAway(Number(e.target.value))}
         >
@@ -95,18 +88,23 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
           <option className="text-black" value="14">
             Next 14 days
           </option>
-          
         </select>
       </div>
-      
-      <div className="flex flex-grow justify-center items-center text-4xl text-white font-bold pt-24">
-        {filtedBooked.length == 0 && <p>No Bookings {daysAway == 0 ? 'in the future' : `${daysAway} from now`} </p>}
-      </div>
+
+      {filtedBooked.length == 0 && (
+        <div className="flex flex-grow justify-center items-center text-4xl text-white font-bold pt-24">
+          {filtedBooked.length == 0 && (
+            <p>
+              No Bookings{" "}
+              {daysAway == 0 ? "in the future" : `${daysAway} from now`}{" "}
+            </p>
+          )}
+        </div>
+      )}
       <div className="flex flex-col gap-6">
         {filtedBooked.map((b: any, i: number) => {
-
           return (
-            <BookingCard  key={i} booking={b} onCancelBook={onCancelBook} />
+            <BookingCard key={i} booking={b} onCancelBook={onCancelBook} />
           );
         })}
       </div>
@@ -114,7 +112,8 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
   );
 }
 
-{/* <div
+{
+  /* <div
   className={`${bebas.className} text-center text-3xl text-white mt-2 border-t border-t-slate-600 pt-4 flex w-full justify-center items-center mx-auto`}
 >
   <input
@@ -127,7 +126,8 @@ export default function UpComingBooking({ booked, onCancelBook }: any) {
     type="number"
   />
   <p className={`  `}>Days from now</p>
-</div> */}
+</div> */
+}
 
 const BookingCard = ({ booking, onCancelBook }: any) => {
   const time = new Date(booking.date);
@@ -140,7 +140,7 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
   // const year = getYear(time);
   const formated = gerFormat(time);
 
-  console.log(addedMin, 'woowwo')
+  console.log(addedMin, "woowwo");
 
   const distance = formatDistanceToNow(addedMin);
   const stric = formatDistanceStrict(addedMin, new Date());
@@ -153,13 +153,14 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
   if (Number(sHour) > 12) {
     numb = sHour % 12;
   }
-  
 
   return (
     <div className="bg-white rounded-md p-4 shadow-md w-11/12 md:w-5/6 mx-auto  ">
       {/* Information section */}
       <div className="flex flex-col gap-4">
-        <p className="text-2xl font-semibold text-black  text-center">{distance} away</p>
+        <p className="text-2xl font-semibold text-black  text-center">
+          {distance} away
+        </p>
         <div className="flex flex-col md:flex-row justify-between items-center  border-gray-200 py-3 w-full md:w-1/2 mx-auto">
           <p className="text-lg font-medium text-black">
             Booked for: {formated}
@@ -248,8 +249,6 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
 //   </button>
 // </div> */}
 
-
-
 // {/* <div
 //               key={b._id}
 //               className="flex flex-col items-center justify-center gap-4 bg-gray-200 w-full  md:w-5/6 lg:2/3 md:mx-auto py-8  px-6 rounded-xl relative"
@@ -323,8 +322,8 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
 //             </div> */}
 //             </div> */}
 
-
-{/* <div className="flex items-center justify-center mt-2 border-t border-t-slate-600 pt-4 w-full text-2xl">
+{
+  /* <div className="flex items-center justify-center mt-2 border-t border-t-slate-600 pt-4 w-full text-2xl">
         <label htmlFor="daysAway">Days from now:</label>
         <input
           id="daysAway"
@@ -337,4 +336,5 @@ const BookingCard = ({ booking, onCancelBook }: any) => {
             setDaysAway(Number(e.target.value));
           }}
         />
-      </div> */}
+      </div> */
+}

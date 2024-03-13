@@ -72,7 +72,7 @@ export default function UserBookedLessons({ booked }: any) {
 
   const handleChangeTimeFrame = (e: React.ChangeEvent<HTMLInputElement>) => {
     const number = Number(e.target.value);
-    if(number < 0) return setDaysAway(0)
+    if (number < 0) return setDaysAway(0);
     if (number == 0) return setDaysAway(undefined);
 
     setDaysAway(number);
@@ -80,20 +80,33 @@ export default function UserBookedLessons({ booked }: any) {
 
   const cantCancelJsx = (
     <Dialog
-    static
+      static
       className={" relative h-full w-full "}
       open={cancelDialog}
       onClose={() => setCancelDialog(false)}
     >
-      <div className={`${cancelDialog ? 'z-50' : '-z-50'} fixed flex justify-center items-center inset-0 bottom-0 right-0 mx-auto text-center bg-black/30  `}>
-        <Dialog.Panel className={"bg-white h-1/2 w-1/2 flex justify-between py-8 flex-col text-2xl px-4 rounded-2xl font-bold"}>
+      <div
+        className={`${
+          cancelDialog ? "z-50" : "-z-50"
+        } fixed flex justify-center items-center inset-0 bottom-0 right-0 mx-auto text-center bg-black/30  `}
+      >
+        <Dialog.Panel
+          className={
+            "bg-white h-1/2 w-1/2 flex justify-between py-8 flex-col text-2xl px-4 rounded-2xl font-bold"
+          }
+        >
           <Dialog.Title>Unable to Cancel</Dialog.Title>
           <Dialog.Description>
             This action can not be done. A full day is needed to be able to
             cancel Booking
           </Dialog.Description>
 
-          <button className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] rounded-full py-1 text-white hover:text-black active:text-black" onClick={() => setCancelDialog(false)}>Close</button>
+          <button
+            className="bg-gradient-to-r from-[#D9643A] to-[#E35D5B] rounded-full py-1 text-white hover:text-black active:text-black"
+            onClick={() => setCancelDialog(false)}
+          >
+            Close
+          </button>
         </Dialog.Panel>
       </div>
     </Dialog>
@@ -111,19 +124,14 @@ export default function UserBookedLessons({ booked }: any) {
             id="daysAway"
             value={daysAway}
             onChange={(e) => {
-              handleChangeTimeFrame(e)
+              handleChangeTimeFrame(e);
             }}
             type="number"
           />
         </div>
       </div>
       <div>
-        
-        
-
         {cantCancelJsx}
-        
-        
 
         <div className=" flex flex-col lg:grid grid-cols-2 gap-8 pt-8 px-2">
           {filteredBook.map((b: any) => {
@@ -236,7 +244,9 @@ export default function UserBookedLessons({ booked }: any) {
                 </div>
                 <div className="text-center w-full">
                   <div className="flex flex-col items-center justify-evenly w-full  mx-auto  rounded-3xl border-t-2 border-b-2 py-2">
-                    <p className="pb-1 text-orange-500 pt-2 font-bold">Teacher Info</p>
+                    <p className="pb-1 text-orange-500 pt-2 font-bold">
+                      Teacher Info
+                    </p>
                     <figure className="p-[1em] rounded-[1em] bg-[#eee] m-0 w-full text-black md:w-[95%] my-4">
                       <div className="flex flex-col md:flex-row w-full mb-2 justify-center gap-2 ">
                         <p className=" text-center  ">Email:</p>
@@ -283,22 +293,23 @@ export default function UserBookedLessons({ booked }: any) {
                   <p className="text-end w-full ">{distance} away</p>
                 </div>
                 {b.status == "pending" && (
-                    <button
-                      className={`${isFullDay ? '' : 'text-gray-400'} outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 hidden md:block bg-gradient-to-r from-[#D9643A] to-[#E35D5B]`}
-                      onClick={() => {
-                        if (!isFullDay) {
-                          setCancelDialog(true);
-                          return;
-                        }
+                  <button
+                    className={`${
+                      isFullDay ? "" : "text-gray-400"
+                    } outline outline-1 hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 hidden md:block bg-gradient-to-r from-[#D9643A] to-[#E35D5B]`}
+                    onClick={() => {
+                      if (!isFullDay) {
+                        setCancelDialog(true);
+                        return;
+                      }
 
-                        onCancelBook(b._id);
-                      }}
-                      // disabled={!isFullDay}
-                    >
-                      Cancel
-                    </button>
-                  )}
-               
+                      onCancelBook(b._id);
+                    }}
+                    // disabled={!isFullDay}
+                  >
+                    Cancel
+                  </button>
+                )}
               </div>
             );
           })}
@@ -308,8 +319,8 @@ export default function UserBookedLessons({ booked }: any) {
   );
 }
 
-
-{/* {b.status == "pending" && (
+{
+  /* {b.status == "pending" && (
   <button
     className="outline outline-1 bg-gradient-to-r from-[#D9643A] to-[#E35D5B] hover:outline-4 hover:outline-red-800 transition-all duration-300 px-8 rounded-full py-1 mt-2 hover:text-black "
     onClick={() => {
@@ -319,4 +330,5 @@ export default function UserBookedLessons({ booked }: any) {
   >
     Cancel
   </button>
-)} */}
+)} */
+}

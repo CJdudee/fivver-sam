@@ -45,7 +45,8 @@ export default function TrialComp() {
 
   const makeTrialAccount = async () => {
     if (!email || !firstName || !lastName)
-      return setError("Please fill all fields");
+      return errorToast("Please fill all fields");
+      if (!weekDayState || !descDay) return errorToast("Please fill out description ")
 
     if (success) return;
 

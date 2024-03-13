@@ -25,11 +25,33 @@ export const bookAppt = async (
   const timeSplit = date.dateTime.split(":");
 
   //   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
-  const clientSideTime = DateTime.fromJSDate(date.justDate, {
+
+  const clientSideLook = DateTime.fromJSDate(date.justDate)
+    .setZone("Europe/Berlin")
+    .startOf("day");
+  const clientSideLookTest = DateTime.fromJSDate(date.justDate, {
     zone: "Europe/Berlin",
   })
     .startOf("day")
+    .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone, {
+      // keepLocalTime: true,
+    })
+    .plus({
+      hours: Number(timeSplit[0]),
+      minutes: Number(timeSplit[1]),
+    })
+    .toFormat("dd LLLL yyyy T z");
+
+  const clientSideTime = DateTime.fromJSDate(date.justDate)
+    .setZone("Europe/Berlin", { keepLocalTime: true })
+    .startOf("day")
     .toJSDate();
+  // const clientSideTime = DateTime.fromJSDate(date.justDate, {
+  //   zone: "Europe/Berlin",
+  // })
+  //   .startOf("day")
+  //   .toJSDate();
+
   // const offSet = DateTime.fromJSDate(date.justDate, {
   //   zone: "Europe/Berlin",
   // }).startOf("day").offset;
@@ -41,14 +63,19 @@ export const bookAppt = async (
     })
     .toFormat("dd LLLL yyyy T z");
 
-  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate)
+  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate, {zone: "Europe/Berlin"})
+  .startOf('day')
     .plus({ hours: Number(timeSplit[0]), minutes: Number(timeSplit[1]) })
     .toFormat("dd LLLL yyyy T z");
 
-  console.log(clientSideFormat, date, timeSplit);
+  // console.log(clientSideFormat, date, timeSplit);
+//   console.log(clientSideLookTest, clientTeacherSideTime);
+// return 
+   
 
-  console.log(clientSideFormat, "yoyuyooy");
+  // console.log(clientSideFormat, clientSideLook.toFormat("dd LLLL yyyy T z"), clientSideTime, "yoyuyooy");
 
+  ;
 
   const formated = formatDate(date.justDate, "MM/yy");
 
@@ -109,7 +136,8 @@ export const bookAppt = async (
 
   const emailSent = await bookingEmail(
     foundUser.email,
-    clientSideFormat,
+    // clientSideFormat,
+    clientSideLookTest,
     teacherFullName,
     foundTeacher.user.email,
     foundTeacher.googleMeetLink

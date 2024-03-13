@@ -1,18 +1,28 @@
+'use client'
 import { capitalize, gerFormat } from "@/utils/helpers";
-import { formatDate, parse } from "date-fns";
 import { DateTime } from "luxon";
-import React from "react";
-import { FcClock } from "react-icons/fc";
-import { HiClock } from "react-icons/hi";
 
 export default function OldBookingMap({ userData, data, isTeacher }: any) {
   const splitTime = data.time.split(":");
 
-  const startDate = DateTime.fromISO(data.date, { zone: "Europe/Berlin" })
-    .setLocale("SJ")
+  console.log(data, splitTime)
+
+  const startDate = DateTime.fromISO(data.date)
+    // .setLocale("SJ")
     .startOf("day")
+    .setZone("Europe/Berlin")
+    .startOf('day')
     .plus({ hours: Number(splitTime[0]), minutes: Number(splitTime[1]) })
-    .toJSDate();
+    .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone, {
+      // keepLocalTime: true,
+    })
+    // .toJSDate()
+    .toFormat("dd LLLL yyyy T z");
+  // const startDate = DateTime.fromISO(data.date, { zone: "Europe/Berlin" })
+  //   .setLocale("SJ")
+  //   .startOf("day")
+  //   .plus({ hours: Number(splitTime[0]), minutes: Number(splitTime[1]) })
+  //   .toJSDate();
 
   let startNum = Number(splitTime[0]);
 
@@ -23,38 +33,34 @@ export default function OldBookingMap({ userData, data, isTeacher }: any) {
     pm = true;
   }
 
-  const parsedDate = formatDate(startDate, "kk:mm");
+  // const parsedDate = formatDate(startDate, "kk:mm");
 
-  const splitParsed = parsedDate.split(":");
+  // const splitParsed = parsedDate.split(":");
 
-  let parsedHour: number | string = Number(splitParsed[0]);
+  // let parsedHour: number | string = Number(splitParsed[0]);
 
-  if (parsedHour == 24) {
-    parsedHour = "0";
-  }
-
-  if(Number(parsedHour) < 10) {
-    parsedHour = `0${parsedHour}`
-  }
-
-  // console.log(startDate, data, parsedDate);
-
-  // if (startNum == 12) {
-  //   pm = true;
+  // if (parsedHour == 24) {
+  //   parsedHour = "0";
   // }
+
+  // if(Number(parsedHour) < 10) {
+  //   parsedHour = `0${parsedHour}`
+  // }
+
+ 
 
   const format = gerFormat(data.date);
 
-  // const result = `${startNum}:${splitTime[1]}`;
-  const result = `${parsedHour}:${splitParsed[1]}`;
+  // // const result = `${startNum}:${splitTime[1]}`;
+  // const result = `${parsedHour}:${splitParsed[1]}`;
 
   return (
     <div className="bg-white rounded-lg shadow-md px-6 py-4 text-gray-700 w-full outline outline-orange-600 outline-2">
-      <div className="flex flex-row items-center justify-between md:items-center md:justify-between mb-4 w-full lg:w-2/3 mx-auto">
+      <div className="flex flex-col items-center justify-between md:items-center md:justify-between mb-4 w-full lg:w-2/3 mx-auto">
         <p className="text-lg font-bold">Date: {format}</p>
         <div className="flex items-center gap-2 justify-center">
           {/* <HiClock className="text-orange-500 w-6 h-6" /> */}
-          <p className="text-lg font-bold">Time: {result}</p>
+          <p className="text-lg font-bold text-center">Time: {startDate}</p>
         </div>
       </div>
       <div className="flex flex-col items-center justify-between md:w-full mx-auto">

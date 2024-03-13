@@ -10,7 +10,9 @@ import MonthlyOrder from "@/models/MonthlyOrder";
 import Teacher from "@/models/Teacher";
 import Token from "@/models/Token";
 import User from "@/models/User";
+import { gerFormat } from "@/utils/helpers";
 import { addDays, addHours, addMinutes, formatDate } from "date-fns";
+import { DateTime } from "luxon";
 
 export const cancelBooking = async (bookingId: string) => {
   // await connectingMongoose()
@@ -56,7 +58,7 @@ export const userCancelBooking = async (bookingId: string) => {
   if (!foundBooking || foundBooking.status == "canceled")
     return { error: "Already cancelled" };
 
-  console.log(foundBooking);
+  // console.log(foundBooking);
 
   const time = new Date(foundBooking.date);
 
@@ -68,15 +70,42 @@ export const userCancelBooking = async (bookingId: string) => {
 
   const isFullDay = addDays(new Date(), 1) < addedMin;
 
+  const canceledDate = gerFormat(addedMin);
+
+  const clientSideDateTime = DateTime.fromJSDate(foundBooking.date)
+  .setZone("Europe/Berlin")
+  .startOf("day")
+    .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone, {
+      // keepLocalTime: true,
+    })
+    // .startOf("day")
+    .plus({ hours: Number(splitTime[0]), minutes: Number(splitTime[1]) })
+    .toFormat("dd LLLL yyyy T");
+
+
+  const teacherSideDateTime = DateTime.fromJSDate(foundBooking.date)
+  .setZone("Europe/Berlin")
+  .startOf("day")
+    // .setZone(Intl.DateTimeFormat().resolvedOptions().timeZone, {
+    //   // keepLocalTime: true,
+    // })
+    // .startOf("day")
+    .plus({ hours: Number(splitTime[0]), minutes: Number(splitTime[1]) })
+    .toFormat("dd LLLL yyyy T");
+
+  // console.log(teacherSideDateTime);
+  // return 
+
   if (!isFullDay) return { error: "Too late to cancel" };
 
-  //   return
+  // console.log(addedMin)
+  // return
 
   foundBooking.status = "canceled";
 
   const cancelBooking = await foundBooking.save();
 
-  console.log(cancelBooking);
+  // console.log(cancelBooking);
   if (!cancelBooking) return;
 
   const foundUser = await User.findById(cancelBooking.student);
@@ -115,18 +144,20 @@ export const userCancelBooking = async (bookingId: string) => {
   await monthlyOrder.save();
 
   await userCancelBookingEmail(
-    foundTeacher.user.firstname,
+    foundTeacher.user.firstName,
     foundTeacher.user.lastName,
-    foundUser.email
+    foundUser.email,
+    clientSideDateTime
   );
 
   await teacherCancelBookingEmail(
     foundUser.firstName,
     foundUser.lastName,
-    foundTeacher.user.email
+    foundTeacher.user.email,
+    teacherSideDateTime
   );
 
-  console.log(foundTeacher, foundUser)
+  // console.log(foundTeacher, foundUser)
 
   return { success: "Booking was cancelled" };
   // console.log(foundUser)

@@ -206,14 +206,16 @@ export const userBroughtTokenEmail = async (
 export const userCancelBookingEmail = async (
   firstName: string,
   lastName: string,
-  email: string
+  email: string,
+  date: string
 ) => {
   await resend.emails.send({
     from: "noreply@sprachgeist.com",
     to: `${email}`,
     subject: "Class canceled",
     text: `
-  You can canceled your booking with ${firstName} ${lastName}.
+  You have canceled your booking with ${firstName} ${lastName}.
+  On Date ${date}
 
   `,
   });
@@ -221,7 +223,8 @@ export const userCancelBookingEmail = async (
 export const teacherCancelBookingEmail = async (
   firstName: string,
   lastName: string,
-  email: string
+  email: string,
+  date: string
 ) => {
   await resend.emails.send({
     from: "noreply@sprachgeist.com",
@@ -229,6 +232,7 @@ export const teacherCancelBookingEmail = async (
     subject: "Class canceled",
     text: `
   Student ${firstName} ${lastName} has canceled his class with you.
+  On Date ${date}
 
   `,
   });
