@@ -1,5 +1,6 @@
 "use client";
 
+import { serverActionRev } from "@/actions/revaildate";
 import { cancelBooking, userCancelBooking } from "@/actions/teacherBooking";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { capitalize, gerFormat } from "@/utils/helpers";
@@ -14,6 +15,7 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns";
 import { DateTime } from "luxon";
+import { revalidatePath } from "next/cache";
 import React, { useState } from "react";
 
 export default function UserBookedLessons({ booked }: any) {
@@ -42,6 +44,8 @@ export default function UserBookedLessons({ booked }: any) {
     const filteredCopy = copy.filter((c) => c._id != bookingId);
 
     setBookingArray(filteredCopy);
+    // revalidatePath('/')
+    await serverActionRev('/')
     // window.location.reload()
   };
 
@@ -133,7 +137,7 @@ export default function UserBookedLessons({ booked }: any) {
       <div>
         {cantCancelJsx}
 
-        <div className=" flex flex-col lg:grid grid-cols-2 gap-8 pt-8 px-2">
+        <div className=" flex flex-col lg:grid grid-cols-2 gap-4 pt-8 px-2">
           {filteredBook.map((b: any) => {
             let time: any = new Date(b.date);
 
@@ -213,7 +217,7 @@ export default function UserBookedLessons({ booked }: any) {
             return (
               <div
                 key={b._id}
-                className="justify-center flex flex-col items-center text-white font-bold text-2xl bg-[#3b3b3bd2]  drop-shadow-xl shadow-xl rounded-3xl  my-4 p-4 w-full md:w-11/12 lg:w-full mx-auto  "
+                className="justify-center flex flex-col items-center text-white font-bold text-2xl bg-[#3b3b3bd2]  drop-shadow-xl shadow-xl rounded-3xl my-1 p-4 w-full md:w-11/12 lg:w-full mx-auto  "
               >
                 <div className="flex flex-col md:flex-row w-full justify-center items-center gap-2 md:gap-8 text-3xl mb-4">
                   <p className=" text-center  rounded-tl-xl font-extrabold">
@@ -293,6 +297,7 @@ export default function UserBookedLessons({ booked }: any) {
                   <p className="text-end w-full ">{distance} away</p>
                 </div>
                 {b.status == "pending" && (
+                  <div className="pt-4">
                   <button
                     className={`${
                       isFullDay ? "" : "text-gray-400"
@@ -309,6 +314,7 @@ export default function UserBookedLessons({ booked }: any) {
                   >
                     Cancel
                   </button>
+                  </div>
                 )}
               </div>
             );

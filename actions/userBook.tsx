@@ -26,9 +26,9 @@ export const bookAppt = async (
 
   //   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
 
-  const clientSideLook = DateTime.fromJSDate(date.justDate)
-    .setZone("Europe/Berlin")
-    .startOf("day");
+  // const clientSideLook = DateTime.fromJSDate(date.justDate)
+  //   .setZone("Europe/Berlin")
+  //   .startOf("day");
   const clientSideLookTest = DateTime.fromJSDate(date.justDate, {
     zone: "Europe/Berlin",
   })
@@ -42,15 +42,15 @@ export const bookAppt = async (
     })
     .toFormat("dd LLLL yyyy T z");
 
-  const clientSideTime = DateTime.fromJSDate(date.justDate)
-    .setZone("Europe/Berlin", { keepLocalTime: true })
-    .startOf("day")
-    .toJSDate();
-  // const clientSideTime = DateTime.fromJSDate(date.justDate, {
-  //   zone: "Europe/Berlin",
-  // })
+  // const clientSideTime = DateTime.fromJSDate(date.justDate)
+  //   .setZone("Europe/Berlin", { keepLocalTime: true })
   //   .startOf("day")
   //   .toJSDate();
+  const clientSideTime = DateTime.fromJSDate(date.justDate, {
+    zone: "Europe/Berlin",
+  })
+    .startOf("day")
+    .toJSDate();
 
   // const offSet = DateTime.fromJSDate(date.justDate, {
   //   zone: "Europe/Berlin",
@@ -63,20 +63,17 @@ export const bookAppt = async (
     })
     .toFormat("dd LLLL yyyy T z");
 
-  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate, {zone: "Europe/Berlin"})
-  .startOf('day')
+  const clientTeacherSideTime = DateTime.fromJSDate(date.justDate, {
+    zone: "Europe/Berlin",
+  })
+    .startOf("day")
     .plus({ hours: Number(timeSplit[0]), minutes: Number(timeSplit[1]) })
     .toFormat("dd LLLL yyyy T z");
 
   // console.log(clientSideFormat, date, timeSplit);
-//   console.log(clientSideLookTest, clientTeacherSideTime);
-// return 
-   
-
-  // console.log(clientSideFormat, clientSideLook.toFormat("dd LLLL yyyy T z"), clientSideTime, "yoyuyooy");
-
-  ;
-
+  // console.log(clientSideLookTest, clientTeacherSideTime);
+  // return; 
+  
   const formated = formatDate(date.justDate, "MM/yy");
 
   const myUtc = new Date().toLocaleString("en-US", {
@@ -88,7 +85,6 @@ export const bookAppt = async (
   }).toFormat("LLL dd yyyy hh:mm");
   // const dateTest = DateTime.fromISO(`${date.justDate}`).setZone('Europe/Berlin').toFormat('LLL dd yyyy hh:mm')
 
-  // console.log(dateTest, DateTime.utc().setZone('Europe/Berlin').toFormat('yyyy LLL dd hh:mm') )
   // const time = DateTime.now()
 
   const foundUser = await User.findById(userId).exec();
@@ -134,13 +130,16 @@ export const bookAppt = async (
     last: foundUser.lastName,
   };
 
+  const random = crypto.randomUUID();
+
   const emailSent = await bookingEmail(
     foundUser.email,
     // clientSideFormat,
     clientSideLookTest,
     teacherFullName,
     foundTeacher.user.email,
-    foundTeacher.googleMeetLink
+    foundTeacher.googleMeetLink,
+    random
   );
 
   const emailSentToTeacher = await bookingTeacherEmail(
@@ -148,7 +147,8 @@ export const bookAppt = async (
     clientTeacherSideTime,
     userFullName,
     foundTeacher.user.email,
-    foundTeacher.googleMeetLink
+    foundTeacher.googleMeetLink,
+    random
   );
 
   // if(!createdBooking) return {error: 'problem with creating booking'}

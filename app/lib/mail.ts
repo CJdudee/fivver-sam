@@ -88,7 +88,9 @@ export const bookingEmail = async (
   formatDate: String,
   teacherFullName: { first: string; last: string },
   teacherEmail: string,
-  teacherLink?: string
+  teacherLink?: string,
+  random?: string
+
 ) => {
   let emailText = ``;
 
@@ -101,6 +103,7 @@ export const bookingEmail = async (
         <p>Your appointment with your teacher is booked on</p>
         <p>${formatDate}</p>
         <a href="${teacherLink}">Link for class here.</a>
+        <p>ID: ${random ?? 43580134}</p>
         </div>
         `;
   } else {
@@ -112,6 +115,7 @@ export const bookingEmail = async (
         <p>Your appointment with your teacher is booked on</p>
         <p>${formatDate}</p>
         <p>Your Teacher will contact you with the classroom Link</p>
+        <p>ID: ${random ?? 43580134}</p>
         </div>
         `;
   }
@@ -129,7 +133,8 @@ export const bookingTeacherEmail = async (
   formatDate: String,
   studentFullName: { first: string; last: string },
   teacherEmail: string,
-  teacherLink?: string
+  teacherLink?: string,
+  random?: string,
 ) => {
   let emailText = ``;
 
@@ -141,7 +146,7 @@ export const bookingTeacherEmail = async (
         <p>${userEmail}</p>
         <p>Your appointment with your student is booked on</p>
         <p>${formatDate}</p>
-        
+        <p>ID: ${random}</p>
         </div>
         `;
   } else {
@@ -152,7 +157,7 @@ export const bookingTeacherEmail = async (
         <p>${userEmail}</p>
         <p>Your appointment with your student is booked on</p>
         <p>${formatDate}</p>
-        
+        <p>ID: ${random}</p>
         </div>
         `;
   }
@@ -207,7 +212,8 @@ export const userCancelBookingEmail = async (
   firstName: string,
   lastName: string,
   email: string,
-  date: string
+  date: string,
+  random: string
 ) => {
   await resend.emails.send({
     from: "noreply@sprachgeist.com",
@@ -224,7 +230,8 @@ export const teacherCancelBookingEmail = async (
   firstName: string,
   lastName: string,
   email: string,
-  date: string
+  date: string,
+  random: string
 ) => {
   await resend.emails.send({
     from: "noreply@sprachgeist.com",

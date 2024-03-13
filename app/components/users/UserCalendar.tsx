@@ -29,6 +29,7 @@ import Link from "next/link";
 import { errorToast, susToast } from "@/app/lib/react-toast";
 import { Transition } from "@headlessui/react";
 import { DateTime } from "luxon";
+import { serverActionRev } from "@/actions/revaildate";
 
 export default function UserCalendar({
   teacher,
@@ -105,6 +106,7 @@ export default function UserCalendar({
     setTokensObj(newArray);
 
     susToast(book.msg as string);
+    await serverActionRev('/')
     // console.log(book);
   };
   // console.log(teacher)

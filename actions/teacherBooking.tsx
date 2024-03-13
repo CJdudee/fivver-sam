@@ -131,6 +131,8 @@ export const userCancelBooking = async (bookingId: string) => {
   //   groupSize: foundBooking.groupSize,
   // });
 
+  const random = crypto.randomUUID()
+
   foundToken.tokens += 1;
 
   foundTeacher.canceledOrders += 1;
@@ -147,14 +149,16 @@ export const userCancelBooking = async (bookingId: string) => {
     foundTeacher.user.firstName,
     foundTeacher.user.lastName,
     foundUser.email,
-    clientSideDateTime
+    clientSideDateTime,
+    random
   );
 
   await teacherCancelBookingEmail(
     foundUser.firstName,
     foundUser.lastName,
     foundTeacher.user.email,
-    teacherSideDateTime
+    teacherSideDateTime,
+    random
   );
 
   // console.log(foundTeacher, foundUser)

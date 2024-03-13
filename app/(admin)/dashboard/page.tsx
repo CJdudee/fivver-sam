@@ -15,7 +15,7 @@ export default async function Page() {
 
   // roleChecker(sessionUser, ['admin', 'teacher']);
   await decodeUserAndCheckAdmin()
-  console.log(sessionUser);
+  // console.log(sessionUser);
 
   if (!sessionUser) redirect("/");
 
