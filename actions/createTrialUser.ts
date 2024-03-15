@@ -5,6 +5,8 @@ import User from "@/models/User";
 import bcrypt from "bcrypt";
 import TrialUser from "@/models/TrialUser";
 import { simpleJson } from "@/utils/helpers";
+import AdminSetting from "@/models/AdminSetting";
+import AssignTeacher from "@/models/AssignTeacher";
 
 export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
   console.log(userInfo, dateInfo);
@@ -36,8 +38,17 @@ export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
 
     if (!createdUser) return { error: "Failed to Create New User" };
 
-    // sending data to info@sg.com
+    const adminSetting = await AdminSetting.findOne();
 
+    if (adminSetting.isDefault && adminSetting.teacher) {
+      
+      const assignTeacher = await AssignTeacher.create({
+        teacher: adminSetting.teacher,
+        user: createdUser._id,
+      });
+    }
+
+    // sending data to info@sg.com
     await sendTrialUserDataToMain({email, firstName, lastName}, {weekArray, info})
 
     // const createdTrial = await TrialUser.create({
@@ -66,9 +77,6 @@ export const makeTrialUser = async (userInfo: any, dateInfo: any) => {
       msg: "Trial User has been Created. Check your Email for password",
       url: `${process.env.HOSTNAME}/api/auth/signin`,
     };
-  // } catch (error) {
-  //   return { error: simpleJson(error) };
-  // }
 };
 
 export const makeTrialUserEmail = async (userInfo: any, dateInfo: any) => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   add,
@@ -52,14 +52,14 @@ export default function UserCalendar({
 
   const [bookedState, setBookedState] = useState(booked);
 
-  console.log(booked);
+  const pathName = usePathname();
 
-  // useEffect(() => {
-  //   setTimeout(() => {
+  // console.log(pathName);
 
-  //     setIsShowing(true)
-  //   }, 1000)
-  // }, [])
+  useEffect(() => {
+    setBookedState(booked)
+  }, [booked])
+
 
   useEffect(() => {
     if (date.justDate) setIsShowing(true);
@@ -73,7 +73,12 @@ export default function UserCalendar({
 
     if (!book) return errorToast();
 
-    if (book.error) return errorToast(book.error);
+    if (book?.booked) {
+      await serverActionRev(pathName, 'page');
+      errorToast(book.booked as string);
+      return;
+    }
+    if (book.error) return errorToast(book.error as string);
 
     const copy = [...bookedState, book.data];
 
@@ -84,11 +89,7 @@ export default function UserCalendar({
 
     const newArray = { ...tokensObj };
 
-    // const tokenGroup = [
-    //   newArray.firstGroupTokens,
-    //   newArray.secondGroupTokens,
-    //   newArray.thirdGroupTokens,
-    // ];
+    
 
     if (groupSize == 1) {
       newArray.firstGroupTokens -= 1;
@@ -101,18 +102,18 @@ export default function UserCalendar({
     }
     // tokenGroup[groupSize - 1] - 1
 
-    console.log(tokensObj, newArray, "yo you what");
+    // console.log(tokensObj, newArray, "yo you what");
 
     setTokensObj(newArray);
 
     susToast(book.msg as string);
-    await serverActionRev('/')
+    await serverActionRev("/");
     // console.log(book);
   };
   // console.log(teacher)
   const now = addDays(new Date(), 1);
 
-  console.log(now);
+  // console.log(now);
 
   const today = teacherWeek?.weekdays.find(
     (d: any) => d.index === now.getDay()
@@ -209,7 +210,7 @@ export default function UserCalendar({
                         b.time == format(compareDateFuture, "kk:mm")
                     );
 
-                    console.log(compareDateFuture, "compare");
+                    // console.log(compareDateFuture, "compare");
                     // console.log(time.realDate.setHours(time.realDate.getHours() + 1), 'time')
 
                     const foundBook = bookedState.find(
@@ -231,20 +232,13 @@ export default function UserCalendar({
                       disabledPast = true;
                     }
 
-                    console.log(futureClose, disabledPast);
+                    // console.log(futureClose, disabledPast);
 
                     const timeObj = time;
-                    
+
                     time = DateTime.fromJSDate(time.clientDate, {
                       zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     }).toJSDate();
-                    
-
-                    // time = time.realDate
-
-                    
-                    // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                    // console.log(time, "after edit");
 
                     let formatedKk = Number(format(time, "kk"));
                     const formatedMin = Number(format(time, "mm"));
@@ -255,7 +249,7 @@ export default function UserCalendar({
                         addHours(date.justDate, formatedKk),
                         formatedMin
                       );
-                    console.log(formatedKk, "what");
+                    // console.log(formatedKk, "what");
                     // console.log(booked, 'what')
 
                     const isPickedTime =
@@ -323,12 +317,13 @@ export default function UserCalendar({
                             });
                           }}
                         >
-                          {/* {format(time, 'kk:mm')} */}
-                          <p>{formatedKk < 10 ? `0${formatedKk}` : formatedKk ?? `${format(time, "kk")}`}</p>
+                          <p>
+                            {formatedKk < 10
+                              ? `0${formatedKk}`
+                              : formatedKk ?? `${format(time, "kk")}`}
+                          </p>
                           <p>:</p>
                           <p>{format(time, "mm")}</p>
-                          {/* <p>{numb || formatedKk == 12 ? "pm" : "am"}</p> */}
-                          {/* <p>{pm ? "pm" : "am"}</p> */}
                         </button>
                       </div>
                     );
@@ -406,27 +401,27 @@ export default function UserCalendar({
 
               const sloved = randTest.setLocale("SJ").toLocal().toJSDate();
 
-              console.log(
-                randTest.setLocale("SJ").startOf("day").toJSDate().getDate(),
-                "space",
-                result,
-                upDated
-              );
+              // console.log(
+              //   randTest.setLocale("SJ").startOf("day").toJSDate().getDate(),
+              //   "space",
+              //   result,
+              //   upDated
+              // );
 
-              console.log(
-                "try again",
-                randTest
-                  .setZone("local", { keepLocalTime: true })
-                  .startOf("day")
-                  .toJSDate()
-              );
+              // console.log(
+              //   "try again",
+              //   randTest
+              //     .setZone("local", { keepLocalTime: true })
+              //     .startOf("day")
+              //     .toJSDate()
+              // );
               // console.log(result.setZone("system", { keepLocalTime: true}).startOf('day').toJSDate())
-              console.log(date, upDated.toJSDate());
-              console.log(
-                new Date(date).toLocaleString("SJ", {
-                  timeZone: "Europe/Berlin",
-                })
-              );
+              // console.log(date, upDated.toJSDate());
+              // console.log(
+              //   new Date(date).toLocaleString("SJ", {
+              //     timeZone: "Europe/Berlin",
+              //   })
+              // );
 
               const bullshit = new Date(date).toLocaleDateString("SJ", {
                 timeZone: "Europe/Berlin",
@@ -448,7 +443,7 @@ export default function UserCalendar({
               // onClick={handleSave}
 
               onClick={() => {
-                console.log(date);
+                // console.log(date);
                 handleSave();
               }}
               className="bg-[#D9643A] hover:bg-[#D9543A] active:bg-[#994433] px-4 py-1 rounded-full w-full font-bold"
@@ -462,7 +457,7 @@ export default function UserCalendar({
 
               <p
                 onClick={() => {
-                  console.log(typeof date.justDate, date.justDate);
+                  // console.log(typeof date.justDate, date.justDate);
                 }}
                 className="text-bold w-full md:w-1/2 text-center font-bold text-xl mx-auto"
               >

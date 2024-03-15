@@ -54,10 +54,7 @@ export default async function Page(req: NextRequest | any, res: NextResponse) {
     thirdGroupTokens,
   };
 
-  // console.log(foundTokenJson)
-  const { username, email } = teacher.user;
 
-  // console.log(teacherWeek)
   return (
     <div className={` h-full min-h-[880px] md:px-24 text-white`}>
       <UserBooking

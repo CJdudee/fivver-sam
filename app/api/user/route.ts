@@ -79,7 +79,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   try {
     const createdUser = await User.create(newData);
-    console.log(createdUser);
+    // console.log(createdUser);
 
     if (adminSetting.isDefault && adminSetting.teacher) {
       // newData = {

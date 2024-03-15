@@ -49,7 +49,7 @@ export default function ExpandedNavBar({ setTab, tab }: any) {
               `}
               onClick={() => setTab("")}
             >
-              <span>Previous Classes</span>
+              <span>Completed Classes</span>
               {tab === "" && <CgCheck className="h-5 w-5 text-orange-600 ml-2" />}
             </button>
             <button

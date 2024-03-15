@@ -1,4 +1,5 @@
 "use server";
+import { calculateData } from "@/app/lib/bookingCal";
 import { bookingEmail, bookingTeacherEmail } from "@/app/lib/mail";
 import Booking from "@/models/Booking";
 import MonthlyOrder from "@/models/MonthlyOrder";
@@ -6,7 +7,15 @@ import Teacher from "@/models/Teacher";
 import Token from "@/models/Token";
 import User from "@/models/User";
 import { simpleJson } from "@/utils/helpers";
-import { formatDate } from "date-fns";
+import {
+  add,
+  addHours,
+  addMinutes,
+  formatDate,
+  parse,
+  parseISO,
+  parseJSON,
+} from "date-fns";
 import { DateTime } from "luxon";
 export const bookAppt = async (
   date: any,
@@ -23,6 +32,60 @@ export const bookAppt = async (
   const setDate = randTest.toUTC().toISO();
 
   const timeSplit = date.dateTime.split(":");
+
+  const timeFrameCheck = [];
+
+  const interval = 15;
+
+  for (
+    let i = Number(timeSplit[0]), p = Number(timeSplit[1]) - 45, c = 0;
+    c < 7;
+    p = p + interval, c++
+  ) {
+
+    if(p < 0) {
+      p = 60 + p
+      i--
+    }
+
+    if(p == 60) {
+      p = 0
+      i++
+    }
+
+    const result = `${i < 10 ? `0${i}` : `${i}`}:${p < 10 ? `0${p}` : `${p}`}`
+
+    timeFrameCheck.push(result);
+  }
+
+  // const createdBooking = await Booking.create({
+  //   student: userId,
+  //   teacher: teacherId,
+  //   date: setDate,
+  //   time: date.dateTime,
+  //   status: "pending",
+  //   tokenId: foundTokens._id,
+  //   groupSize,
+  // });
+  // const timeCheck = addMinutes(
+  //   addHours(setDate as string, Number(timeSplit[0])),
+  //   Number(timeSplit[1])
+  // );
+
+  const alreadyBooked = await Booking.find({
+    date: setDate,
+    time: timeFrameCheck.map((t) => t),
+  });
+  // console.log(date.dateTime, typeof date.dateTime);
+  // console.log(alreadyBooked, setDate);
+  // // console.log(parseJSON(timeCheck))
+  // // console.log(timeCheck);
+  // console.log(timeFrameCheck);
+
+  if (alreadyBooked.length != 0) {
+    return { booked: "Time is already booked" };
+  }
+ 
 
   //   const clientSideTime = DateTime.fromJSDate(date.justDate, { zone: "Europe/Berlin" }).startOf('day').toJSDate()
 
@@ -72,13 +135,9 @@ export const bookAppt = async (
 
   // console.log(clientSideFormat, date, timeSplit);
   // console.log(clientSideLookTest, clientTeacherSideTime);
-  // return; 
-  
-  const formated = formatDate(date.justDate, "MM/yy");
+  // return;
 
-  const myUtc = new Date().toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  });
+  const formated = formatDate(date.justDate, "MM/yy");
 
   const dateTest = DateTime.fromJSDate(date.justDate, {
     zone: "Europe/Berlin",
@@ -134,7 +193,6 @@ export const bookAppt = async (
 
   const emailSent = await bookingEmail(
     foundUser.email,
-    // clientSideFormat,
     // clientSideLookTest,
     clientTeacherSideTime,
     teacherFullName,
@@ -152,31 +210,31 @@ export const bookAppt = async (
     random
   );
 
-  // if(!createdBooking) return {error: 'problem with creating booking'}
+  await calculateData(foundTokens, foundTeacher, teacherId, formated);
 
-  foundTokens.tokens -= 1;
-  await foundTokens.save();
+  // foundTokens.tokens -= 1;
+  // await foundTokens.save();
 
-  foundTeacher.orders += 1;
+  // foundTeacher.orders += 1;
 
-  await foundTeacher.save();
+  // await foundTeacher.save();
 
-  console.log(createdBooking);
+  // console.log(createdBooking);
 
-  let month = await MonthlyOrder.findOne({
-    teacher: teacherId,
-    date: formated,
-  });
+  // let month = await MonthlyOrder.findOne({
+  //   teacher: teacherId,
+  //   date: formated,
+  // });
 
-  if (!month) {
-    month = await MonthlyOrder.create({ date: formated, teacher: teacherId });
-  }
+  // if (!month) {
+  //   month = await MonthlyOrder.create({ date: formated, teacher: teacherId });
+  // }
 
-  month.orders += 1;
+  // month.orders += 1;
 
-  await month.save();
+  // await month.save();
 
-  console.log(month);
+  // console.log(month);
 
   return {
     data: simpleJson(createdBooking),

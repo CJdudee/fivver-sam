@@ -43,7 +43,7 @@ export default async function Page({ searchParams }: any) {
 
   const canBooking = await Booking.find({
     teacher: teacher._id,
-    status: "cancel",
+    status: "canceled",
   }).countDocuments();
   const currentBooking = await Booking.find({
     teacher: teacher._id,

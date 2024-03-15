@@ -1,17 +1,12 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { add, format, formatISO, isBefore, parse, parseISO } from "date-fns";
 import {
-  capitalize,
-  getOpeningTimes,
-  roundToNearestMinutes,
+  capitalize
 } from "@/utils/helpers";
-import Calendar from "react-calendar";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import UserCalendar from "./UserCalendar";
 import SettingGroup from "./booking/SettingGroup";
-import Link from "next/link";
 
 export default function UserBooking({
   teacher,
@@ -28,6 +23,10 @@ export default function UserBooking({
   useEffect(() => {
     setShowToken(true);
   }, []);
+
+  useEffect(() => {
+    setTokensObj(foundTokenJson)
+  }, [foundTokenJson])
 
   useEffect(() => {
     if (groupSize == null) return setShowToken(true);
@@ -55,7 +54,7 @@ export default function UserBooking({
           showToken && " top-16"
         } `}
       >
-        <div className=" delay-150 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl flex items-center flex-col justify-center w-1/3">
+        <div className=" delay-150 transition-all text-center font-bold bg-white outline outline-4 outline-orange-400 text-black px-4 rounded-xl py-2 text-xl flex items-center flex-col justify-center w-1/3">
           <p>Individual Classes</p>
           {tokensObj.firstGroupTokens ? (
             <p className="text-xl font-extrabold">{tokensObj.firstGroupTokens} left</p>
@@ -64,7 +63,7 @@ export default function UserBooking({
             <p>0 left</p>
           )}
         </div>
-        <div className=" delay-300 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
+        <div className=" delay-300 transition-all text-center font-bold bg-white outline outline-4 outline-orange-400 text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
           <p>2 person Classes</p>
           {tokensObj.secondGroupTokens ? (
             <p className="text-xl font-extrabold">{tokensObj.secondGroupTokens} left</p>
@@ -73,7 +72,7 @@ export default function UserBooking({
             <p>0 left</p>
           )}
         </div>
-        <div className=" delay-1000 transition-all text-center font-bold bg-white text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
+        <div className=" delay-1000 transition-all text-center font-bold bg-white outline outline-4 outline-orange-400 text-black px-4 rounded-xl py-2 text-xl w-1/3 flex flex-col items-center justify-center">
           <p>3 person Classes</p>
           {tokensObj.thirdGroup ? (
             <p className="text-xl font-extrabold">{tokensObj.thirdGroupTokens} left</p>

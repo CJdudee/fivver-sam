@@ -149,7 +149,8 @@ export const userCancelBooking = async (bookingId: string) => {
     foundTeacher.user.firstName,
     foundTeacher.user.lastName,
     foundUser.email,
-    clientSideDateTime,
+    // clientSideDateTime,
+    teacherSideDateTime,
     random
   );
 
