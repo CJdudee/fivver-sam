@@ -34,7 +34,7 @@ export default function ViewUserClient({ bookingArray, studentInfo }: any) {
 
     const userData = {
       ...editUserData,
-      _id: studentInfo.user._id,
+      _id: studentInfo._id,
     };
 
     const updated = await updateUser(userData);
@@ -99,7 +99,7 @@ export default function ViewUserClient({ bookingArray, studentInfo }: any) {
             <div className=" text-center">
               <p>First name:</p>
               <input
-                className="w-4/5 mt-1 rounded-full px-2 mb-1 text-xl text-black"
+                className="w-4/5 mt-1 rounded-full text-center px-4 mb-1 text-xl text-black"
                 onChange={(e) =>
                   setEditUserData((prev: any) => {
                     return { ...prev, firstName: e.target.value };
@@ -111,7 +111,7 @@ export default function ViewUserClient({ bookingArray, studentInfo }: any) {
             <div className=" text-center">
               <p>Surname:</p>
               <input
-                className="w-4/5 mt-1 rounded-full px-2 mb-1 text-xl text-black"
+                className="w-4/5 mt-1 rounded-full px-4 text-center mb-1 text-xl text-black"
                 onChange={(e) =>
                   setEditUserData((prev: any) => {
                     return { ...prev, lastName: e.target.value };
@@ -124,7 +124,7 @@ export default function ViewUserClient({ bookingArray, studentInfo }: any) {
           <div className="md:w-1/2 mx-auto flex flex-col  justify-between mt-8 text-white text-3xl  px-8 rounded-xl py-2 items-center mb-4">
             <p>Email: </p>
             <input
-              className="w-full mt-1 rounded-full px-2 mb-1 text-2xl text-black"
+              className="w-full mt-1 rounded-full px-4 mb-1 text-2xl text-black text-center"
               onChange={(e) =>
                 setEditUserData((prev: any) => {
                   return { ...prev, email: e.target.value };
@@ -139,7 +139,7 @@ export default function ViewUserClient({ bookingArray, studentInfo }: any) {
               Leave blank to keep the same password
             </p>
             <input
-              className="w-full mt-1 rounded-full px-2 mb-1 text-2xl text-black"
+              className="w-full mt-1 rounded-full px-4 text-center mb-1 text-2xl text-black"
               onChange={(e) =>
                 setEditUserData((prev: any) => {
                   return { ...prev, password: e.target.value };
